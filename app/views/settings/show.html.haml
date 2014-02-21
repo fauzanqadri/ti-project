@@ -1,0 +1,36 @@
+%p#notice= notice
+
+%p
+  %b Supervisor skripsi amount:
+  = @setting.supervisor_skripsi_amount
+%p
+  %b Supervisor pkl amount:
+  = @setting.supervisor_pkl_amount
+%p
+  %b Examiner amount:
+  = @setting.examiner_amount
+%p
+  %b Maximum lecturer lektor skripsi lead:
+  = @setting.maximum_lecturer_lektor_skripsi_lead
+%p
+  %b Maximum lecturer aa skripsi lead:
+  = @setting.maximum_lecturer_aa_skripsi_lead
+%p
+  %b Allow remove supervisor duration:
+  = @setting.allow_remove_supervisor_duration
+%p
+  %b Lecturer lead skripsi rule:
+  = @setting.lecturer_lead_skripsi_rule
+%p
+  %b Lecturer lead pkl rule:
+  = @setting.lecturer_lead_pkl_rule
+%p
+  %b Allow student create pkl:
+  = @setting.allow_student_create_pkl
+%p
+  %b Department:
+  = @setting.department_id
+
+= link_to 'Edit', edit_setting_path(@setting)
+\|
+= link_to 'Back', settings_path

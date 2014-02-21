@@ -1,0 +1,13 @@
+var html = "<%= j render('detail') %>";
+var lecturerDetail = $("#lecturer-detail");
+if (lecturerDetail.length == 1) {
+	lecturerDetail.modal("hide");
+	lecturerDetail.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		$("footer").append(html);
+		$("#lecturer-detail").modal({show: true});
+	});
+}else{
+	$("footer").append(html);
+	$("#lecturer-detail").modal({show: true});	
+}

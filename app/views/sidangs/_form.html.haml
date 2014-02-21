@@ -1,0 +1,19 @@
+= form_for @sidang do |f|
+  - if @sidang.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@sidang.errors.count, "error")} prohibited this sidang from being saved:"
+      %ul
+        - @sidang.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :local
+    = f.text_field :local
+  .field
+    = f.label :start
+    = f.datetime_select :start
+  .field
+    = f.label :end
+    = f.datetime_select :end
+  .actions
+    = f.submit 'Save'

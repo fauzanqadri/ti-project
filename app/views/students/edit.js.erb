@@ -1,0 +1,22 @@
+var html = "<%= j render('form') %>";
+var studentModal = $("#student-modal");
+if (studentModal.length == 1) {
+	studentModal.modal("hide");
+	studentModal.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		$("footer").append(html);
+		$("#student-modal").modal({show: true});
+	});
+}else{
+	$("footer").append(html);
+	$("#student-modal").modal({show: true});	
+}
+$(".datepicker").datetimepicker({
+	language: 'id',
+	pickTime: false,
+	icons: {
+        date: "fa fa-calendar",
+        up: "fa fa-arrow-up",
+        down: "fa fa-arrow-down"
+    }
+});

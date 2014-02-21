@@ -1,0 +1,13 @@
+var html = "<%= j render('detail') %>";
+var studentDetail = $("#student-detail");
+if (studentDetail.length == 1) {
+	studentDetail.modal("hide");
+	studentDetail.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		$("footer").append(html);
+		$("#student-detail").modal({show: true});
+	});
+}else{
+	$("footer").append(html);
+	$("#student-detail").modal({show: true});	
+}

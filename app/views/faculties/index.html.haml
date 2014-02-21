@@ -1,0 +1,23 @@
+- content_for :specific_js do
+  = javascript_include_tag "faculties", "data-turbolinks-track" => true
+
+%header
+  %h1 Daftar Fakultas
+
+%section
+  %table#faculties.table.table-bordered{"data-source" => "#{faculties_url(format: "json")}"}
+    %thead
+      %tr
+        %th
+          .text-center Name
+        %th
+          .text-center Website
+        %th
+          .text-center Created at
+        %th
+          .text-center Action
+    %tbody
+%footer
+  = link_to new_faculty_path, remote: true,class: "btn btn-primary btn-lg" do
+    %i.fa.fa-upload
+    Tambah Fakultas

@@ -1,0 +1,20 @@
+- content_for :specific_js do
+	= javascript_include_tag "conference_logs", "data-turbolinks-track" => true
+%header
+	%h1 Persetujuan Seminar / Sidang
+%section
+	%table#conference-logs.table.table-bordered{"data-source" => "#{conference_logs_url(format: "json")}"}
+		%thead
+			%tr
+				%th
+					.text-center Judul Skripsi
+				%th
+					.text-center Penulis
+				%th
+					.text-center Jenis
+				%th
+					.text-center Status
+				%th
+					.text-center Action
+		%tbody
+%footer

@@ -1,0 +1,1 @@
+Paperclip::Attachment.default_options[:path] = ENV["PAPERCLIP_PATH"]

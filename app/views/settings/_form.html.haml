@@ -1,0 +1,40 @@
+= form_for @setting do |f|
+  - if @setting.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@setting.errors.count, "error")} prohibited this setting from being saved:"
+      %ul
+        - @setting.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :supervisor_skripsi_amount
+    = f.number_field :supervisor_skripsi_amount
+  .field
+    = f.label :supervisor_pkl_amount
+    = f.number_field :supervisor_pkl_amount
+  .field
+    = f.label :examiner_amount
+    = f.number_field :examiner_amount
+  .field
+    = f.label :maximum_lecturer_lektor_skripsi_lead
+    = f.number_field :maximum_lecturer_lektor_skripsi_lead
+  .field
+    = f.label :maximum_lecturer_aa_skripsi_lead
+    = f.number_field :maximum_lecturer_aa_skripsi_lead
+  .field
+    = f.label :allow_remove_supervisor_duration
+    = f.number_field :allow_remove_supervisor_duration
+  .field
+    = f.label :lecturer_lead_skripsi_rule
+    = f.text_field :lecturer_lead_skripsi_rule
+  .field
+    = f.label :lecturer_lead_pkl_rule
+    = f.text_field :lecturer_lead_pkl_rule
+  .field
+    = f.label :allow_student_create_pkl
+    = f.check_box :allow_student_create_pkl
+  .field
+    = f.label :department_id
+    = f.number_field :department_id
+  .actions
+    = f.submit 'Save'

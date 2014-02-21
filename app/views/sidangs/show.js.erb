@@ -1,0 +1,13 @@
+var html = "<%= j render('show') %>";
+var sidangModal = $("#sidang-modal");
+if (sidangModal.length == 1) {
+	sidangModal.modal("hide");
+	sidangModal.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		$("#conferences footer").append(html);
+		$("#sidang-modal").modal({show: true});
+	});
+}else{
+	$("#conferences footer").append(html);
+	$("#sidang-modal").modal({show: true});	
+}

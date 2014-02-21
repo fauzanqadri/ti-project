@@ -1,0 +1,23 @@
+var html = "<%= j render('form') %>";
+var skripsiModal = $("#skripsi-modal");
+if (skripsiModal.length == 1) {
+	skripsiModal.modal("hide");
+	skripsiModal.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		elem = $(document).find("#courses")
+		if (elem.length == 0) {
+			$("#main footer").append(html);
+		}else{
+			$(elem[0]).append(html)
+		}
+		$("#skripsi-modal").modal({show: true});
+	});
+}else{
+	elem = $(document).find("#courses")
+	if (elem.length == 0) {
+		$("#main footer").append(html);
+	}else{
+		$(elem[0]).append(html)
+	}
+	$("#skripsi-modal").modal({show: true});	
+}

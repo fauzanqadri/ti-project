@@ -1,0 +1,13 @@
+var html = "<%= j render('form') %>";
+var feedbackModal = $("#feedback-modal");
+if (feedbackModal.length == 1) {
+	feedbackModal.modal("hide");
+	feedbackModal.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		$("#feedbacks").append(html);
+		$("#feedback-modal").modal({show: true});
+	});
+}else{
+	$("#feedbacks").append(html);
+	$("#feedback-modal").modal({show: true});	
+}

@@ -1,0 +1,27 @@
+#consultation-modal.modal.fade{tabindex: "-1", role: "dialog", "aria-labelledby" => "newPaperModalLabel", "aria-hidden" => "true", "data-backdrop" => "static", "data-keyboard" => "true"}
+	.modal-dialog
+		.modal-content
+			.modal-header
+				%button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
+				%h4#pklModalLabel.modal-title= @consultation.new_record? ? "Tambah Catatan Bimbingan" : "Edit Catatan Bimbingan"
+			= form_for [@course, @consultation], remote: "true", html: {role: "form", class: "form-horizontal"} do |f|
+				.modal-body
+					= render 'layouts/shared/errors', :object => f.object
+					.form-group
+						= f.label :catatan_bimbingan, class: "col-sm-3 control-label"
+						.col-sm-9
+							= f.text_area :content, class: "form-control", placeholder: "Catatan Bimbingan..."
+					.form-group
+						= f.label :konsultasi_berikutnya, class: "col-sm-3 control-label"
+						.col-sm-9
+							.input-group.date.datepicker
+								= f.text_field :next_consult, class: "form-control", placeholder: "Konsultasi Selanjut nya", "data-format" => "YYYY-MM-DD  hh:mm:ss"
+								%span.input-group-addon
+									%span.fa.fa-calendar
+				.modal-footer
+					%button.btn.btn-primary{type: "submit"}
+						%i.fa.fa-upload
+						Simpan
+					%button.btn.btn-default{type: "button", "data-dismiss" => "modal"}
+						%i.fa.fa-times
+						Cencel

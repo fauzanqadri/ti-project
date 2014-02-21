@@ -1,0 +1,13 @@
+var html = "<%= j render('form') %>";
+var skripsiModal = $("#skripsi-modal");
+if (skripsiModal.length == 1) {
+	skripsiModal.modal("hide");
+	skripsiModal.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		$("#courses").append(html);
+		$("#skripsi-modal").modal({show: true});
+	});
+}else{
+	$("#courses").append(html);
+	$("#skripsi-modal").modal({show: true});	
+}

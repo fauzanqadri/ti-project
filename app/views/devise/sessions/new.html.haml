@@ -1,0 +1,21 @@
+.col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3
+	= form_for resource, as: resource_name, url: session_path(resource_name), html: {role: "form"} do |f|
+		%fieldset
+			%h2.text-center
+				%i.fa.fa-sign-in
+				Silahkan Login
+			%hr.rainbow
+			.form-group
+				= f.text_field :login, class: "form-control input-lg",  placeholder: "Username / Email / Nim / Nip / Nid"
+			.form-group
+				= f.password_field :password, class: "form-control input-lg", placeholder: "Password"
+			%hr.rainbow
+			.row
+				.col-xs-6.col-sm-6.col-md-6
+					%button#submit.btn.btn-lg.btn-success.btn-block{type: "submit"}
+						%i.fa.fa-sign-in
+						Sign in
+				.col-xs-6.col-sm-6.col-md-6
+					%span.button-checkbox
+						%button.btn.btn-lg.btn-block{type: "button", "data-color" => "info"} Remember Me
+						= f.check_box :remember_me, class: "hidden", checked: "checked"

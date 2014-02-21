@@ -1,0 +1,25 @@
+#concentration-modal.modal.fade{tabindex: "-1", role: "dialog", "aria-labelledby" => "concentrationModalLabel", "aria-hidden" => true, "data-backdrop" => "static", "data-keyboard" => "true"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
+        %h4#concentrationModalLabel.modal-title
+          = @concentration.new_record? ? "Tambah Konsentrasi" : "Edit Konsentrasi"
+      = form_for @concentration, remote: "true", html: {role: "form", class: "form-horizontal"} do |f|
+        .modal-body
+          = render 'layouts/shared/errors', :object => f.object
+          .form-group
+            = f.label :nama_konsentrasi, class: "col-sm-3 control-label"
+            .col-sm-9
+              = f.text_field :name, class: "form-control", placeholder: "Nama Konsentrasi"
+          .form-group
+            = f.label :jurusan, class: "col-sm-3 control-label"
+            .col-sm-9
+              = f.select :department_id, options_for_select(departments_opt, selected: @concentration.department_id), {}, {class: "form-control"}
+        .modal-footer
+          %button.btn.btn-primary{type: "submit"}
+            %i.fa.fa-upload
+            Simpan
+          %button.btn.btn-default{type: "button", "data-dismiss" => "modal"}
+            %i.fa.fa-times
+            Cencel

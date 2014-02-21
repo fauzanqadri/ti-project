@@ -1,0 +1,20 @@
+#feedback-modal.modal.fade{tabindex: "-1", role: "dialog", "aria-labelledby" => "feedbackModalLabel", "aria-hidden" => true, "data-backdrop" => "static", "data-keyboard" => "true"}
+	.modal-dialog
+		.modal-content
+			.modal-header
+				%button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
+				%h4#feedbackModalLabel.modal-title Tambah Feedback
+			= form_for [@course, @feedback], remote: "true", html: {role: "form", class: "form-horizontal"} do |f|
+				.modal-body
+					= render 'layouts/shared/errors', :object => f.object
+					.form-group
+						= f.label :feedback, class: "col-sm-3 control-label"
+						.col-sm-9
+							= f.text_area :content, class: "form-control", placeholder: "Feedback..."
+				.modal-footer
+					%button.btn.btn-primary{type: "submit"}
+						%i.fa.fa-upload
+						Simpan
+					%button.btn.btn-default{type: "button", "data-dismiss" => "modal"}
+						%i.fa.fa-times
+						Cencel

@@ -1,0 +1,26 @@
+- content_for :specific_js do
+  = javascript_include_tag "lecturers", "data-turbolinks-track" => true
+
+%header
+  %h1 Daftar Dosen
+%section
+  %table#lecturers.table.table-bordered{"data-source" => "#{lecturers_url(format: "json")}"}
+    %thead
+      %tr
+        %th
+          .text-center Nip
+        %th
+          .text-center Nid
+        %th
+          .text-center Nama Lengkap
+        %th
+          .text-center Jurusan
+        %th
+          .text-center Created at
+        %th
+          .text-center Action
+    %tbody
+%footer
+  = link_to new_lecturer_path, remote: true,class: "btn btn-primary btn-lg" do
+    %i.fa.fa-upload
+    Tambah Dosen

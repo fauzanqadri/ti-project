@@ -1,0 +1,13 @@
+var html = "<%= j render('form') %>";
+var departmentModal = $("#department-modal");
+if (departmentModal.length == 1) {
+	departmentModal.modal("hide");
+	departmentModal.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		$("footer").append(html);
+		$("#department-modal").modal({show: true});
+	});
+}else{
+	$("footer").append(html);
+	$("#department-modal").modal({show: true});	
+}

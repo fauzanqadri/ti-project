@@ -1,0 +1,69 @@
+#student-modal.modal.fade{tabindex: "-1", role: "dialog", "aria-labelledby" => "studentfModalLabel", "aria-hidden" => true, "data-backdrop" => "static", "data-keyboard" => "true"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
+        %h4#studentModalLabel.modal-title
+          = @student.new_record? ? "Tambah Mahasiswa" : "Edit Mahasiswa"
+      = form_for @student, remote: "true", html: {role: "form", class: "form-horizontal"} do |f|
+        .modal-body
+          = render 'layouts/shared/errors', :object => f.object
+          %legend Data Mahasiswa
+          .form-group
+            = f.label :nim, class: "col-sm-3 control-label"
+            .col-sm-9
+              = f.text_field :nim, class: "form-control", placeholder: "Nim"
+          .form-group
+            = f.label :nama_lengkap, class: "col-sm-3 control-label"
+            .col-sm-9
+              = f.text_field :full_name, class: "form-control", placeholder: "Nama Lengkap"
+          .form-group
+            = f.label :alamat, class: "col-sm-3 control-label"
+            .col-sm-9
+              = f.text_area :address, class: "form-control", placeholder: "Alamat"
+          .form-group
+            = f.label :tanggal_lahir, class: "col-sm-3 control-label"
+            .col-sm-9
+              .input-group.date.datepicker
+                = f.text_field :born, class: "form-control", placeholder: "Tanggal Lahir", "data-format" => "YYYY-MM-DD"
+                %span.input-group-addon
+                  %span.fa.fa-calendar
+          .form-group
+            = f.label :mahasiswa_sejak, class: "col-sm-3 control-label"
+            .col-sm-9
+              .input-group.date.datepicker
+                = f.text_field :student_since, class: "form-control", placeholder: "Mahasiswa Sejak", "data-format" => "YYYY-MM-DD"
+                %span.input-group-addon
+                  %span.fa.fa-calendar
+          .form-group
+            = f.label :jurusan, class: "col-sm-3 control-label"
+            .col-sm-9
+              = f.select :department_id, options_for_select(departments_opt, selected: @student.department_id), {}, {class: "form-control"}
+          - if @student.new_record?
+            %legend Data User
+            %span.help-block Kosongkan Semua Field di bawah jika menginginkan sistem meng-generate nya
+            = f.fields_for :user, @student.build_user do |su|
+              .form-group
+                = su.label :email, class: "col-sm-3 control-label"
+                .col-sm-9
+                  = su.email_field :email, class: "form-control", placeholder: "Email"
+              .form-group
+                = su.label :username, class: "col-sm-3 control-label"
+                .col-sm-9
+                  = su.text_field :username, class: "form-control", placeholder: "Username"
+              %legend Credential
+              .form-group
+                = su.label :password, class: "col-sm-3 control-label"
+                .col-sm-9
+                  = su.password_field :password, class: "form-control", placeholder: "Password"
+              .form-group
+                = su.label :password_confirmation, class: "col-sm-3 control-label"
+                .col-sm-9
+                  = su.password_field :password_confirmation, class: "form-control", placeholder: "Password Konfirmasi"
+        .modal-footer
+          %button.btn.btn-primary{type: "submit"}
+            %i.fa.fa-upload
+            Simpan
+          %button.btn.btn-default{type: "button", "data-dismiss" => "modal"}
+            %i.fa.fa-times
+            Cencel

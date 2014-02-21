@@ -1,0 +1,23 @@
+%h1 Listing supervisors
+
+%table
+  %tr
+    %th Course
+    %th Lecturer
+    %th Approved
+    %th
+    %th
+    %th
+
+  - @supervisors.each do |supervisor|
+    %tr
+      %td= supervisor.course_id
+      %td= supervisor.lecturer_id
+      %td= supervisor.approved
+      %td= link_to 'Show', supervisor
+      %td= link_to 'Edit', edit_supervisor_path(supervisor)
+      %td= link_to 'Destroy', supervisor, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Supervisor', new_supervisor_path

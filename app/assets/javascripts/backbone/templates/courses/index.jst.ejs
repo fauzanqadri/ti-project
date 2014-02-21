@@ -1,0 +1,60 @@
+<section>
+	<div class="action">
+		<div class="row">
+			<div class="col-xs-6">
+				<label>
+					Show 
+					<select size="1" name="cDisplayLength" id="cDisplayLength">
+						<option value="10" selected="selected">10</option>
+						<option value="25">25</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+					</select> 
+					entries
+				</label>
+				<div class="pull-right">
+					<div class="btn-group" id="filter" data-toggle="buttons">
+						<label class="btn btn-default btn-xs active">
+							<input name="byType" type="radio" checked>
+							<i class="fa fa-ellipsis-v"></i>
+							Semua 
+						</label>
+						<label class="btn btn-default btn-xs">
+							<input name="byType" type="radio" value="Skripsi">
+							<i class="fa fa-book"></i>
+							Skripsi
+						</label>
+						<label class="btn btn-default btn-xs">
+							<input name="byType" type="radio" value="Pkl">
+							<i class="fa fa-file"></i>
+							Pkl
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="pull-right">
+					<label>
+						Search :
+						<input type="text" name="cSearch" id="cSearch">
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<ul class="nav nav-tabs" id="tabMenu" style="margin-bottom: 20px;">
+		<li class="active" data-bycurrentuser="true" >
+			<a href="#byCurrentUser">Skripsi / Pkl Saya</a>
+		</li>
+		<li data-bycurrentuser="false">
+			<a href="#byDepartment">Skripsi / Pkl Lainnya</a>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane fade in active" id="byCurrentUser"></div>
+		<div class="tab-pane fade" id="byDepartment"></div>
+	</div>
+</section>
+<footer>
+	<div id="paginate"></div>
+</footer>

@@ -1,0 +1,15 @@
+#paper-modal.modal.fade{tabindex: "-1", role: "dialog", "aria-labelledby" => "paperModalLabel", "aria-hidden" => "true", "data-backdrop" => "static", "data-keyboard" => "true"}
+	.modal-dialog{style: "width: 1000px;"}
+		.modal-content
+			.modal-header
+				%button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
+				%h4#paperModalLabel.modal-title= @paper.name
+			.modal-body
+				%embed{src: "#{polymorphic_url([@course, @paper], format: "pdf")}", width: "100%", height: "450px"}
+			.modal-footer
+				= link_to polymorphic_path([@course, @paper], format: "pdf", download: true), class: "btn btn-primary" do
+					%i.fa.fa-download
+					Download
+				%button.btn.btn-default{type: "button", "data-dismiss" => "modal"}
+					%i.fa.fa-times
+					Cencel

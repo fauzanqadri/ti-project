@@ -1,0 +1,21 @@
+#supervisor-modal.modal.fade{tabindex: "-1", role: "dialog", "aria-labelledby" => "supervisorModalLabel", "aria-hidden" => true, "data-backdrop" => "static", "data-keyboard" => "true"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
+        %h4#supervisorModalLabel.modal-title Assign Dosen Pembimbing
+      = form_for [@course, @supervisor], remote: true, html: {role: "form", class: "form-horizontal"} do |f|
+        .modal-body
+          = render 'layouts/shared/errors', :object => f.object
+          .form-group
+            = f.label :nama_dosen, class: "col-sm-3 control-label"
+            .col-sm-9
+              %input{type: "text", id: "lecturer_name", class: "form-control", placeholder: "Nama Dosen"}
+              = f.text_field :lecturer_id, style: "display: none;"
+        .modal-footer
+          %button.btn.btn-primary{type: "submit"}
+            %i.fa.fa-upload
+            Simpan
+          %button.btn.btn-default{type: "button", "data-dismiss" => "modal"}
+            %i.fa.fa-times
+            Cencel

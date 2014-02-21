@@ -1,0 +1,47 @@
+#lecturer-detail.modal.fade{tabindex: "-1", role: "dialog", "aria-labelledby" => "lecturerDetailModalLabel", "aria-hidden" => true, "data-backdrop" => "static", "data-keyboard" => "true"}
+	.modal-dialog
+		.modal-content
+			.modal-header
+				%button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
+				%h4#lecturerDetailModalLabel.modal-title Detail Dosen
+			.modal-body{style: "text-align:center;"}
+				.row-fluid
+					.col-md-10.col-md-offset-1
+						#modalTab
+							.tab-content
+								.tab-pane.active
+									= image_tag("http://placehold.it/140x140", class: "img-circle", width: "140", height: "140")
+									%h3.media-heading
+										= @lecturer.to_s
+										%small= @lecturer.class.to_s
+									%p.text-left
+										%strong Nip :
+										%br
+										%i.fa.fa-key
+										= @lecturer.nip
+										%br
+										%strong Nid :
+										%br
+										%i.fa.fa-key
+										= @lecturer.nid
+										%br
+										%strong Tanggal Lahir :
+										%br
+										%i.fa.fa-calendar
+										= @lecturer.born.try(:to_formatted_s, :long_ordinal)
+										%br
+										%strong level :
+										%br
+										%i.fa.fa-sitemap
+										= @lecturer.level
+										%br
+										%strong Jursuan :
+										%br
+										%i.fa.fa-thumb-tack
+										= @lecturer.department.name
+										%br
+										%strong Alamat :
+										%br
+										%i.fa.fa-map-marker
+										= @lecturer.address
+					.clearfix

@@ -1,0 +1,232 @@
+- content_for :specific_js do
+	= javascript_include_tag "course", "data-turbolinks-track" => true
+	= javascript_include_tag "skripsi", "data-turbolinks-track" => true
+%header
+	.row
+		.col-md-6
+			%h1
+				%i.fa.fa-book
+				Skripsi
+		.col-md-6
+			.pull-right
+				.action{style: "margin-top: 15px;"}
+					.btn-group.btn-lg
+						- if can_become_supervisor? @skripsi
+							= link_to become_supervisor_skripsi_supervisors_path(@skripsi), class: "btn btn-success btn-lg", method: :post, data: {confirm: "Konfirmasi Pembimbing ?"} do
+								%i.fa.fa-gavel
+								Bimbing
+						- if can? :edit, @skripsi
+							= link_to edit_skripsi_path(@skripsi), class: "btn btn-primary btn-lg", remote: true do
+								%i.fa.fa-edit
+								Edit
+						.btn-group
+							%button.btn.btn-info.btn-lg.dropdown-toggle{"data-toggle" => "dropdown", type: "button"}
+								%i.fa.fa-gavel
+								Seminar / Sidang
+								%span.caret
+							%ul.dropdown-menu{role: "menu"}
+								%li
+									= link_to skripsi_seminars_path(@skripsi), method: :post do
+										%i.fa.fa-leaf
+										Daftar Seminar
+								%li
+									= link_to skripsi_sidangs_path(@skripsi), method: :post do
+										%i.fa.fa-gavel
+										Daftar Sidang
+						- if can? :destroy, @skripsi
+							= link_to @skripsi, class: "btn btn-danger btn-lg", method: :delete, data: {confirm: "Konfirmasi Penghapusan ? "} do
+								%i.fa.fa-trash-o
+								Hapus
+%section
+	.row
+		.col-sm-4
+			#writer
+				%header
+					%h2 Penulis
+				%section
+					.row
+						.col-sm-4
+							= image_tag("http://placehold.it/120x120", class: "img-circle img-thumbnail")
+						.col-sm-8
+							%blockquote
+								%p
+									= @skripsi.student.to_s
+									%small
+										%cite{title: "Jurusan"}= @skripsi.student.department.name
+										%i.fa.fa-thumb-tack
+				%footer
+			#info
+				%header
+					%h2 Detail Skripsi
+				%section
+					%table.table.table-bordered
+						%tr
+							%th
+								.text-center Fakultas
+							%td
+								.text-center= @skripsi.student.department.faculty.name
+						%tr
+							%th
+								.text-center Konsentrasi
+							%td
+								.text-center= @skripsi.concentration.try(:name)
+				%footer
+			#papers
+				%header
+					%h2 Berkas File
+				%section
+					%table#paper.table.table-bordered{"data-source" => "#{skripsi_papers_url(@skripsi, format: "json")}"}
+						%thead
+							%tr
+								%th
+									.text-center Nama Berkas
+								%th
+									.text-center Action
+						%tbody
+				%footer
+					.pull-right
+						- if can? :create, Paper
+							= link_to new_skripsi_paper_path(@skripsi), class: "btn btn-primary", remote: true do
+								%i.fa.fa-upload
+								Tambah File
+					.clearfix
+			#supervisors
+				%header
+					%h2 Pembimbing
+				%section
+					.panel.panel-success
+						.panel-heading
+							%i.fa.fa-group
+							Menyetujui Dosen Pembimbing
+						.panel-body
+							%table#supervisor.table.table-bordered{"data-source" => "#{skripsi_supervisors_url(@skripsi, format: "json")}"}
+								%thead
+									%tr
+										%th
+											.text-center Nama Dosen
+										%th
+											.text-center Action
+									%tbody
+					.panel.panel-default
+						.panel-heading
+							%i.fa.fa-refresh.fa-spin
+							Menunggu Persetujuan Dosen Pembimbing
+						.panel-body
+							%table#supervisorWaiting.table.table-bordered{"data-source" => "#{skripsi_supervisors_url(@skripsi, format: "json", pending_request: true)}"}
+								%thead
+									%tr
+										%th
+											.text-center Nama Dosen
+										%th
+											.text-center Action
+									%tbody
+				%footer
+					.pull-right
+						- if can? :create, Supervisor
+							= link_to new_skripsi_supervisor_path(@skripsi), class: "btn btn-primary", remote: true do
+								%i.fa.fa-group
+								Assign Dosen
+					.clearfix
+
+		.col-sm-8
+			#main
+				%header
+					%h3
+						%blockquote
+							%p.lead= @skripsi.title
+				%section
+					%p= @skripsi.description
+				%footer
+			#activities
+				%header
+					%h2
+						%i.fa.fa-exchange
+						Aktifitas
+				%section
+					%ul.nav.nav-tabs
+						%li.active
+							= link_to "#feedbacks", "data-toggle" => "tab" do
+								%i.fa.fa-comments
+								Feedbacks
+								%span.badge= @skripsi.feedbacks_count
+						%li
+							= link_to "#consultations", "data-toggle" => "tab" do
+								%i.fa.fa-exchange
+								Catatan Bimbingan
+						%li
+							= link_to "#conferences", "data-toggle" => "tab" do
+								%i.fa.fa-gavel
+								Seminar / Sidang
+					.tab-content
+						#feedbacks.tab-pane.fade.in.active{"data-source" => "#{skripsi_feedbacks_path(@skripsi)}"}
+							%header
+								.row
+									.col-sm-6
+										%h2
+											%i.fa.fa-comments
+											Feedback
+									.col-sm-6
+										.pull-right
+											.action{style: "margin-top: 20px;"}
+												= link_to new_skripsi_feedback_path(@skripsi), class: "btn btn-default", remote: true do
+													%i.fa.fa-comment
+													Tambah Feedback
+						#consultations.tab-pane.fade
+							%header
+								.row
+									.col-sm-6
+										%h2
+											%i.fa.fa-exchange
+											Catatan Bimbingan
+									.col-sm-6
+										.pull-right
+											.action{style: "margin-top: 20px;"}
+												- if can_create_consultation? @skripsi
+													= link_to new_skripsi_consultation_path(@skripsi), class: "btn btn-default", remote: true do
+														%i.fa.fa-upload
+														Buat baru
+												= link_to skripsi_consultations_path(@skripsi), class: "btn btn-primary", remote: "true" do
+													%i.fa.fa-print
+													Cetak
+							%section
+								%table#consultation.table.table-bordered{"data-source" => "#{skripsi_consultations_url(@skripsi, format: "json")}"}
+									%thead
+										%tr
+											%th
+												.text-center Tanggal dibuat
+											%th
+												.text-center Pembuat
+											%th
+												.text-center Status
+											%th
+												.text-center Konsultasi berikutnya
+											%th
+												.text-center Saran / Arahan
+											%th
+												.text-center Action
+									%tbody
+							%footer
+						#conferences.tab-pane.fade
+							%header
+								%h2
+									%i.fa.fa-gavel
+									Seminar / Sidang
+							%section
+								%table#conference.table.table.table-bordered{"data-source" => "#{skripsi_conferences_url(@skripsi, format: "json")}"}
+									%thead
+										%tr
+											%th
+												.text-center Mulai
+											%th
+												.text-center Selesai
+											%th
+												.text-center Lokal
+											%th
+												.text-center Jenis
+											%th
+												.text-center Pengaju
+											%th
+												.text-center Status
+											%th
+												.text-center Action
+							%footer

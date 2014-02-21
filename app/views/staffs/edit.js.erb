@@ -1,0 +1,22 @@
+var html = "<%= j render('form') %>";
+var staffModal = $("#staff-modal");
+if (staffModal.length == 1) {
+	staffModal.modal("hide");
+	staffModal.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		$("footer").append(html);
+		$("#staff-modal").modal({show: true});
+	});
+}else{
+	$("footer").append(html);
+	$("#staff-modal").modal({show: true});	
+}
+$(".datepicker").datetimepicker({
+	language: 'id',
+	pickTime: false,
+	icons: {
+        date: "fa fa-calendar",
+        up: "fa fa-arrow-up",
+        down: "fa fa-arrow-down"
+    }
+});

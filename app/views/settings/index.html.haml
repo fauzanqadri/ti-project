@@ -1,0 +1,37 @@
+%h1 Listing settings
+
+%table
+  %tr
+    %th Supervisor skripsi amount
+    %th Supervisor pkl amount
+    %th Examiner amount
+    %th Maximum lecturer lektor skripsi lead
+    %th Maximum lecturer aa skripsi lead
+    %th Allow remove supervisor duration
+    %th Lecturer lead skripsi rule
+    %th Lecturer lead pkl rule
+    %th Allow student create pkl
+    %th Department
+    %th
+    %th
+    %th
+
+  - @settings.each do |setting|
+    %tr
+      %td= setting.supervisor_skripsi_amount
+      %td= setting.supervisor_pkl_amount
+      %td= setting.examiner_amount
+      %td= setting.maximum_lecturer_lektor_skripsi_lead
+      %td= setting.maximum_lecturer_aa_skripsi_lead
+      %td= setting.allow_remove_supervisor_duration
+      %td= setting.lecturer_lead_skripsi_rule
+      %td= setting.lecturer_lead_pkl_rule
+      %td= setting.allow_student_create_pkl
+      %td= setting.department_id
+      %td= link_to 'Show', setting
+      %td= link_to 'Edit', edit_setting_path(setting)
+      %td= link_to 'Destroy', setting, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Setting', new_setting_path

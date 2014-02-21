@@ -1,0 +1,13 @@
+var html = "<%= j render('form') %>";
+var concentrationModal = $("#concentration-modal");
+if (concentrationModal.length == 1) {
+	concentrationModal.modal("hide");
+	concentrationModal.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		$("footer").append(html);
+		$("#concentration-modal").modal({show: true});
+	});
+}else{
+	$("footer").append(html);
+	$("#concentration-modal").modal({show: true});	
+}

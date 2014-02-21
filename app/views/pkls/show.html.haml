@@ -1,0 +1,189 @@
+- content_for :specific_js do
+	= javascript_include_tag "course", "data-turbolinks-track" => true
+%header
+	.row
+		.col-md-6
+			%h1
+				%i.fa.fa-file
+				Pkl
+		.col-md-6
+			.pull-right
+				.action{style: "margin-top: 15px;"}
+					.btn-group
+						- if can_become_supervisor? @pkl
+							= link_to become_supervisor_pkl_supervisors_path(@pkl), class: "btn btn-success btn-lg", method: :post, data: {confirm: "Konfirmasi Pembimbing ?"} do
+								%i.fa.fa-gavel
+								Bimbing
+						- if can? :edit, @pkl
+							= link_to edit_pkl_path(@pkl), class: "btn btn-primary btn-lg", remote: true do
+								%i.fa.fa-edit
+								Edit
+						- if can? :destroy, @pkl
+							= link_to @pkl, class: "btn btn-danger btn-lg", method: :delete, data: {confirm: "Konfirmasi Penghapusan ? "} do
+								%i.fa.fa-trash-o
+								Hapus
+%section
+	.row
+		.col-sm-4
+			#writer
+				%header
+					%h2 Penulis
+				%section
+					.row
+						.col-sm-4
+							= image_tag("http://placehold.it/120x120", class: "img-circle img-thumbnail")
+						.col-sm-8
+							%blockquote
+								%p
+									= @pkl.student.to_s
+									%small
+										%cite{title: "Jurusan"}= @pkl.student.department.name
+										%i.fa.fa-thumb-tack
+				%footer
+			#info
+				%header
+					%h2 Detail Pkl
+				%section
+					%table.table.table-bordered
+						%tr
+							%th
+								.text-center Fakultas
+							%td
+								.text-center= @pkl.student.department.faculty.name
+						%tr
+							%th
+								.text-center Konsentrasi
+							%td
+								.text-center= @pkl.concentration.try(:name)
+				%footer
+			#papers
+				%header
+					%h2 Berkas File
+				%section
+					%table#paper.table.table-bordered{"data-source" => "#{pkl_papers_url(@pkl, format: "json")}"}
+						%thead
+							%tr
+								%th
+									.text-center Nama Berkas
+								%th
+									.text-center Action
+						%tbody
+				%footer
+					.pull-right
+						- if can? :create, Paper
+							= link_to new_pkl_paper_path(@pkl), class: "btn btn-primary", remote: true do
+								%i.fa.fa-upload
+								Tambah File
+					.clearfix
+			#supervisors
+				%header
+					%h2 Pembimbing
+				%section
+					.panel.panel-success
+						.panel-heading
+							%i.fa.fa-group
+							Menyetujui Dosen Pembimbing
+						.panel-body
+							%table#supervisor.table.table-bordered{"data-source" => "#{pkl_supervisors_url(@pkl, format: "json")}"}
+								%thead
+									%tr
+										%th
+											.text-center Nama Dosen
+										%th
+											.text-center Action
+									%tbody
+					.panel.panel-default
+						.panel-heading
+							%i.fa.fa-refresh.fa-spin
+							Menunggu Persetujuan Dosen Pembimbing
+						.panel-body
+							%table#supervisorWaiting.table.table-bordered{"data-source" => "#{pkl_supervisors_url(@pkl, format: "json", pending_request: true)}"}
+								%thead
+									%tr
+										%th
+											.text-center Nama Dosen
+										%th
+											.text-center Action
+									%tbody
+				%footer
+					.pull-right
+						- if can? :create, Supervisor
+							= link_to new_pkl_supervisor_path(@pkl), class: "btn btn-primary", remote: true do
+								%i.fa.fa-group
+								Assign Dosen
+					.clearfix
+
+		.col-sm-8
+			#main
+				%header
+					%h3
+						%blockquote
+							%p.lead= @pkl.title
+				%section
+					%p= @pkl.description
+				%footer
+			#activities
+				%header
+					%h2
+						%i.fa.fa-exchange
+						Aktifitas
+				%section
+					%ul.nav.nav-tabs
+						%li.active
+							= link_to "#feedbacks", "data-toggle" => "tab" do
+								%i.fa.fa-comments
+								Feedbacks
+								%span.badge= @pkl.feedbacks_count
+						%li
+							= link_to "#consultations", "data-toggle" => "tab" do
+								%i.fa.fa-exchange
+								Catatan Bimbingan
+					.tab-content
+						#feedbacks.tab-pane.fade.in.active{"data-source" => "#{pkl_feedbacks_path(@pkl)}"}
+							%header
+								.row
+									.col-sm-6
+										%h2
+											%i.fa.fa-comments
+											Feedback
+									.col-sm-6
+										.pull-right
+											.action{style: "margin-top: 20px;"}
+												= link_to new_pkl_feedback_path(@pkl), class: "btn btn-default", remote: true do
+													%i.fa.fa-comment
+													Tambah Feedback
+						#consultations.tab-pane.fade
+							%header
+								.row
+									.col-sm-6
+										%h2
+											%i.fa.fa-exchange
+											Catatan Bimbingan
+									.col-sm-6
+										.pull-right
+											.action{style: "margin-top: 20px;"}
+												- if can_create_consultation? @pkl
+													= link_to new_pkl_consultation_path(@pkl), class: "btn btn-default", remote: true do
+														%i.fa.fa-upload
+														Buat baru
+												= link_to pkl_consultations_path(@pkl), class: "btn btn-primary", remote: "true" do
+													%i.fa.fa-print
+													Cetak
+							%section
+								%table#consultation.table.table-bordered{"data-source" => "#{pkl_consultations_url(@pkl, format: "json")}"}
+									%thead
+										%tr
+											%th
+												.text-center Tanggal dibuat
+											%th
+												.text-center Pembuat
+											%th
+												.text-center Status
+											%th
+												.text-center Konsultasi berikutnya
+											%th
+												.text-center Saran / Arahan
+											%th
+												.text-center Action
+									%tbody
+							%footer

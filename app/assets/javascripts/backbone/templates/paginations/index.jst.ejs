@@ -1,0 +1,13 @@
+<% if(pages > 1){%>
+	<% if(prev) {%>
+		<li><a href="#" id="prev">&laquo; Prev</a></li>
+	<%}else{%>
+		<li class="disabled"><a>&laquo; Prev</a></li>
+	<%}%>
+	<%= range[0] %>..<%= range[1] %> of <%= cTotalRecords %>
+	<% if(next) {%>
+		<li><a href="#" id="next">Next &raquo;</a></li>
+	<%}else{%>
+		<li class="disabled"><a>Next &raquo;</a></li>
+	<%}%>
+<%}%>

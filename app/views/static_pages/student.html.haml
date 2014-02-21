@@ -1,0 +1,72 @@
+- content_for :specific_js do
+	= javascript_include_tag "users_student", "data-turbolinks-track" => true
+%header
+	%h1
+		%i.fa.fa-home
+		Dashboard
+%section
+	.row
+		.col-sm-4
+			#user-mini
+				.row
+					.col-sm-4
+						= image_tag("http://placehold.it/120x120", class: "img-circle img-thumbnail")
+					.col-sm-8
+						%blockquote
+							%p
+								= current_user.userable.full_name
+								%small
+									%cite{title: "Jurusan"}= current_user.userable.department.name
+									%i.fa.fa-thumb-tack
+			%hr
+			#course-count
+				.row
+					.col-sm-6
+						.hero-widget.well.well-sm
+							.icon
+								%i.fa.fa-book
+							.text
+								%var= current_user.userable.skripsis_count
+								%label.text-muted Skripsi
+							.options
+								%button#user-skripsi-filter.btn.btn-primary.btn-lg{type: "button"}
+									%i.fa.fa-filter
+									Lihat
+					.col-sm-6
+						.hero-widget.well.well-sm
+							.icon
+								%i.fa.fa-file
+							.text
+								%var= current_user.userable.pkls_count
+								%label.text-muted Pkl
+							.options
+								%button#user-pkl-filter.btn.btn-success.btn-lg{type: "button"}
+									%i.fa.fa-filter
+									Lihat
+		.col-sm-8
+			%header
+				.row
+					.col-sm-6
+						%h2
+							%i.fa.fa-book
+							Skrpsi dan Pkl
+					.col-sm-6
+						.pull-right
+							.btn-group{style: "margin-top: 10px;"}
+								%button.btn.btn-default.btn-lg.dropdown-toggle{type: "button", "data-toggle" => "dropdown"}
+									%i.fa.fa-plus-circle
+									Buat Proposal
+								%ul.dropdown-menu{role: "menu"}
+									%li
+										= link_to new_skripsi_path, remote: true do
+											%i.fa.fa-book
+											Skripsi
+									- if can? :create, Pkl
+										%li
+											= link_to new_pkl_path, remote: true do
+												%i.fa.fa-file
+												Pkl
+						.clearfix
+			%section
+				#courses
+

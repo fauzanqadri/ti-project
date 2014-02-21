@@ -1,0 +1,24 @@
+var html = "<%= j render('form') %>";
+var pklModal = $("#pkl-modal");
+if (pklModal.length == 1) {
+	pklModal.modal("hide");
+	pklModal.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		elem = $(document).find("#courses")
+		if (elem.length == 0) {
+			$("#main footer").append(html);
+		}else{
+			$(elem[0]).append(html)
+		}
+		$("#pkl-modal").modal({show: true});
+	});
+}else{
+	elem = $(document).find("#courses")
+	if (elem.length == 0) {
+		$("#main footer").append(html);
+	}else{
+		$(elem[0]).append(html)
+	}
+	// $("#courses").append(html);
+	$("#pkl-modal").modal({show: true});	
+}

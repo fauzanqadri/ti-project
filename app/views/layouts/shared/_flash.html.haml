@@ -1,0 +1,7 @@
+- flash.each do |name, msg|
+	%div{class: "alert #{flash_convert name}", style: "display: none;"}
+		%button.close &times;
+		%span{class: "fa #{icon_convert name}"}
+		%strong= "#{message_status name} Message"
+		%hr.message-inner-separator
+		%p= msg
