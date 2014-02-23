@@ -29,6 +29,7 @@ class Lecturer < ActiveRecord::Base
 	has_many :feedbacks, as: :userable, dependent: :destroy
 	has_many :conference, as: :userable, dependent: :destroy
 	has_many :conference_logs, through: :supervisors
+	has_many :examiners, dependent: :destroy
 	accepts_nested_attributes_for :user, reject_if: :all_blank
 	validates :level, presence: true, inclusion: {in: LEVEL}
 	validates :department_id, presence: true

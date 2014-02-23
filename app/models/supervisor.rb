@@ -28,6 +28,9 @@ class Supervisor < ActiveRecord::Base
 	after_destroy :update_lecturer_counter_cache
 	after_destroy :update_course_counter_cache
 
+	scope :approved_supervisors, -> {where{(approved == true)} }
+	default_scope {order('created_at asc')}
+
 	private
 	def update_lecturer_counter_cache
 		l_id = self.lecturer_id

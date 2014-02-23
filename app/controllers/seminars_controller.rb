@@ -1,5 +1,7 @@
 class SeminarsController < ApplicationController
   before_action :set_seminar, only: [:show, :edit, :update]
+  load_and_authorize_resource
+  skip_load_resource only: [:create]
 
   def index
     @skripsi = Skripsi.find(params[:skripsi_id])
@@ -43,6 +45,7 @@ class SeminarsController < ApplicationController
     @skripsi = Skripsi.find(params[:skripsi_id])
     @seminar = @skripsi.build_seminar
     @seminar.userable = current_user.userable
+    authorize! :create, @seminar
     if @seminar.save
       redirect_to @skripsi, notice: 'Pendaftaran seminar berhasil dilakukan'
     else

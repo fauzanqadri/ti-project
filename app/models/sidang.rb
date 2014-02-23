@@ -16,4 +16,5 @@
 #
 
 class Sidang < Conference
+	has_many :examiners, dependent: :destroy
 end

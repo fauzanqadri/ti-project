@@ -1,7 +1,7 @@
 class SupervisorsController < ApplicationController
   before_action :set_supervisor, only: [:destroy, :approve]
   load_and_authorize_resource
-  skip_load_resource only: [:create, :waiting_approval, :approve, :become_supervisor]
+  skip_load_resource only: [:new, :create, :waiting_approval, :approve, :become_supervisor]
   # GET /supervisors
   # GET /supervisors.json
   def index
@@ -13,7 +13,8 @@ class SupervisorsController < ApplicationController
   # GET /supervisors/new
   def new
     @course = Course.find(course_id)
-    @supervisor = @course.supervisors.build
+    @supervisor = @course.supervisors.new
+    authorize! :new, @supervisor
     respond_to do |format|
       format.js
     end

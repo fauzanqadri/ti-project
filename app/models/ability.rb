@@ -66,20 +66,41 @@ class Ability
     can :destroy, Paper
 
     can :read, Supervisor
-    can :create, Supervisor
+    can :create, Supervisor do |supervisor|
+        supervisor.course.student_id == @user.userable_id
+    end
     can :destroy, Supervisor do |supervisor|
         supervisor.approved == false && supervisor.course.student_id == @user.userable_id
     end
-    can :read, Consultation
+
     can :read, Feedback
-    
     can :create, Feedback do |feedback|
         feedback.course.student_id == @user.userable_id
     end
-
     can :destroy, Feedback do |feedback|
         feedback.userable_id == @user.userable_id && feedback.userable_type == @user.userable_type
     end
+
+    can :read, Consultation
+
+    can :show, Seminar do |seminar|
+        seminar.skripsi.student_id == @user.userable_id
+    end
+
+    can :create, Seminar do |seminar|
+        sm = Seminar.find_by_skripsi_id(seminar.skripsi_id)
+        sm.nil?
+    end
+
+    can :show, Sidang do |sidang|
+        sidang.skripsi.student_id == @user.userable_id
+    end
+
+    can :create, Sidang do |sidang|
+        sd = Sidang.find_by_skripsi_id(sidang.skripsi_id)
+        sd.nil?
+    end
+
   end
 
   def lecturer
@@ -98,7 +119,6 @@ class Ability
     end
     
     can :waiting_approval, Supervisor
-    
     can :approve, Supervisor do |supervisor|
         supervisor.lecturer_id == @user.userable_id && supervisor.approved == false
     end
@@ -109,6 +129,13 @@ class Ability
             (supervisor.lecturer_id == @user.userable_id && supervisor.approved == false) || (supervisor.lecturer_id == @user.userable_id && supervisor.approved == true && (Time.now.to_i - supervisor.created_at.to_i) < @setting.allow_remove_supervisor_duration.minutes)
         end
     end
+
+    can :read, Feedback
+    can :create, Feedback
+    can :destroy, Feedback do |feedback|
+        feedback.userable_id == @user.userable_id && feedback.userable_type == @user.userable_type
+    end
+
     can :read, Consultation
     can :create, Consultation do |consultation|
         consultable_id = consultation.consultable_id
@@ -128,11 +155,35 @@ class Ability
         supervisors_id = consultation.course.supervisors.where{(lecturer_id == l_id)}.pluck(:id)
         supervisors_id.include?(consultable_id)
     end
-    can :read, Feedback
-    can :create, Feedback
-    can :destroy, Feedback do |feedback|
-        feedback.userable_id == @user.userable_id && feedback.userable_type == @user.userable_type
+
+    can :show, Seminar do |seminar|
+        seminar.skripsi.supervisors.approved_supervisors.pluck(:lecturer_id).include? @user.userable_id
+    end
+    can :create, Seminar do |seminar|
+        sm = Seminar.find_by_skripsi_id(seminar.skripsi_id)
+        sm.nil?
     end
 
+    can :show, Sidang do |sidang|
+        sidang.skripsi.supervisors.approved_supervisors.pluck(:lecturer_id).include? @user.userable_id
+        
+    end
+
+    can :create, Sidang do |sidang|
+        sd = Sidang.find_by_skripsi_id(sidang.skripsi_id)
+        sd.nil?
+    end
+
+    if @user.userable.is_admin?
+        as_lecturer_admin
+    end
   end
+
+  def as_lecturer_admin
+    can :create, Supervisor
+    can :show, Seminar
+    can :show, Sidang
+    can :update, Conference
+  end
+
 end

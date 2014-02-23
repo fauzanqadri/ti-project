@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140219211227) do
+ActiveRecord::Schema.define(version: 20140221175515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,13 @@ ActiveRecord::Schema.define(version: 20140219211227) do
   end
 
   add_index "departments", ["faculty_id"], name: "index_departments_on_faculty_id", using: :btree
+
+  create_table "examiners", force: true do |t|
+    t.integer  "sidang_id",   null: false
+    t.integer  "lecturer_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "faculties", force: true do |t|
     t.string   "name"

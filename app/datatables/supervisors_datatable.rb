@@ -52,7 +52,7 @@ class SupervisorsDatatable
 
 	def fetch_supervisors
 		course = Course.find(course_id)
-		supervisors = course.supervisors.includes(:course, :lecturer).joins{lecturer}.order("lecturers.full_name #{sort_direction}")
+		supervisors = course.supervisors.includes(:course, :lecturer).joins{lecturer}
 		if params[:pending_request].present? && params[:pending_request] == 'true'
 			supervisors = supervisors.where{(approved == false)}
 		else

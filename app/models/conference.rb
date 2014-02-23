@@ -29,6 +29,8 @@ class Conference < ActiveRecord::Base
 	validate :ready_registration, on: :create
 	after_create :build_logs
 
+	scope :by_department, ->(d_id) { joins{skripsi.student}.where{(students.department_id == d_id)} }
+
 	def status
 		if self.supervisor_approval == false
 			havent_confirm = self.conference_logs.where{(approved == false)}.size

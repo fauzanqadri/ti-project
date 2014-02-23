@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Sidang:
+  = @examiner.sidang_id
+%p
+  %b Lecturer:
+  = @examiner.lecturer_id
+
+= link_to 'Edit', edit_examiner_path(@examiner)
+\|
+= link_to 'Back', examiners_path

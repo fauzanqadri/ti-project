@@ -6,12 +6,13 @@ class SeminarShowPdf < Prawn::Document
 		super(:page_size => "A4")
 		@view = view
 		font "Times-Roman"
-		# repeat :all do
-		# 	stroke_axis 
-		# end
+		repeat :all do
+			# stroke_axis 
+		end
 		aspects_of_assessment
 		assessment_form
 		attendance_form
+		attendance_supervisor
 	end
 
 	def skripsi
@@ -55,7 +56,6 @@ class SeminarShowPdf < Prawn::Document
 			aspects_of_assessment_opening_part_one
 			assessment_form_main
 			assessment_form_bottom supervisor, i
-			# aspects_of_assessment_bottom supervisor, i
 			start_new_page if i != supervisors.size
 		end
 	end
@@ -68,7 +68,65 @@ class SeminarShowPdf < Prawn::Document
 		attendance_form_bottom
 	end
 
-	def attendance_supervisor supervisors
+	def attendance_supervisor
+		start_new_page(:layout => :landscape)
+		text "ABSENSI DOSEN SEMINAR SKRIPSI", :align => :center, :size => 14, :inline_format => true, :style => :bold
+		text "PROGRAM STUDI #{skripsi.student.department.name.upcase}", :align => :center, :size => 14, :inline_format => true, :style => :bold
+		attendance_supervisor_main
+		attendance_supervisor_bottom
+	end
+
+	def attendance_supervisor_main
+		move_down 50
+		bounding_box([0, cursor], width: bounds.width) do
+			data = [
+				[
+					{content: "NO", font_style: :bold, align: :center},
+					{content: "NAMA", font_style: :bold, align: :center},
+					{content: "NIM", font_style: :bold, align: :center},
+					{content: "JUDUL SKRIPSI", font_style: :bold, align: :center},
+					{content: "HARI/TANGGAL", font_style: :bold, align: :center},
+					{content: "DOSEN PEMBIMBING", font_style: :bold, align: :center},
+					{content: "TTD", font_style: :bold, align: :center},
+				]
+			]
+			sp_size = supervisors.size
+			supervisors.to_enum.with_index(1).each do |supervisor, i|
+				if i == 1
+					data << [
+						{content: "", rowspan: sp_size},
+						{content: "#{skripsi.student.to_s}", rowspan: sp_size, align: :center},
+						{content: "#{skripsi.student.nim}", rowspan: sp_size, align: :center},
+						{content: "#{skripsi.title.upcase}", rowspan: sp_size},
+						{content: "#{seminar.created_at.to_formatted_s(:long_ordinal)}", rowspan: sp_size},
+						{content: "#{i}. #{supervisor.lecturer.to_s}"},
+						{content: ""}
+					]
+				else
+					data << [
+						{content: "#{i}. #{supervisor.lecturer.to_s}"},
+						{content: ""}
+					]
+				end
+				
+			end
+			table(data, position: :center, :column_widths => [30, 120, 100, 200, 105, 120, 94])
+		end
+	end
+
+	def attendance_supervisor_bottom
+		bounding_box([50, cursor-100], width: 150, height: 150) do
+			bounding_box([bounds.width+300, cursor], width: 200, height: 150) do
+				sp_size = supervisors.size
+				a = []
+				sp_size.times {|i| a << (i+1).to_roman}
+				text "Jakarta, " + "." * 35
+				text "Dosen Pembimbing #{a.join("/")}"
+				move_down 70
+				text "..................................................."
+				# line([0,0])
+				text "NIP. "			end
+		end
 	end
 
 	def aspects_of_assessment_opening_part_one

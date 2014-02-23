@@ -24,7 +24,7 @@ $(document).ready ->
 		bPaginate: false
 		aoColumnDefs: [
 			bSortable: false,
-			aTargets: [1]
+			aTargets: [0, 1]
 		]
 	$("#supervisorWaiting").dataTable
 		sPaginationType: "two_button"

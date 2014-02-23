@@ -1,5 +1,7 @@
 TiProject::Application.routes.draw do
 
+  resources :examiners
+
   devise_for :users, :skip => [:sessions, :registrations, :password]
   devise_scope :user do
     authenticated :user do

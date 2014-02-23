@@ -107,7 +107,7 @@
 									%tbody
 				%footer
 					.pull-right
-						- if can? :create, Supervisor
+						- if can_create_supervisor? @pkl
 							= link_to new_pkl_supervisor_path(@pkl), class: "btn btn-primary", remote: true do
 								%i.fa.fa-group
 								Assign Dosen

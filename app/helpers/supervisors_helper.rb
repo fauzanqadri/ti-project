@@ -7,6 +7,11 @@ module SupervisorsHelper
 		can? :become_supervisor, sp
 	end
 
+	def can_create_supervisor? course
+		supervisor = course.supervisors.new
+		can? :create, supervisor
+	end
+
 	def printed
 		"printed"
 	end

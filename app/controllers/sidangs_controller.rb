@@ -1,11 +1,14 @@
 class SidangsController < ApplicationController
   before_action :set_sidang, only: [:show, :edit, :update]
+  load_and_authorize_resource
+  skip_load_resource only: [:create]
 
   # GET /sidangs/1
   # GET /sidangs/1.json
   def show
     respond_to do |format|
       format.js
+      format.pdf
     end
   end
 
@@ -22,6 +25,7 @@ class SidangsController < ApplicationController
     @skripsi = Skripsi.find(params[:skripsi_id])
     @sidang = @skripsi.build_sidang
     @sidang.userable = current_user.userable
+    authorize! :create, @sidang
     if @sidang.save
       redirect_to @skripsi, notice: 'Pendaftaran sidang berhasil dilakukan'
     else
@@ -49,7 +53,7 @@ class SidangsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_sidang
-      @skripsi = Skripsi.find(params[:skripsi])
+      @skripsi = Skripsi.find(params[:skripsi_id])
       @sidang = @skripsi.sidang
     end
 
