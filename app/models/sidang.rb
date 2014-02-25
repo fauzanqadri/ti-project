@@ -17,4 +17,5 @@
 
 class Sidang < Conference
 	has_many :examiners, dependent: :destroy
+	accepts_nested_attributes_for :examiners, update_only: true
 end

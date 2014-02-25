@@ -1,4 +1,4 @@
-class ConferencesDatatable
+class SkripsiConferencesDatatable
 	delegate :params, :link_to, :number_to_currency, :raw, :content_tag, :current_user, :can?, to: :@view
 	delegate :url_helpers, to: 'Rails.application.routes' 
 

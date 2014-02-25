@@ -19,6 +19,10 @@ class Staff < ActiveRecord::Base
 	validates_presence_of :full_name, :born, :faculty_id
 	after_create :reset_user
 
+	def to_s
+		self.full_name
+	end
+
 
 	# <-------------------------------------------------- Callback -------------------------------------------------->
 

@@ -30,6 +30,8 @@ class Conference < ActiveRecord::Base
 	after_create :build_logs
 
 	scope :by_department, ->(d_id) { joins{skripsi.student}.where{(students.department_id == d_id)} }
+	scope :by_faculty, -> (f_id) { joins{skripsi.student.department}.where{(departments.faculty_id == f.id)} }
+	scope :unapprove_department_director, -> { where{department_director == false} }
 
 	def status
 		if self.supervisor_approval == false

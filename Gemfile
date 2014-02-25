@@ -25,8 +25,9 @@ gem 'fullcalendar-rails'
 gem 'twitter-bootstrap-rails', git: "git@github.com:seyhunak/twitter-bootstrap-rails.git", branch: 'bootstrap3'
 gem 'squeel'
 gem 'paperclip-googledrive'
-gem 'bootstrap3-datetimepicker-rails', path: "../../bootstrap3-datetimepicker-rails"
+gem 'bootstrap3-datetimepicker-rails', git: "git@github.com:fauzanqadri/bootstrap3-datetimepicker-rails.git"
 gem 'momentjs-rails'
+# gem 'execjs'
 gem 'therubyracer'
 gem 'less-rails'
 gem 'animate-rails'
@@ -37,6 +38,7 @@ gem 'foreman'
 gem 'rails-backbone'
 gem 'remotipart', '~> 1.2'
 gem 'twitter-typeahead-rails'
+gem 'dotenv-rails', :groups => [:development, :test]
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

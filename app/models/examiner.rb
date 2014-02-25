@@ -12,4 +12,5 @@
 class Examiner < ActiveRecord::Base
 	belongs_to :sidang
 	belongs_to :lecturer
+	validates :lecturer_id, presence: true
 end

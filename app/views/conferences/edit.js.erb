@@ -1,0 +1,63 @@
+var html = "<%= j render('form') %>";
+var conferenceModal = $("#conference-modal");
+if (conferenceModal.length == 1) {
+	conferenceModal.modal("hide");
+	conferenceModal.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		$("footer").append(html);
+		$("#conference-modal").modal({show: true});
+	});
+}else{
+	$("footer").append(html);
+	$("#conference-modal").modal({show: true});
+}
+$(".datepicker").datetimepicker({
+	language: 'id',
+	pickTime: false,
+	icons: {
+        date: "fa fa-calendar",
+        up: "fa fa-arrow-up",
+        down: "fa fa-arrow-down"
+    }
+});
+<% if @conference.type == "Sidang"%>
+	<% current_user.userable.department.setting.examiner_amount.times do |i| %>
+		<% i += 1 %>
+		var autoComplete = $("#lecturer_name_<%= i %>").autocomplete({
+			appendTo: "#conference-modal .modal-footer",
+			minLength: 2,
+			autoFocus: true,
+			source: function(req, resp){
+				$.ajax({
+					url: "<%= search_lecturers_path %>",
+					dataType: "json",
+					data: {query: req.term},
+					success: function(data){
+						resp($.map(data, function(item){
+							return {
+								value: item.id,
+								label: item.full_name,
+								supervisors_skripsi_count: item.supervisors_skripsi_count,
+								supervisors_pkl_count: item.supervisors_pkl_count
+							}
+						}));
+					}
+				});
+			},
+			focus: function(event, ui){
+				$("#lecturer_name_<%= i %>").val(ui.item.label);
+				return false;
+			},
+			select: function(event, ui){
+				$("#lecturer_name_<%= i %>").val(ui.item.label);
+				$("#sidang_examiners_attributes_<%= i - 1%>_lecturer_id").val(ui.item.value);
+				return false;
+			}
+		}).data("ui-autocomplete");
+
+		autoComplete._renderItem =  function(ul, item){
+			var html = "<li data-value=\""+item.value+"\"><a><div class=\"row\"><div class=\"col-sm-3\"><img class=\"img-circle img-thumbnail\" src=\"http://placehold.it/50x50\"></div><div class=\"col-sm-9\"><blockquote><p>"+item.label+"<br/><div class=\"label-group\"><span class=\"label label-primary\"><i class=\"fa fa-book\"></i> Skripsi : "+item.supervisors_skripsi_count+"</span><span class=\"label label-success\"><i class=\"fa fa-file\"></i> Pkl :"+item.supervisors_pkl_count+"</span></div></p></blockquote></div></div></a></li>";
+			return $(html).appendTo(ul);
+		}
+	<% end %>
+<% end %>

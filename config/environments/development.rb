@@ -29,6 +29,8 @@ TiProject::Application.configure do
   # Devise Configuration
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
+  # config.threadsafe!
+
   config.active_record.logger = ActiveSupport::Logger.new("#{Rails.root}/log/active_record.log")
   config.after_initialize do
     Bullet.enable = true
@@ -36,5 +38,6 @@ TiProject::Application.configure do
     Bullet.bullet_logger = true
     Bullet.console = true
     Bullet.rails_logger = true
+    Bullet.add_whitelist :type => :n_plus_one_query, :class_name => "Conference", :association => :examiners
   end
 end

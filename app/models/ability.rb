@@ -184,6 +184,9 @@ class Ability
     can :show, Seminar
     can :show, Sidang
     can :update, Conference
+    can [:edit_department_director_approval, :update_department_director_approval], Conference do |conference|
+        conference.skripsi.student.department_id == @user.userable.department_id
+    end
   end
 
 end

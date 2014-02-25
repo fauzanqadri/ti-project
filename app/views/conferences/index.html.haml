@@ -1,18 +1,25 @@
-
+- content_for :specific_js do
+	= javascript_include_tag "conferences", "data-turbolinks-track" => true
 
 %header
 	%h1 Persetujuan Akhir Seminar / Sidang
 
 %section
-	%table#conferences.table.table-bordered{"data-source" => "#{faculties_url(format: "json")}"}
+	%table#conferences.table.table-bordered{"data-source" => "#{conferences_url(format: "json")}"}
 		%thead
 			%tr
 				%th
-					.text-center Name
+					.text-center Judul Skripsi
 				%th
-					.text-center Website
+					.text-center Nama Mahasiswa
 				%th
-					.text-center Created at
+					.text-center Pembimbing
+				%th
+					.text-center Tipe
+				%th
+					.text-center Penguji
+				%th
+					.text-center Tanggal Dilaksanakan
 				%th
 					.text-center Action
 		%tbody

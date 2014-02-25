@@ -44,16 +44,24 @@ TiProject::Application.routes.draw do
     end
     resources :feedbacks, except: [:edit, :update, :show]
     resources :consultations, except: :show
-
-    resources :seminars, only: [:create, :show]
-    resources :sidangs, only: [:create, :show]
+    resources :seminars, except: [:index, :destroy] do
+      get "edit_department_director_approval", action: "edit_department_director_approval", on: :member
+      put "edit_department_director_approval", action: "update_department_director_approval", on: :member
+      # put ""
+    end
+    # resources :sidangs, only: [:create, :show]
+    resources :sidangs, except: [:index, :destroy] do
+      get "edit_department_director_approval", action: "edit_department_director_approval", on: :member
+      put "edit_department_director_approval", action: "update_department_director_approval", on: :member
+    end
     resources :conferences, only: :index
     
   end
   
   resources :settings, only: [:index, :update]
   get "/waiting_approval" => "supervisors#waiting_approval"
-  resources :conferences, except: :destroy
+  # resources :conferences, except: [:new, :create, :show]
+  resources :conferences, only: :index
   resources :conference_logs, only: [:index] do
     put '/approve', action: 'approve', on: :member
   end

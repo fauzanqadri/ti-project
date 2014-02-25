@@ -1,0 +1,18 @@
+- if conference.examiners.blank?
+	= "blank render"
+	- current_user.userable.department.setting.examiner_amount.times do |i|
+		- i += 1
+		= conference_field.fields_for :examiners, conference.examiners.build do |cf|
+			.form-group
+				= cf.label "Dosen Penguji", class: "col-sm-3 control-label"
+				.col-sm-9
+					%input{type: "text", id: "lecturer_name_#{i}", class: "form-control", placeholder: "Ketikan nama dosen penguji"}
+					= cf.text_field :lecturer_id, style: "display:none;"
+- else
+	= conference_field.fields_for :examiners do |cf|
+		.form-group
+			= cf.label "Dosen Penguji", class: "col-sm-3 control-label"
+			.col-sm-9
+				%input{type: "text", id: "lecturer_name_#{cf.index+1}", class: "form-control", placeholder: "Ketikan nama dosen penguji", value: "#{cf.object.lecturer.to_s}"}
+				= cf.hidden_field :id
+				= cf.text_field :lecturer_id, style: "display:none;"

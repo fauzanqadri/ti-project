@@ -6,37 +6,26 @@ class ConferencesController < ApplicationController
   def index
     respond_to do |format|
       format.html
-      format.json {render json: ConferencesDatatable.new(view_context)}
+      format.json do 
+        if params[:skripsi_id].present?
+          render json: SkripsiConferencesDatatable.new(view_context)
+        else
+          if current_user.userable_type == "Lecturer" && current_user.userable.is_admin?
+            render json: DepartmentDirectorConferencesDatatable.new(view_context)
+          elsif current_user.userable_type == "Staff"
+          else
+            raise CanCan::AccessDenied.new
+          end
+        end
+      end
     end
   end
 
-  # GET /conferences/1
-  # GET /conferences/1.json
-  def show
-  end
-
-  # GET /conferences/new
-  def new
-    @conference = Conference.new
-  end
 
   # GET /conferences/1/edit
   def edit
-  end
-
-  # POST /conferences
-  # POST /conferences.json
-  def create
-    @conference = Conference.new(conference_params)
-
     respond_to do |format|
-      if @conference.save
-        format.html { redirect_to @conference, notice: 'Conference was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @conference }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @conference.errors, status: :unprocessable_entity }
-      end
+      format.js
     end
   end
 
@@ -45,10 +34,12 @@ class ConferencesController < ApplicationController
   def update
     respond_to do |format|
       if @conference.update(conference_params)
-        format.html { redirect_to @conference, notice: 'Conference was successfully updated.' }
+        flash[:notice] = "Berhasil menyetujui #{@conference.type.downcase}"
+        format.js
+        # format.html { redirect_to @conference, notice: 'Conference was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
+        format.js { render action: 'edit' }
         format.json { render json: @conference.errors, status: :unprocessable_entity }
       end
     end
@@ -72,6 +63,9 @@ class ConferencesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def conference_params
-      params.require(:conference).permit(:local, :start, :end)
+      if params[:sidang].present?
+        return params.require(:sidang).permit(:local, :start, :end, examiners_attributes: [:id, :lecturer_id])
+      end
+      return params.require(:seminar).permit(:local, :start, :end)
     end
 end

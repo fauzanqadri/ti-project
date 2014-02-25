@@ -1,5 +1,5 @@
 class SeminarsController < ApplicationController
-  before_action :set_seminar, only: [:show, :edit, :update]
+  before_action :set_seminar, only: [:show, :edit, :update, :edit_department_director_approval, :update_department_director_approval]
   load_and_authorize_resource
   skip_load_resource only: [:create]
 
@@ -67,6 +67,26 @@ class SeminarsController < ApplicationController
     end
   end
 
+  def edit_department_director_approval
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def update_department_director_approval
+    respond_to do |format|
+      if @seminar.update(seminar_department_director_approval_params)
+        notice_text = @seminar.department_director? && @seminar.undertake_plan.present? ? "Permohonan seminar berhasil disetujui" : "Permohonan seminar berhasil diubah"
+        flash[:notice] = notice_text
+        format.js
+        format.json { head :no_content }
+      else
+        format.js { render action: 'edit_department_director_approval' }
+        format.json { render json: @seminar.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_seminar
@@ -78,5 +98,9 @@ class SeminarsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def seminar_params
       params.require(:seminar).permit(:local, :start, :end)
+    end
+
+    def seminar_department_director_approval_params
+      params.require(:seminar).permit(:department_director, :undertake_plan)
     end
 end
