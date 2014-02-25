@@ -4,11 +4,11 @@ if (conferenceModal.length == 1) {
 	conferenceModal.modal("hide");
 	conferenceModal.on('hidden.bs.modal', function(e){
 		$(e.target).remove();
-		$("footer").append(html);
+		$("body").append(html);
 		$("#conference-modal").modal({show: true});
 	});
 }else{
-	$("footer").append(html);
+	$("body").append(html);
 	$("#conference-modal").modal({show: true});
 }
 $(".datepicker").datetimepicker({

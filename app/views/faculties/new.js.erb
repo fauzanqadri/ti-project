@@ -4,10 +4,10 @@ if (facultyModal.length == 1) {
 	facultyModal.modal("hide");
 	facultyModal.on('hidden.bs.modal', function(e){
 		$(e.target).remove();
-		$("footer").append(html);
+		$("body").append(html);
 		$("#faculty-modal").modal({show: true});
 	});
 }else{
-	$("footer").append(html);
+	$("body").append(html);
 	$("#faculty-modal").modal({show: true});	
 }

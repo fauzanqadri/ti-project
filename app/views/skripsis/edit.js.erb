@@ -6,7 +6,7 @@ if (skripsiModal.length == 1) {
 		$(e.target).remove();
 		elem = $(document).find("#courses")
 		if (elem.length == 0) {
-			$("#main footer").append(html);
+			$("body").append(html);
 		}else{
 			$(elem[0]).append(html)
 		}
@@ -15,7 +15,7 @@ if (skripsiModal.length == 1) {
 }else{
 	elem = $(document).find("#courses")
 	if (elem.length == 0) {
-		$("#main footer").append(html);
+		$("body").append(html);
 	}else{
 		$(elem[0]).append(html)
 	}

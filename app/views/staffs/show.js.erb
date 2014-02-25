@@ -4,10 +4,10 @@ if (staffDetail.length == 1) {
 	staffDetail.modal("hide");
 	staffDetail.on('hidden.bs.modal', function(e){
 		$(e.target).remove();
-		$("footer").append(html);
+		$("body").append(html);
 		$("#staff-detail").modal({show: true});
 	});
 }else{
-	$("footer").append(html);
+	$("body").append(html);
 	$("#staff-detail").modal({show: true});	
 }

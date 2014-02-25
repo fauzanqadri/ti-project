@@ -4,10 +4,10 @@ if (seminarModal.length == 1) {
 	seminarModal.modal("hide");
 	seminarModal.on('hidden.bs.modal', function(e){
 		$(e.target).remove();
-		$("#conferences footer").append(html);
+		$("body").append(html);
 		$("#seminar-modal").modal({show: true});
 	});
 }else{
-	$("#conferences footer").append(html);
+	$("body").append(html);
 	$("#seminar-modal").modal({show: true});	
 }

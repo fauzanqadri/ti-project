@@ -4,10 +4,10 @@ if (lecturerModal.length == 1) {
 	lecturerModal.modal("hide");
 	lecturerModal.on('hidden.bs.modal', function(e){
 		$(e.target).remove();
-		$("#consultations footer").append(html);
+		$("body").append(html);
 		$("#consultation-pdf-modal").modal({show: true});
 	});
 }else{
-	$("#consultations footer").append(html);
+	$("body").append(html);
 	$("#consultation-pdf-modal").modal({show: true});	
 }

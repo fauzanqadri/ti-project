@@ -4,10 +4,10 @@ if (paperModal.length == 1) {
 	paperModal.modal("hide");
 	paperModal.on('hidden.bs.modal', function(e){
 		$(e.target).remove();
-		$("#papers footer").append(html);
+		$("body").append(html);
 		$("#paper-modal").modal({show: true});
 	});
 }else{
-	$("#papers footer").append(html);
+	$("body").append(html);
 	$("#paper-modal").modal({show: true});	
 }

@@ -4,11 +4,11 @@ if (lecturerModal.length == 1) {
 	lecturerModal.modal("hide");
 	lecturerModal.on('hidden.bs.modal', function(e){
 		$(e.target).remove();
-		$("footer").append(html);
+		$("body").append(html);
 		$("#lecturer-modal").modal({show: true});
 	});
 }else{
-	$("footer").append(html);
+	$("body").append(html);
 	$("#lecturer-modal").modal({show: true});	
 }
 $(".datepicker").datetimepicker({

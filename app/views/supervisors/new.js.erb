@@ -4,11 +4,11 @@ if (facultyModal.length == 1) {
 	facultyModal.modal("hide");
 	facultyModal.on('hidden.bs.modal', function(e){
 		$(e.target).remove();
-		$("#supervisors footer").append(html);
+		$("body").append(html);
 		$("#supervisor-modal").modal({show: true});
 	});
 }else{
-	$("#supervisors footer").append(html);
+	$("body").append(html);
 	$("#supervisor-modal").modal({show: true});	
 }
 
