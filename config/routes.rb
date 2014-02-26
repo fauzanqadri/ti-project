@@ -58,7 +58,7 @@ TiProject::Application.routes.draw do
     
   end
   
-  resources :settings, only: [:index, :update]
+  resource :settings, only: [:show, :update]
   get "/waiting_approval" => "supervisors#waiting_approval"
   # resources :conferences, except: [:new, :create, :show]
   resources :conferences, only: :index

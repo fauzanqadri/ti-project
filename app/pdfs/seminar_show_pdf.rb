@@ -8,7 +8,9 @@ class SeminarShowPdf < Prawn::Document
 		font "Times-Roman"
 		repeat :all do
 			# stroke_axis 
+			# stroke_bounds
 		end
+		borrowing_local_letters
 		aspects_of_assessment
 		assessment_form
 		attendance_form
@@ -19,6 +21,18 @@ class SeminarShowPdf < Prawn::Document
 		@skripsi ||= Skripsi.find(params[:skripsi_id])
 	end
 
+	def student
+		@student ||= skripsi.student
+	end
+
+	def department
+		@department ||= student.department
+	end
+
+	def faculty
+		@faculty ||= department.faculty
+	end
+
 	def seminar
 		@seminar ||= skripsi.seminar
 	end
@@ -27,9 +41,92 @@ class SeminarShowPdf < Prawn::Document
 		@supervisors ||= skripsi.supervisors
 	end
 
+	def borrowing_local_letters
+		borrowing_local_letter_header
+		borrowing_local_letter_opening
+		borrowing_local_letter_content
+		borrowing_local_letter_footer
+	end
+
+	def borrowing_local_letter_header
+		bounding_box([0, cursor+20], width: 550, height: 60) do
+			image "#{Rails.root}/app/assets/images/uin_jkt.png", width: 65, :height => 60, at: [20, cursor]
+			text_box "UNIVERSITAS ISLAM NEGRI", size: 16, align: :center, at: [0, cursor-5]
+			text_box "SYARIF HIDAYATULLAH JAKARTA", size: 16, align: :center, at: [0, cursor-20]
+			text_box "FAKULTAS #{faculty.name.upcase}", size: 16, align: :center, at: [0, cursor-35]
+		end
+		bounding_box([0, cursor], width: 550, height: 45) do
+			text_box "Jl. Ir. H. Juanda No. 95, Ciputat 15412, Indonesia", size: 9, at: [5, cursor-5]
+			text_box "Telp. : (62-21)7493547, 7493606 Fax. : (62-21)7493315", size: 9, at: [5, cursor-17]
+			text_box "Email : uinjkt@cabi.net.id", size: 9, at: [bounds.width.to_i-125, cursor-5]
+			text_box "Website : #{faculty.website}", size: 9, at: [bounds.width.to_i-132, cursor-17]
+			stroke do
+				horizontal_line 0, 525, at: cursor-30
+				horizontal_line 0, 525, at: cursor-31
+				horizontal_line 0, 525, at: cursor-34
+			end
+		end
+	end
+
+	def borrowing_local_letter_opening
+		move_down 5
+		bounding_box([0, cursor], width: 525, height: 50) do
+			data = [["Nomor", ":", "Istimewa"], ["Lamp", ":", "1 Eks."], ["Hal", ":", "Peminjaman Ruang"]]
+			table(data, cell_style: {border_color: "FFFFFF", padding: [0,2,2,2]})
+			text_box "Jakarta, #{DateTime.now.strftime('%d %B %Y')}", size: 12, at: [bounds.width.to_i-150, cursor+44]
+			# stroke_bounds
+		end
+		move_down 15
+		bounding_box([45, cursor], width: 475, height: 100) do
+			text "Kepada Yth ."
+			text "Kebag TU Fakultas #{faculty.name}"
+			text "UIN Syarif Hidayatullah Jakarta"
+			text "Di    -"
+			text_box "Tempat", size: 12, at: [23, cursor]
+			text_box "Assalamu'alaikum Wr. Wb", size: 12, at: [0, cursor-30]
+			# stroke_bounds
+		end
+	end
+
+	def borrowing_local_letter_content
+		move_down 10
+		bounding_box([45, cursor], width: 475, height: 250) do
+			text "#{Prawn::Text::NBSP * 10}" + "Sehubungan dengan adanya Seminar Hasil Skripsi Mahasiswa Program Studi " + 
+			"#{department.name} Fakultas #{faculty.name} Universitas Islam Negri Syarif Hidayatullah Jakarta.", 
+			align: :justify, leading: 10
+			# move_down 15
+			data = [["Nama", ":", "#{student.to_s}"], ["Nim", ":", "#{student.nim}"]]
+			table(data, position: 26, cell_style: {border_color: "FFFFFF", padding: [0,2,2,2]})
+			move_down 15
+			text "#{Prawn::Text::NBSP * 10}" + "Untuk mengadakan acara tersebut perlu adanya ruangan. Adapun acara tersebut, " +
+			"Insya Allah akan dilaksanakan pada :", align: :justify, leading: 10
+			data = [["Hari / Tanggal", ":", "#{seminar.undertake_plan.strftime('%A / %d %B %Y')}"], ["Pukul", ":", "13.00 - 14.00 WIB"], ["Tempat", ":", "Ditentukan Fakultas"]]
+			table(data, position: 26, cell_style: {border_color: "FFFFFF", padding: [0,2,2,2]})
+			move_down 15
+			text "#{Prawn::Text::NBSP * 10}" + "Demikian, atas perhatian dan kerjasamanya kami mengucapkan terimakasih.", align: :justify, leading: 10
+			text "Wassalamu'alaikum Wr. Wb"
+		end
+	end
+
+	def borrowing_local_letter_footer
+		bounding_box([0, 250], width: bounds.width, height: 150) do
+			# stroke_bounds
+			# stroke_axis 
+			bounding_box([bounds.width-200, cursor], width: 200, height: 150) do
+				text "A.n Ketua Prodi"
+				text "Sekretaris"
+				move_down 70
+				text "Hendra Bayu Suseno, M.Kom"
+				text "NIP. 198212112009121003"
+				# stroke_bounds
+			end
+		end
+	end
+
 
 	def aspects_of_assessment
 		supervisors.to_enum.with_index(1).each do |supervisor, i|
+			start_new_page if i == 1
 			text "Lembar-#{i}", align: :right, size: 10, inline_format: true
 			text "Form Penilaian Seminar Skripsi", :align => :center, :size => 14, :inline_format => true, :style => :bold
 			aspects_of_assessment_opening_part_one

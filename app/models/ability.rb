@@ -187,6 +187,7 @@ class Ability
     can [:edit_department_director_approval, :update_department_director_approval], Conference do |conference|
         conference.skripsi.student.department_id == @user.userable.department_id
     end
+    can :manage, Setting
   end
 
 end

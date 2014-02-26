@@ -8,7 +8,11 @@ bind "unix:///tmp/puma.sock"
 workers 3
 preload_app!
 on_worker_boot do
+	ActiveRecord::Base.connection_pool.disconnect!
   ActiveSupport.on_load(:active_record) do
-    ActiveRecord::Base.establish_connection
+  	if Rails.application.config.database_configuration
+  		config = Rails.application.config.database_configuration[Rails.env]
+  		ActiveRecord::Base.establish_connection(config)
+  	end
   end
 end
