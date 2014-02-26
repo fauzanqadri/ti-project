@@ -1,8 +1,7 @@
-var a = $("#supervisorWaiting").dataTable();
-var a = $("#supervisor").dataTable();
+var a = $("#conference").dataTable();
 a._fnAjaxUpdate();
-$("#supervisor-modal").modal('hide');
-$("#supervisor-modal").on('hidden.bs.modal', function(e){
+$("#seminar-modal").modal('hide');
+$("#seminar-modal").on('hidden.bs.modal', function(e){
 	$(e.target).remove();
 	$("#the-flash").append("<%= j render partial: 'layouts/shared/flash', locals: {flash: flash} %>");
 	$("#the-flash .alert").each(function(i, e){

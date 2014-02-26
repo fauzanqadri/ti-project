@@ -84,7 +84,7 @@ class Ability
     can :read, Consultation
 
     can :show, Seminar do |seminar|
-        seminar.skripsi.student_id == @user.userable_id
+        seminar.skripsi.student_id == @user.userable_id && seminar.department_director?
     end
 
     can :create, Seminar do |seminar|
@@ -157,7 +157,7 @@ class Ability
     end
 
     can :show, Seminar do |seminar|
-        seminar.skripsi.supervisors.approved_supervisors.pluck(:lecturer_id).include? @user.userable_id
+        seminar.skripsi.supervisors.approved_supervisors.pluck(:lecturer_id).include?(@user.userable_id) && seminar.department_director?
     end
     can :create, Seminar do |seminar|
         sm = Seminar.find_by_skripsi_id(seminar.skripsi_id)

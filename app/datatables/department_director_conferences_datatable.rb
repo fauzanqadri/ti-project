@@ -1,5 +1,5 @@
 class DepartmentDirectorConferencesDatatable
-	delegate :params, :link_to, :number_to_currency, :raw, :content_tag, :current_user, :can?, to: :@view
+	delegate :params, :link_to, :number_to_currency, :raw, :content_tag, :current_user, :can?, :concat, to: :@view
 	delegate :url_helpers, to: 'Rails.application.routes' 
 	def initialize view
 		@view = view
@@ -29,12 +29,30 @@ class DepartmentDirectorConferencesDatatable
 					skripsi_supervisors(conference),
 					conference.type,
 					sidang_examiners(conference),
-					conference.start.try(:to_formatted_s, :long_ordinal),
+					conference_undertake_plan(conference),
+					implementation(conference),
 					act(conference)
 				]
 			end
 		end
 		data
+	end
+
+	def conference_undertake_plan conference
+		return conference.undertake_plan.try(:to_formatted_s, :long_ordinal) if conference.type == "Seminar"
+		return "-"
+	end
+
+	def implementation conference
+		content_tag :dl do
+			concat(content_tag :dt, "Mulai")
+			concat(content_tag :dd, "#{conference.start.try(:to_formatted_s, :long_ordinal)}" )
+			concat(content_tag :dt, "Selesai")
+			concat(content_tag :dd, "#{conference.end.try(:to_formatted_s, :long_ordinal)}" )
+			concat(content_tag :dt, "Lokal")
+			concat(content_tag :dd, "#{conference.local}" )
+			
+		end
 	end
 
 	def act conference
@@ -62,12 +80,12 @@ class DepartmentDirectorConferencesDatatable
 	end
 
 	def total_records
-		conferences = Conference.by_department(current_user.userable.department_id)
+		conferences = Conference.by_department(current_user.userable.department_id).approved_supervisors
 		conferences.size
 	end
 
 	def fetch_conferences
-		conferences = Conference.includes(skripsi: {supervisors: :lecturer}).by_department(current_user.userable.department_id)
+		conferences = Conference.includes(skripsi: {supervisors: :lecturer}).by_department(current_user.userable.department_id).approved_supervisors
 		conferences = conferences.page(page).per_page(per_page)
 		if params[:sSearch].present?
 			q = params[:sSearch]

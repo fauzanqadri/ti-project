@@ -33,6 +33,7 @@ class SkripsiConferencesDatatable
 				conference.local,
 				conference.type,
 				conference.userable.to_s,
+				undertake_plan(conference),
 				status(conference),
 				act(conference)
 			]
@@ -43,11 +44,21 @@ class SkripsiConferencesDatatable
 		action = []
 		conference_path = conference.type == "Sidang" ? url_helpers.skripsi_sidang_path(skripsi, conference) : url_helpers.skripsi_seminar_path(skripsi, conference)
 		# action << raw(link_to(content_tag(:i, "", :class => "fa fa-times"), student, :class => "btn btn-xs btn-danger", method: :delete, data: {confirm: "Konfirmasi Penghapusan ?"}))
-		action << raw(link_to(content_tag(:i, "", :class => "fa fa-print"), conference_path, :class => "btn btn-xs btn-primary", remote: true))
+		if can? :show, conference
+			action << raw(link_to(content_tag(:i, "", :class => "fa fa-print"), conference_path, :class => "btn btn-xs btn-primary", remote: true))
+		end
 		content_tag :div, :class => "text-center" do
 			content_tag :div, :class => "btn-group" do
 				raw(action.join(" "))		
 			end
+		end
+	end
+
+	def undertake_plan conference
+		if conference.type == "Seminar"
+			return conference.undertake_plan.try(:to_formatted_s, :long_ordinal)
+		else
+			return "-"
 		end
 	end
 

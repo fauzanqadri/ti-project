@@ -28,7 +28,7 @@
 								%ul.dropdown-menu{role: "menu"}
 									- if can_create_seminar? @skripsi
 										%li
-											= link_to skripsi_seminars_path(@skripsi), method: :post do
+											= link_to new_skripsi_seminar_path(@skripsi), remote: true do
 												%i.fa.fa-leaf
 												Daftar Seminar
 									- if can_create_sidang? @skripsi
@@ -228,6 +228,8 @@
 												.text-center Jenis
 											%th
 												.text-center Pengaju
+											%th
+												.text-center Tanggal rencana
 											%th
 												.text-center Status
 											%th

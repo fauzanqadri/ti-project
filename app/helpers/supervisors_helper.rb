@@ -15,4 +15,10 @@ module SupervisorsHelper
 	def printed
 		"printed"
 	end
+
+	def waiting_approval_supervisors_counts
+		raise CanCan::AccessDenied unless current_user.userable_type == "Lecturer"
+		supervisors_unapprove = current_user.userable.supervisors.where{(approved == false)}
+		supervisors_unapprove.size
+	end
 end

@@ -24,13 +24,19 @@ class ConferenceLogsDatatable
 	def data
 		conference_logs.map do |conference_log|
 			[
-				conference_log.conference.skripsi.title.try(:truncate, 110).upcase,
+				conference_log.conference.skripsi.title.try(:truncate, 100).upcase,
 				conference_log.conference.skripsi.student.to_s,
+				seminar_undertake_plan(conference_log),
 				conference_log.conference.type,
 				conference_log.status,
 				act(conference_log)
 			]
 		end
+	end
+
+	def seminar_undertake_plan conference_log
+		return conference_log.conference.undertake_plan.try(:to_formatted_s, :long_ordinal) if conference_log.conference.type == "Seminar"
+		return "-"
 	end
 
 	def fetch_conference_logs

@@ -1,10 +1,10 @@
-#conference-modal.modal.fade{tabindex: "-1", role: "dialog", "aria-labelledby" => "conferenceModalLabel", "aria-hidden" => true, "data-backdrop" => "static", "data-keyboard" => "true"}
+#seminar-modal.modal.fade{tabindex: "-1", role: "dialog", "aria-labelledby" => "seminarModalLabel", "aria-hidden" => true, "data-backdrop" => "static", "data-keyboard" => "true"}
 	.modal-dialog
 		.modal-content
 			.modal-header
 				%button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
-				%h4#conferenceModalLabel.modal-title Persetujuan Akhir Seminar / Sidang
-			= form_for @seminar, url: edit_department_director_approval_skripsi_seminar_path(@skripsi, @seminar), remote: "true", html: {role: "form", class: "form-horizontal", method: :put} do |f|
+				%h4#seminarModalLabel.modal-title Pendaftaran Seminar
+			= form_for [@skripsi, @seminar], remote: "true", html: {role: "form", class: "form-horizontal"} do |f|
 				.modal-body
 					= render 'layouts/shared/errors', :object => f.object
 					.form-group
@@ -14,13 +14,6 @@
 								= f.text_field :undertake_plan, class: "form-control", placeholder: "Rencana Tanggal pelaksanaan", "data-format" => "YYYY-MM-DD"
 								%span.input-group-addon
 									%span.fa.fa-calendar
-					.form-group
-						= f.label :persetujuan_prodi, class: "col-sm-3 control-label"
-						.col-sm-9
-							.checkbox
-								%label
-									= f.check_box :department_director
-									Setujui Pengajuan Seminar
 				.modal-footer
 					%button.btn.btn-primary{type: "submit"}
 						%i.fa.fa-upload

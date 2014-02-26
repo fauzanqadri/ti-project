@@ -39,18 +39,32 @@ class SeminarsController < ApplicationController
     end
   end
 
+  def new
+    @skripsi = Skripsi.find(params[:skripsi_id])
+    @seminar = @skripsi.build_seminar
+    respond_to do |format|
+      format.js
+    end
+  end
+
   # POST /seminars
   # POST /seminars.json
   def create
     @skripsi = Skripsi.find(params[:skripsi_id])
-    @seminar = @skripsi.build_seminar
+    @seminar = @skripsi.build_seminar(register_params)
     @seminar.userable = current_user.userable
     authorize! :create, @seminar
-    if @seminar.save
-      redirect_to @skripsi, notice: 'Pendaftaran seminar berhasil dilakukan'
-    else
-      redirect_to @skripsi, alert: @seminar.errors.full_messages.join(", ")
+    respond_to do |format|
+      if @seminar.save
+        flash[:notice] = 'Pendaftaran seminar berhasil dilakukan'
+        format.js
+        format.html { redirect_to @skripsi }
+      else
+        format.js {render action: 'new'}
+        format.html { redirect_to @skripsi, alert: @seminar.errors.full_messages.join(", ") }
+      end
     end
+    
   end
 
   # PATCH/PUT /seminars/1
@@ -102,5 +116,9 @@ class SeminarsController < ApplicationController
 
     def seminar_department_director_approval_params
       params.require(:seminar).permit(:department_director, :undertake_plan)
+    end
+
+    def register_params
+      params.require(:seminar).permit(:undertake_plan)
     end
 end

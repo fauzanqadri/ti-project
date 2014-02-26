@@ -31,18 +31,21 @@ class Conference < ActiveRecord::Base
 
 	scope :by_department, ->(d_id) { joins{skripsi.student}.where{(students.department_id == d_id)} }
 	scope :by_faculty, -> (f_id) { joins{skripsi.student.department}.where{(departments.faculty_id == f.id)} }
+	scope :approved_supervisors, -> { where{(supervisor_approval == true)}}
 	scope :unapprove_department_director, -> { where{department_director == false} }
 
 	def status
-		if self.supervisor_approval == false
+		if !self.supervisor_approval?
 			havent_confirm = self.conference_logs.where{(approved == false)}.size
 			return "Menunggu persetujuan #{havent_confirm} dosen pembimbing"
+		elsif self.supervisor_approval? && !self.department_director?
+			return "Menunggu persetujuan akhir prodi"
+		elsif self.supervisor_approval? && self.department_director? && ( !self.local.present? || !self.start.present? || !self.end.present? )
+			return "Menunggu Penjadwalan"
 		else
-			if !self.local.present? || !self.start.present? || !self.end.present?
-				return "Menunggu Penjadwalan"
-			end
+			return "Disetujui"
 		end
-		return "Disetujui"
+		
 	end
 
 	private

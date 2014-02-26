@@ -1,0 +1,22 @@
+var html = "<%= j render('register') %>";
+var conferenceModal = $("#seminar-modal");
+if (conferenceModal.length == 1) {
+	conferenceModal.modal("hide");
+	conferenceModal.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		$("body").append(html);
+		$("#seminar-modal").modal({show: true});
+	});
+}else{
+	$("body").append(html);
+	$("#seminar-modal").modal({show: true});
+}
+$(".datepicker").datetimepicker({
+	language: 'id',
+	pickTime: false,
+	icons: {
+        date: "fa fa-calendar",
+        up: "fa fa-arrow-up",
+        down: "fa fa-arrow-down"
+    }
+});

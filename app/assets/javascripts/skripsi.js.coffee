@@ -8,6 +8,6 @@ $(document).ready ->
 		bInfo: false
 		aoColumnDefs: [
 			bSortable: false,
-			aTargets: [0 ,1, 2, 3, 4, 5, 6]
+			aTargets: [0 ,1, 2, 3, 4, 5, 6, 7]
 		]
 
