@@ -50,8 +50,8 @@
 						- if current_user.userable_type == "Lecturer" && current_user.userable.is_admin?
 							%li
 								= link_to conferences_path do 
-									Persetujuan Akhir Seminar / Sidang
-									%span.badge= last_conferences_agreement_counts
+									Seminar / Sidang
+									/ %span.badge= last_conferences_agreement_counts
 							%li.divider
 							%li
 								= link_to settings_path do 

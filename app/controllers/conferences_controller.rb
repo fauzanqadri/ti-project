@@ -34,10 +34,8 @@ class ConferencesController < ApplicationController
   def update
     respond_to do |format|
       if @conference.update(conference_params)
-        flash[:notice] = "Berhasil menyetujui #{@conference.type.downcase}"
         format.js
-        # format.html { redirect_to @conference, notice: 'Conference was successfully updated.' }
-        format.json { head :no_content }
+        format.json
       else
         format.js { render action: 'edit' }
         format.json { render json: @conference.errors, status: :unprocessable_entity }
@@ -58,14 +56,15 @@ class ConferencesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_conference
-      @conference = Conference.find(params[:id])
+      @conference = Conference.includes(skripsi: {supervisors: :lecturer}).find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def conference_params
-      if params[:sidang].present?
-        return params.require(:sidang).permit(:local, :start, :end, examiners_attributes: [:id, :lecturer_id])
-      end
-      return params.require(:seminar).permit(:local, :start, :end)
+      params.require(:conference).permit(:local, :start, :end, :department_director_approval, examiners_attributes: [:id, :lecturer_id])
+      # if params[:sidang].present?
+      #   return params.require(:sidang).permit(:local, :start, :end, examiners_attributes: [:id, :lecturer_id])
+      # end
+      # return params.require(:seminar).permit(:local, :start, :end, :department_director_approval)
     end
 end

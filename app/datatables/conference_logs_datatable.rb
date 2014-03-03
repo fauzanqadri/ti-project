@@ -7,7 +7,7 @@ class ConferenceLogsDatatable
 	end
 
 	def conference_logs
-		@conference_logs = fetch_conference_logs
+		@conference_logs ||= fetch_conference_logs
 	end
 
 	def as_json opt = {}
@@ -26,7 +26,10 @@ class ConferenceLogsDatatable
 			[
 				conference_log.conference.skripsi.title.try(:truncate, 100).upcase,
 				conference_log.conference.skripsi.student.to_s,
-				seminar_undertake_plan(conference_log),
+				conference_log.conference.tanggal,
+				conference_log.conference.mulai,
+				conference_log.conference.selesai,
+				conference_log.conference.local,
 				conference_log.conference.type,
 				conference_log.status,
 				act(conference_log)
@@ -34,10 +37,10 @@ class ConferenceLogsDatatable
 		end
 	end
 
-	def seminar_undertake_plan conference_log
-		return conference_log.conference.undertake_plan.try(:to_formatted_s, :long_ordinal) if conference_log.conference.type == "Seminar"
-		return "-"
-	end
+	# def seminar_undertake_plan conference_log
+	# 	return conference_log.conference.undertake_plan.try(:to_formatted_s, :long_ordinal) if conference_log.conference.type == "Seminar"
+	# 	return "-"
+	# end
 
 	def fetch_conference_logs
 		if current_user.userable_type == "Lecturer"

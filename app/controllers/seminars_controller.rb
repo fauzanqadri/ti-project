@@ -1,7 +1,7 @@
 class SeminarsController < ApplicationController
   before_action :set_seminar, only: [:show, :edit, :update, :edit_department_director_approval, :update_department_director_approval]
   load_and_authorize_resource
-  skip_load_resource only: [:create]
+  skip_load_resource only: [:new, :create]
 
   def index
     @skripsi = Skripsi.find(params[:skripsi_id])
@@ -42,6 +42,7 @@ class SeminarsController < ApplicationController
   def new
     @skripsi = Skripsi.find(params[:skripsi_id])
     @seminar = @skripsi.build_seminar
+    authorize! :create, @seminar 
     respond_to do |format|
       format.js
     end
@@ -119,6 +120,6 @@ class SeminarsController < ApplicationController
     end
 
     def register_params
-      params.require(:seminar).permit(:undertake_plan)
+      params.require(:seminar).permit(:start)
     end
 end

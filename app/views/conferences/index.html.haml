@@ -2,27 +2,14 @@
 	= javascript_include_tag "conferences", "data-turbolinks-track" => true
 
 %header
-	%h1 Persetujuan Akhir Seminar / Sidang
-
+	%h1 Seminar / Sidang
 %section
-	%table#conferences.table.table-bordered{"data-source" => "#{conferences_url(format: "json")}"}
-		%thead
-			%tr
-				%th
-					.text-center Judul Skripsi
-				%th
-					.text-center Nama Mahasiswa
-				%th
-					.text-center Pembimbing
-				%th
-					.text-center Tipe
-				%th
-					.text-center Penguji
-				%th
-					.text-center Rencana Pelaksanaan
-				%th
-					.text-center Pelaksanaan
-				%th
-					.text-center Action
-		%tbody
+	.row
+		.col-sm-8
+			#conferences
+		.col-sm-4
+			%header
+				%h3 Belum Dijadwalkan
+			%section
+				#unscheduled-conferences
 %footer

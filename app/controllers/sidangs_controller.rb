@@ -8,7 +8,14 @@ class SidangsController < ApplicationController
   def show
     respond_to do |format|
       format.js
-      format.pdf
+      format.pdf do
+        pdf = SidangShowPdf.new(view_context)
+        if params[:download]
+          send_data pdf.render, type: "application/pdf", disposition: "attachment", filename: "Laporan_Sidang.pdf"
+        else
+          send_data pdf.render, type: "application/pdf", disposition: "inline", filename: "Laporan_Sidang.pdf"
+        end
+      end
     end
   end
 

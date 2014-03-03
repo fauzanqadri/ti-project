@@ -13,6 +13,8 @@
 #  supervisor_approval :boolean          default(FALSE), not null
 #  created_at          :datetime
 #  updated_at          :datetime
+#  department_director :boolean          default(FALSE)
+#  undertake_plan      :date
 #
 
 class Sidang < Conference

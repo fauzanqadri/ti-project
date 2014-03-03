@@ -29,6 +29,6 @@ class SettingsController < ApplicationController
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def setting_params
-      params.require(:setting).permit(:supervisor_skripsi_amount, :supervisor_pkl_amount, :examiner_amount, :maximum_lecturer_lektor_skripsi_lead, :maximum_lecturer_aa_skripsi_lead, :allow_remove_supervisor_duration, :lecturer_lead_skripsi_rule, :lecturer_lead_pkl_rule, :allow_student_create_pkl, :maximum_lecturer_lektor_pkl_lead, :maximum_lecturer_aa_pkl_lead)
+      params.require(:setting).permit(:supervisor_skripsi_amount, :supervisor_pkl_amount, :examiner_amount, :maximum_lecturer_lektor_skripsi_lead, :maximum_lecturer_aa_skripsi_lead, :allow_remove_supervisor_duration, :lecturer_lead_skripsi_rule, :lecturer_lead_pkl_rule, :allow_student_create_pkl, :maximum_lecturer_lektor_pkl_lead, :maximum_lecturer_aa_pkl_lead, :department_director, :department_secretary)
     end
 end

@@ -31,7 +31,7 @@ TiProject::Application.configure do
 
   # config.threadsafe!
 
-  config.active_record.logger = ActiveSupport::Logger.new("#{Rails.root}/log/active_record.log")
+  # config.active_record.logger = ActiveSupport::Logger.new("#{Rails.root}/log/active_record.log")
   config.after_initialize do
     Bullet.enable = true
     Bullet.alert = true

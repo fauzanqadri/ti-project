@@ -1,3 +1,5 @@
+- content_for :specific_js do
+	= javascript_include_tag "settings", "data-turbolinks-track" => true
 %header
 	%h1 
 		%i.fa.fa-cogs
@@ -75,7 +77,16 @@
 						Perbolehkan
 				%span.help-block
 					Matikan Fitur ini untuk mematikan fitur manajemen pkl pada jurusan anda, mematikan fitur ini berdampak pada konfigurasi 'Jumlah Pembimbing Pkl', 'Jumlah Batas Dosen Lektor Membimbing Pkl', 'Jumlah Batas Dosen Asisten Ahli Membimbing Pkl', 'Peraturan Dosen Dalam Pembimbingan Pkl' menjadi tidak berguna
-
+		.form-group
+			= f.label :department_director, "Nama Dosen Ketua Prodi", class: "col-sm-3 control-label"
+			.col-sm-9
+				%input{type: "text", id: "department_director_name", class: "form-control", placeholder: "Nama Dosen", "data-source" => "#{search_lecturers_url}", value: "#{Lecturer.find(@setting.department_director).to_s}"}
+				= f.hidden_field :department_director
+		.form-group
+			= f.label :department_secretary, "Nama Dosen Sekertari Prodi", class: "col-sm-3 control-label"
+			.col-sm-9
+				%input{type: "text", id: "department_secretary_name", class: "form-control", placeholder: "Nama Dosen", "data-source" => "#{search_lecturers_url}", value: "#{Lecturer.find(@setting.department_secretary).to_s}"}
+				= f.hidden_field :department_secretary
 	%footer
 		.form-group
 			.col-sm-offset-3.col-sm-9

@@ -4,12 +4,11 @@ class ConsultationIndexPdf < Prawn::Document
 	def initialize(view)
 		super(:page_layout => :landscape, :page_size => "A4")
 		@view = view
-		@faculty = current_user.userable_type == "Staff" ? current_user.userable.faculty : current_user.userable.department.faculty
 		font "Times-Roman"
 		# repeat :all do
 		# 	stroke_axis 
 		# end
-		header
+		# header
 		opening
 		main_content
 		sign_mark
@@ -23,13 +22,13 @@ class ConsultationIndexPdf < Prawn::Document
 				image "#{Rails.root}/app/assets/images/uin_jkt.png", width: 65, :height => 60, at: [20, cursor]
 				text_box "UNIVERSITAS ISLAM NEGRI", size: 16, align: :center, at: [0, cursor-5]
 				text_box "SYARIF HIDAYATULLAH JAKARTA", size: 16, align: :center, at: [0, cursor-20]
-				text_box "FAKULTAS #{@faculty.name.upcase}", size: 16, align: :center, at: [0, cursor-35]
+				text_box "FAKULTAS #{faculty.name.upcase}", size: 16, align: :center, at: [0, cursor-35]
 			end
 			bounding_box([115, cursor], width: 550, height: 45) do
 				text_box "Jl. Ir. H. Juanda No. 95, Ciputat 15412, Indonesia", size: 9, at: [5, cursor-5]
 				text_box "Telp. : (62-21)7493547, 7493606 Fax. : (62-21)7493315", size: 9, at: [5, cursor-17]
 				text_box "Email : uinjkt@cabi.net.id", size: 9, at: [bounds.width.to_i-125, cursor-5]
-				text_box "Website : #{@faculty.website}", size: 9, at: [bounds.width.to_i-132, cursor-17]
+				text_box "Website : #{faculty.website}", size: 9, at: [bounds.width.to_i-132, cursor-17]
 				stroke do
 					horizontal_line 0, 525, at: cursor-30
 					horizontal_line 0, 525, at: cursor-31
@@ -39,36 +38,14 @@ class ConsultationIndexPdf < Prawn::Document
 		end
 	end
 
-	# def header
-	# 	repeat :all do
-	# 		bounding_box([0, cursor+20], width: 550, height: 60) do
-	# 			image "#{Rails.root}/app/assets/images/uin_jkt.png", width: 65, :height => 60, at: [20, cursor]
-	# 			text_box "UNIVERSITAS ISLAM NEGRI", size: 16, align: :center, at: [0, cursor-5]
-	# 			text_box "SYARIF HIDAYATULLAH JAKARTA", size: 16, align: :center, at: [0, cursor-20]
-	# 			text_box "FAKULTAS #{@faculty.name.upcase}", size: 16, align: :center, at: [0, cursor-35]
-	# 		end
-	# 		bounding_box([0, cursor], width: 550, height: 45) do
-	# 			text_box "Jl. Ir. H. Juanda No. 95, Ciputat 15412, Indonesia", size: 9, at: [5, cursor-5]
-	# 			text_box "Telp. : (62-21)7493547, 7493606 Fax. : (62-21)7493315", size: 9, at: [5, cursor-17]
-	# 			text_box "Email : uinjkt@cabi.net.id", size: 9, at: [bounds.width.to_i-125, cursor-5]
-	# 			text_box "Website : #{@faculty.website}", size: 9, at: [bounds.width.to_i-132, cursor-17]
-	# 			stroke do
-	# 				horizontal_line 0, 525, at: cursor-30
-	# 				horizontal_line 0, 525, at: cursor-31
-	# 				horizontal_line 0, 525, at: cursor-34
-	# 			end
-	# 		end
-	# 	end
-	# end
-
 	def opening
 		move_down 10
 		repeat :all do
 			text "Laporan Catatan Bimbingan", :align => :center, :size => 16, :inline_format => true, :style => :bold
 			move_down 10
 			bounding_box([20, cursor], width: bounds.width.to_i-20) do
-				text "Nama mahasiswa : <b>#{course.student.full_name}</b>", :kerning => true, :inline_format => true
-				text "Jurusan                 : <b>#{course.student.department.name}</b>", :kerning => true, :inline_format => true
+				text "Nama mahasiswa : <b>#{student.full_name}</b>", :kerning => true, :inline_format => true
+				text "Jurusan                 : <b>#{department.name}</b>", :kerning => true, :inline_format => true
 				text "Judul #{course.class}        : - ", :kerning => true, :inline_format => true
 				move_down 5
 				text "<b>#{course.title.upcase}</b>",:kerning => true, :inline_format => true, :align => :center
@@ -77,7 +54,7 @@ class ConsultationIndexPdf < Prawn::Document
 	end
 
 	def main_content
-		bounding_box([0, cursor], width: bounds.width.to_i, height: 150) do
+		bounding_box([0, cursor], width: bounds.width.to_i, height: 200) do
 			data = [["Tanggal dibuat", "Pembuat", "Status", "Konsultasi berikutnya", "Saran / Arahan", "Tandatangan Dosen"]] + consultations
 			# 765 pt
 			# -146 pt
@@ -95,8 +72,8 @@ class ConsultationIndexPdf < Prawn::Document
 				text "#{d.strftime("Jakarta, %d-%m-%Y")}"
 				text "Sekertaris Prodi,"
 				move_down 50
-				text "Nurhayati, MT"
-				text "NIP. 123456789098765432"
+				text "#{sekertaris_prodi.to_s}"
+				text "NIP. #{sekertaris_prodi.nip}"
 			end
 		end
 	end
@@ -112,6 +89,30 @@ class ConsultationIndexPdf < Prawn::Document
 
 	def consultations
 		@consultations ||= course.consultations.map{|consultation| [consultation.created_at.to_date, consultation.consultable.lecturer.to_s, consultation.consultable_type, consultation.next_consult.try(:to_formatted_s, :long_ordinal), consultation.content, ""]}
+	end
+
+	def student
+		@student ||= course.student
+	end
+
+	def department
+		@department ||= student.department
+	end
+
+	def faculty
+		@faculty ||= department.faculty
+	end
+
+	def setting
+		@setting ||= department.setting
+	end
+
+	def sekertaris_prodi
+		@sekertaris_prodi ||= Lecturer.find(setting.department_secretary)
+	end
+
+	def ketua_prodi
+		@ketua_prodi ||= Lecturer.find(setting.department_director)
 	end
 
    def stroke_axis(options={})

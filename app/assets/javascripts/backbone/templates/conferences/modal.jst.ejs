@@ -1,0 +1,49 @@
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title" id="conferenceModalLabel"><%= type %></h4>
+		</div>
+		<div class="modal-body">
+			<blockquote>
+				<p><%= skripsi.title %></p>
+				<small>
+					<cite title="Penulis">
+						<%= skripsi.student.full_name %>
+					</cite>
+					<i class="fa fa-user"></i>
+				</small>
+			</blockquote>
+			<dl class="dl-horizontal">
+				<dt>Tanggal : </dt>
+				<dd><%= tanggal %></dd>
+				<dt> Mulai : </dt>
+				<dd><%= mulai %></dd>
+				<dt>Selesai : </dt>
+				<dd><%= selesai%></dd>
+				<dt>Lokal : </dt>
+				<dd><%= local %></dd>
+				<dt>Pembimbing : </dt>
+				<dd>
+					<ol><%= skripsi.supervisors %></ol>
+				</dd>
+			</dl>
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label for="department_director_approval" class="col-sm-4 control-label">Persetujuan Jurusan</label>
+					<div class="col-sm-8">
+						<div class="checkbox">
+							<label>
+								<input name="department_director_approval" type="checkbox" <%= department_director_approval == true ? "checked" : "" %>> Setujui
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="<%= skripsi.url%>" class="btn btn-primary"><i class="fa fa-book"></i> Skripsi</a>
+			<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
+		</div>
+	</div>
+</div>

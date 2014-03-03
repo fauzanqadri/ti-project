@@ -84,21 +84,21 @@ class Ability
     can :read, Consultation
 
     can :show, Seminar do |seminar|
-        seminar.skripsi.student_id == @user.userable_id && seminar.department_director?
+        seminar.skripsi.student_id == @user.userable_id && seminar.department_director_approval?
     end
 
-    can :create, Seminar do |seminar|
+    can [:new, :create], Seminar do |seminar|
         sm = Seminar.find_by_skripsi_id(seminar.skripsi_id)
-        sm.nil?
+        sm.nil? && seminar.skripsi.student_id == @user.userable_id 
     end
 
     can :show, Sidang do |sidang|
-        sidang.skripsi.student_id == @user.userable_id
+        sidang.skripsi.student_id == @user.userable_id && sidang.department_director_approval?
     end
 
     can :create, Sidang do |sidang|
         sd = Sidang.find_by_skripsi_id(sidang.skripsi_id)
-        sd.nil?
+        sd.nil? && sidang.skripsi.student_id == @user.userable_id
     end
 
   end
@@ -157,21 +157,23 @@ class Ability
     end
 
     can :show, Seminar do |seminar|
-        seminar.skripsi.supervisors.approved_supervisors.pluck(:lecturer_id).include?(@user.userable_id) && seminar.department_director?
+        seminar.skripsi.supervisors.approved_supervisors.pluck(:lecturer_id).include?(@user.userable_id) && seminar.department_director_approval?
     end
     can :create, Seminar do |seminar|
         sm = Seminar.find_by_skripsi_id(seminar.skripsi_id)
-        sm.nil?
+        supervisors = seminar.skripsi.supervisors.approved_supervisors.pluck(:lecturer_id)
+        sm.nil? && supervisors.include?(@user.userable_id)
     end
 
     can :show, Sidang do |sidang|
-        sidang.skripsi.supervisors.approved_supervisors.pluck(:lecturer_id).include? @user.userable_id
+        sidang.skripsi.supervisors.approved_supervisors.pluck(:lecturer_id).include? @user.userable_id && sidang.department_director_approval?
         
     end
 
     can :create, Sidang do |sidang|
         sd = Sidang.find_by_skripsi_id(sidang.skripsi_id)
-        sd.nil?
+        supervisors = sidang.skripsi.supervisors.approved_supervisors.pluck(:lecturer_id)
+        sd.nil? && supervisors.include?(@user.userable_id)
     end
 
     if @user.userable.is_admin?

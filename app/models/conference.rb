@@ -13,6 +13,8 @@
 #  supervisor_approval :boolean          default(FALSE), not null
 #  created_at          :datetime
 #  updated_at          :datetime
+#  department_director :boolean          default(FALSE)
+#  undertake_plan      :date
 #
 
 class Conference < ActiveRecord::Base
@@ -38,14 +40,34 @@ class Conference < ActiveRecord::Base
 		if !self.supervisor_approval?
 			havent_confirm = self.conference_logs.where{(approved == false)}.size
 			return "Menunggu persetujuan #{havent_confirm} dosen pembimbing"
-		elsif self.supervisor_approval? && !self.department_director?
-			return "Menunggu persetujuan akhir prodi"
-		elsif self.supervisor_approval? && self.department_director? && ( !self.local.present? || !self.start.present? || !self.end.present? )
-			return "Menunggu Penjadwalan"
+		elsif !self.local?
+			return "Menunggu ruangan"
 		else
 			return "Disetujui"
 		end
 		
+	end
+
+	def tanggal
+		self.start.try(:strftime, "%A, %d %B %Y")
+	end
+
+	def mulai
+		self.start.try(:strftime, "%H:%M")
+	end
+
+	def selesai
+		self.end.try(:strftime, "%H:%M")
+	end
+
+	def color
+		if self.local? && self.department_director_approval?
+			"green"
+		elsif !self.local? && self.department_director_approval?
+			"orange"
+		else
+			"red"
+		end
 	end
 
 	private

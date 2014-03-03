@@ -13,7 +13,16 @@
 #  supervisor_approval :boolean          default(FALSE), not null
 #  created_at          :datetime
 #  updated_at          :datetime
+#  department_director :boolean          default(FALSE)
+#  undertake_plan      :date
 #
 
 class Seminar < Conference
+
+	before_create :set_seminars_durations
+	
+	private
+	def set_seminars_durations
+		self.end = self.start + 1.hour
+	end
 end

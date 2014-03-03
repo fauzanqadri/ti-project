@@ -11,10 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140225093939) do
+ActiveRecord::Schema.define(version: 20140302092128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "assessments", force: true do |t|
+    t.text     "aspect",        null: false
+    t.integer  "percentage",    null: false
+    t.string   "category",      null: false
+    t.integer  "department_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "concentrations", force: true do |t|
     t.string   "name"
@@ -37,15 +46,14 @@ ActiveRecord::Schema.define(version: 20140225093939) do
     t.string   "local"
     t.datetime "start"
     t.datetime "end"
-    t.integer  "skripsi_id",                          null: false
-    t.string   "type",                                null: false
-    t.integer  "userable_id",                         null: false
-    t.string   "userable_type",                       null: false
-    t.boolean  "supervisor_approval", default: false, null: false
+    t.integer  "skripsi_id",                                   null: false
+    t.string   "type",                                         null: false
+    t.integer  "userable_id",                                  null: false
+    t.string   "userable_type",                                null: false
+    t.boolean  "supervisor_approval",          default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "department_director", default: false
-    t.date     "undertake_plan"
+    t.boolean  "department_director_approval", default: false
   end
 
   create_table "consultations", force: true do |t|
@@ -156,6 +164,8 @@ ActiveRecord::Schema.define(version: 20140225093939) do
     t.datetime "updated_at"
     t.integer  "maximum_lecturer_lektor_pkl_lead",     default: 0,                      null: false
     t.integer  "maximum_lecturer_aa_pkl_lead",         default: 0,                      null: false
+    t.integer  "department_director"
+    t.integer  "department_secretary"
   end
 
   create_table "staffs", force: true do |t|

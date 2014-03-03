@@ -37,8 +37,24 @@ class SeminarShowPdf < Prawn::Document
 		@seminar ||= skripsi.seminar
 	end
 
+	def assessments
+		@assessments ||= department.assessments.where{(category.eq("Seminar"))}.order("percentage asc")
+	end
+
 	def supervisors
 		@supervisors ||= skripsi.supervisors
+	end
+
+	def setting
+		@setting ||= department.setting
+	end
+
+	def ketua_prodi
+		@ketua_prodi ||= Lecturer.find(setting.department_director)
+	end
+
+	def sekertaris_prodi
+		@sekertaris_prodi ||= Lecturer.find(setting.department_secretary)
 	end
 
 	def borrowing_local_letters
@@ -100,7 +116,7 @@ class SeminarShowPdf < Prawn::Document
 			move_down 15
 			text "#{Prawn::Text::NBSP * 10}" + "Untuk mengadakan acara tersebut perlu adanya ruangan. Adapun acara tersebut, " +
 			"Insya Allah akan dilaksanakan pada :", align: :justify, leading: 10
-			data = [["Hari / Tanggal", ":", "#{seminar.undertake_plan.strftime('%A / %d %B %Y')}"], ["Pukul", ":", "13.00 - 14.00 WIB"], ["Tempat", ":", "Ditentukan Fakultas"]]
+			data = [["Hari / Tanggal", ":", "#{seminar.tanggal}"], ["Pukul", ":", "#{seminar.mulai} - #{seminar.selesai} WIB"], ["Tempat", ":", "Ditentukan Fakultas"]]
 			table(data, position: 26, cell_style: {border_color: "FFFFFF", padding: [0,2,2,2]})
 			move_down 15
 			text "#{Prawn::Text::NBSP * 10}" + "Demikian, atas perhatian dan kerjasamanya kami mengucapkan terimakasih.", align: :justify, leading: 10
@@ -116,8 +132,8 @@ class SeminarShowPdf < Prawn::Document
 				text "A.n Ketua Prodi"
 				text "Sekretaris"
 				move_down 70
-				text "Hendra Bayu Suseno, M.Kom"
-				text "NIP. 198212112009121003"
+				text "#{sekertaris_prodi.to_s}"
+				text "NIP. #{sekertaris_prodi.nip}"
 				# stroke_bounds
 			end
 		end
@@ -195,7 +211,7 @@ class SeminarShowPdf < Prawn::Document
 						{content: "#{skripsi.student.to_s}", rowspan: sp_size, align: :center},
 						{content: "#{skripsi.student.nim}", rowspan: sp_size, align: :center},
 						{content: "#{skripsi.title.upcase}", rowspan: sp_size},
-						{content: "#{seminar.created_at.to_formatted_s(:long_ordinal)}", rowspan: sp_size},
+						{content: "#{seminar.tanggal}", rowspan: sp_size},
 						{content: "#{i}. #{supervisor.lecturer.to_s}"},
 						{content: ""}
 					]
@@ -236,7 +252,7 @@ class SeminarShowPdf < Prawn::Document
 				["PROGRAM STUDI", ":", "#{skripsi.student.department.name}"],
 				["JUDUL PENELITIAN", ":", {content: "#{skripsi.title}", align: :justify}],
 				["DOSEN PEMBIMBING", ":", {content: spv}],
-				["HARI/TANGGAL", ":", "#{skripsi.created_at.to_formatted_s(:long_ordinal)}"]
+				["HARI/TANGGAL", ":", "#{seminar.tanggal}"]
 			]
 			table(data,column_widths: [130], cell_style: {border_color: "FFFFFF", padding: [0,2,2,2]})
 			move_down 15
@@ -248,15 +264,8 @@ class SeminarShowPdf < Prawn::Document
 		move_down 40
 		bounding_box([0, cursor], width: bounds.width) do
 			spv = supervisors.to_enum.with_index(1).map{|s, i| "#{i}. #{s.lecturer.to_s}"}.join("\n")
-			data = [
-				["NO", "ASPEK PENILAIAN", "NILAI"],
-				["1", "Persiapan Seminar (15%)", ""],
-				["2", "Sistematika Penyajian (20%)", ""],
-				["3", "Kejelasan dalam memberikan terhadap pertanyaan, kritik, dan saran (20%)", ""],
-				["4", "Penggunaan Alat Peraga (15%)", ""],
-				["5", "Penampilan (15%)", ""],
-				["6", "Sikap dalam menyajikan argumentasi (15%)", ""]
-			]
+			assessments_data = assessments.to_enum.with_index(1).map{|assessment, i| ["#{i}", "#{assessment.aspect} (#{assessment.percentage}%)", ""]}
+			data = [["NO", "ASPEK PENILAIAN", "NILAI"]] + assessments_data
 			bounding_box([40, cursor], width: bounds.width) do
 				text "Nilai Semester Skripsi (1 SKS)", :size => 10, :inline_format => true, :style => :italic
 			end
@@ -302,7 +311,7 @@ class SeminarShowPdf < Prawn::Document
 			data = [
 				["JUDUL PENELITIAN", ":", {content: "#{skripsi.title}", align: :justify}],
 				["DOSEN PEMBIMBING", ":", {content: spv}],
-				["HARI/TANGGAL", ":", "#{skripsi.created_at.to_formatted_s(:long_ordinal)}"]
+				["HARI/TANGGAL", ":", "#{seminar.tanggal}"]
 			]
 			table(data,column_widths: [130], cell_style: {border_color: "FFFFFF", padding: [0,2,2,2]})
 			move_down 15
@@ -358,7 +367,7 @@ class SeminarShowPdf < Prawn::Document
 				["PROGRAM STUDI", ":", "#{skripsi.student.department.name}"],
 				["JUDUL PENELITIAN", ":", {content: "#{skripsi.title}", align: :justify}],
 				["DOSEN PEMBIMBING", ":", {content: spv}],
-				["HARI/TANGGAL", ":", "#{skripsi.created_at.to_formatted_s(:long_ordinal)}"]
+				["HARI/TANGGAL", ":", "#{seminar.tanggal}"]
 			]
 			table(data,column_widths: [130], cell_style: {border_color: "FFFFFF", padding: [0,2,2,2]})
 			move_down 10

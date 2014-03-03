@@ -20,6 +20,7 @@
 //= require moment
 //= require moment/id
 //= require bootstrap-datetimepicker.min
+//= require extend_date
 //= require fullcalendar
 //= require nprogress
 //= require nprogress-turbolinks

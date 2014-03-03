@@ -10,12 +10,7 @@ class DepartmentDirectorConferencesDatatable
 	end
 
 	def as_json option = {}
-		{
-			sEcho: params[:sEcho].to_i,
-			iTotalRecords: total_records,
-			iTotalDisplayRecords: conferences.size,
-			aaData: data
-		}
+		data
 	end
 
 	private
@@ -23,19 +18,31 @@ class DepartmentDirectorConferencesDatatable
 	def data
 		if current_user.userable_type == "Lecturer" && current_user.userable.is_admin?
 			data = conferences.map do |conference|
-				[
-					conference.skripsi.title.try(:truncate, 100),
-					conference.skripsi.student.full_name,
-					skripsi_supervisors(conference),
-					conference.type,
-					sidang_examiners(conference),
-					conference_undertake_plan(conference),
-					implementation(conference),
-					act(conference)
-				]
+				{
+					skripsi: {
+						title: conference.skripsi.title,
+						student: { full_name: conference.skripsi.student.full_name },
+						supervisors: supervisor(conference),
+						url: url_helpers.skripsi_path(conference.skripsi)
+					},
+					id: conference.id,
+					tanggal: conference.tanggal,
+					mulai: conference.mulai,
+					selesai: conference.selesai,
+					start: conference.start,
+					end: conference.end,
+					local: conference.local,
+					type: conference.type,
+					department_director_approval: conference.department_director_approval,
+					color: conference.color,
+				}	
 			end
 		end
 		data
+	end
+
+	def supervisor conference
+		conference.skripsi.supervisors.approved_supervisors.map{|supervisor| "<li>#{supervisor.lecturer.to_s}</li>" }.join("\n").html_safe
 	end
 
 	def conference_undertake_plan conference
@@ -86,7 +93,6 @@ class DepartmentDirectorConferencesDatatable
 
 	def fetch_conferences
 		conferences = Conference.includes(skripsi: {supervisors: :lecturer}).by_department(current_user.userable.department_id).approved_supervisors
-		conferences = conferences.page(page).per_page(per_page)
 		if params[:sSearch].present?
 			q = params[:sSearch]
 			conferences = conferences.where{(students.full_name =~ "%#{q}%")}

@@ -1,7 +1,5 @@
 TiProject::Application.routes.draw do
 
-  resources :examiners
-
   devise_for :users, :skip => [:sessions, :registrations, :password]
   devise_scope :user do
     authenticated :user do
@@ -59,12 +57,14 @@ TiProject::Application.routes.draw do
   end
   
   resource :settings, only: [:show, :update]
+  resources :assessments, except: :show
   get "/waiting_approval" => "supervisors#waiting_approval"
   # resources :conferences, except: [:new, :create, :show]
-  resources :conferences, only: :index
+  resources :conferences
   resources :conference_logs, only: [:index] do
     put '/approve', action: 'approve', on: :member
   end
+  resources :examiners
 
   # devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.

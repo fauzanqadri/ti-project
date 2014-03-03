@@ -28,12 +28,12 @@ class SkripsiConferencesDatatable
 	def data
 		conferences.map do |conference|
 			[
-				conference.start.try(:strftime, "%d-%m-%Y %I:%M"),
-				conference.end.try(:strftime, "%d-%m-%Y %I:%M"),
+				conference.tanggal,
+				conference.mulai,
+				conference.selesai,
 				conference.local,
 				conference.type,
 				conference.userable.to_s,
-				undertake_plan(conference),
 				status(conference),
 				act(conference)
 			]
