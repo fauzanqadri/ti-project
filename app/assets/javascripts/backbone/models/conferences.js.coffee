@@ -1,14 +1,14 @@
 class TiProject.Models.Conference extends Backbone.Model
+	paramRoot: 'conference'
+
+	url: =>
+		return "/conferences/" + @id
+
 	toFullJSON: =>
 		_.clone(@attributes)
 
 	toJSON: =>
-		data = _.pick(@attributes, 'start', 'end', 'local', 'department_director_approval')
-		if @attributes.type == "Sidang"
-			examiner = []
-			_.each @attributes.examiners_attributes, (item) ->
-				examiner.push(_.pick(item, 'id', 'lecturer_id'))
-				data['examiners_attributes'] = examiner
+		data = _.pick(@attributes, 'start', 'end', 'local', 'department_director_approval', 'examiners_attributes')
 		return data
 
 	toEventData: =>
@@ -30,10 +30,7 @@ class TiProject.Models.Sidang extends TiProject.Models.Conference
 	paramRoot: 'sidang'
 
 class TiProject.Collections.ConferenceCollections extends Backbone.Collection
-	model: (attr, opt)=>
-		if attr.type == "Seminar"
-			return new TiProject.Models.Seminar(attr, opt)
-		else
-			return new TiProject.Models.Sidang(attr, opt)
-		
-	url: "/conferences"
+	model: TiProject.Models.Conference
+
+	parse: (data) ->
+		return data.aaData

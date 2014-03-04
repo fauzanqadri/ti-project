@@ -51,6 +51,7 @@ TiProject::Application.routes.draw do
     resources :sidangs, except: [:index, :destroy] do
       get "edit_department_director_approval", action: "edit_department_director_approval", on: :member
       put "edit_department_director_approval", action: "update_department_director_approval", on: :member
+      resources :examiners, only: :destroy
     end
     resources :conferences, only: :index
     

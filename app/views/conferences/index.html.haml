@@ -6,10 +6,11 @@
 %section
 	.row
 		.col-sm-8
-			#conferences
+			#conferences{"data-source" => "#{conferences_path(scheduled: true)}"}
 		.col-sm-4
 			%header
 				%h3 Belum Dijadwalkan
 			%section
-				#unscheduled-conferences
+				.panel-group
+					#unscheduled-conferences{"data-source" => "#{conferences_path(use_pagination: true, scheduled: false)}"}
 %footer

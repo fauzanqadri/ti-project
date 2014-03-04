@@ -1,0 +1,66 @@
+<div class="panel-heading">
+	<h3 class="panel-title">
+		<a href="#unscheduled-<%= id %>" data-toggle="collapse">
+			<%= type %> |
+			<%= skripsi.student.full_name %>
+		</a>
+	</h3>
+</div>
+<div id="unscheduled-<%= id %>" class="panel-collapse collapse">
+	<div class="panel-body">
+		<blockquote>
+			<p><%= skripsi.title %></p>
+			<small>
+				<cite>
+					<%= skripsi.student.full_name%>
+					<i class="fa fa-user"></i>
+				</cite>
+			</small>
+			<div class="label-group">
+				<span class="label label-primary"><%= skripsi.department.name %></span>
+			</div>
+		</blockquote>
+		<dl>
+			<dt>Tanggal :</dt>
+			<dd><%= tanggal %></dd>
+			<dt>Mulai :</dt>
+			<dd><%= mulai %></dd>
+			<dt>Selesai :</dt>
+			<dd><%= selesai %></dd>
+			<dt>Lokal :</dt>
+			<dd><%= local %></dd>
+			<dt>Pembimbing :</dt>
+			<dd><ol><%= skripsi.supervisors %></ol></dd>
+		</dl>
+		<div class="form-horizontal">
+			<div class="form-group">
+				<label for="department_director_approval" class="col-sm-4 control-label">Persetujuan Jurusan</label>
+				<div class="col-sm-8">
+					<div class="checkbox">
+						<label>
+							<input name="department_director_approval" type="checkbox" <%= department_director_approval == true ? "checked" : "" %>> Setujui
+						</label>
+					</div>
+				</div>
+			</div>
+			<legend>Penguji</legend>
+			<div id="examiners">
+				<ol><%= examiners%></ol>
+				<div class="examiners-form"></div>
+			</div>
+		</div>
+	</div>
+	<div class="panel-footer">
+		<div class="pull-right">
+			<a href="<%= skripsi.url%>" class="btn btn-primary">
+				<i class="fa fa-book"></i>
+				Skripsi
+			</a>
+			<button type="button" class="btn btn-default" id="add-examiner">
+				<i class="fa fa-users"></i>
+				Tambah Penguji
+			</button>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>

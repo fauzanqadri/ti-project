@@ -7,16 +7,7 @@ class ConferencesController < ApplicationController
     respond_to do |format|
       format.html
       format.json do 
-        if params[:skripsi_id].present?
-          render json: SkripsiConferencesDatatable.new(view_context)
-        else
-          if current_user.userable_type == "Lecturer" && current_user.userable.is_admin?
-            render json: DepartmentDirectorConferencesDatatable.new(view_context)
-          elsif current_user.userable_type == "Staff"
-          else
-            raise CanCan::AccessDenied.new
-          end
-        end
+        render json: ConferencesDatatable.new(view_context)
       end
     end
   end

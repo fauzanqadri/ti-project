@@ -35,6 +35,9 @@ class Conference < ActiveRecord::Base
 	scope :by_faculty, -> (f_id) { joins{skripsi.student.department}.where{(departments.faculty_id == f.id)} }
 	scope :approved_supervisors, -> { where{(supervisor_approval == true)}}
 	scope :unapprove_department_director, -> { where{department_director == false} }
+	scope :approved_department_director, -> { where{(department_director_approval == true)} }
+	scope :scheduled, -> {where{(start != nil) | (conferences.end != nil)}}
+	scope :unscheduled, -> {where{(start == nil) | (conferences.end == nil)}}
 
 	def status
 		if !self.supervisor_approval?

@@ -38,6 +38,7 @@ TiProject::Application.configure do
     Bullet.bullet_logger = true
     Bullet.console = true
     Bullet.rails_logger = true
-    Bullet.add_whitelist :type => :n_plus_one_query, :class_name => "Conference", :association => :examiners
+    Bullet.add_whitelist :type => :unused_eager_loading, :class_name => "Sidang", :association => :userable
+    Bullet.add_whitelist :type => :unused_eager_loading, :class_name => "Seminar", :association => :userable
   end
 end

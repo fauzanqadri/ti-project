@@ -27,5 +27,6 @@ class Course < ActiveRecord::Base
 	validates :student_id, presence: true
 
 	scope :by_department, ->(id){ joins{student}.where{(student.department_id.eq(id))} }
+	scope :by_faculty, ->(f_id) { joins{student.department}.where{(departments.faculty_id == f_id)} }
 	scope :search, ->(query){joins{student.department}.joins{concentration}.where{(student.full_name =~ "%#{query}%") | (departments.name =~ "%#{query}%") | (concentration.name =~ "%#{query}%")}}
 end
