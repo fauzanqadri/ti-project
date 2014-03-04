@@ -141,7 +141,7 @@ class ConferencesDatatable
 
 		if params[:scheduled].present? && params[:scheduled] == 'true'
 			conferences = conferences.scheduled
-		else
+		elsif params[:scheduled].present? && params[:scheduled] == 'false'
 			conferences = conferences.unscheduled
 		end
 
