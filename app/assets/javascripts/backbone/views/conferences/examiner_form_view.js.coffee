@@ -2,7 +2,7 @@ TiProject.Views.Conferences ||= {}
 class TiProject.Views.Conferences.ExaminerFormView extends Backbone.View
 	template: JST["backbone/templates/conferences/examiner_form"]
 
-	className: "form-group"
+	className: "form-horizontal"
 
 	events:
 		'click #submit' : 'addExaminer'
@@ -15,12 +15,14 @@ class TiProject.Views.Conferences.ExaminerFormView extends Backbone.View
 
 	success: (conference) =>
 		delete conference.attributes['examiners_attributes']
-		@options.return_action.unscheduledConferencesAddOne(conference)
+		$("#sessionModal").modal('hide')
+		@options.return_action.reload()
 
 	render: =>
 		$(@el).html(@template())
 		examiners_name = $($(@el).find("#examiners_name")[0])
 		autoComplete = examiners_name.autocomplete(
+			appendTo: @el
 			minLength: 2
 			autoFocus: true
 			source: (req, resp) =>

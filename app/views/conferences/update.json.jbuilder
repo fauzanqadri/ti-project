@@ -15,4 +15,6 @@ def examiners conference
 	conference.examiners.includes(:lecturer).map{|examiner| ["<li>#{examiner.lecturer.to_s} | #{link_to("<i class='fa fa-trash-o'></i>".html_safe, skripsi_sidang_examiner_path(conference.skripsi, conference, examiner), class: 'btn btn-xs btn-danger', method: :delete, data: {confirm: "Konfirmasi penghapusan ?"})}</li>"]}.join("\n").html_safe
 end
 json.set! :examiners, examiners(@conference)
+json.set! :manage_department_director_approval, can?(:manage_department_director_approval, @conference)
+json.set! :manage_conference_examiners, can?(:manage_conference_examiners, @conference)
 

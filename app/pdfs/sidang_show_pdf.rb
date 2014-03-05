@@ -83,7 +83,7 @@ class SidangShowPdf < Prawn::Document
 				["JUDUL", ":", {content: "#{skripsi.title}", align: :justify}],
 				["PEMBIMBING", ":", {content: spvs}],
 				["PENGUJI", ":", {content: exms}],
-				["TANGGAL SIDANG", ":", "NOT IMPLEMENT YET"]
+				["TANGGAL SIDANG", ":", "#{sidang.tanggal}"]
 			]
 			table(data,column_widths: [130], cell_style: {border_color: "FFFFFF", padding: [0,2,2,2]})
 		end

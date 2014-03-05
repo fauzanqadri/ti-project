@@ -6,11 +6,10 @@ class TiProject.Routers.ConferencesRouter extends Backbone.Router
 	initialize: (options) ->
 		@scheduled_conferences = new TiProject.Collections.ConferenceCollections()
 		@unscheduled_conferences = new TiProject.Collections.ConferenceCollections()
-		@scheduled_conferences.url = $("#conferences").data('source')
-		@unscheduled_conferences.url = $("#unscheduled-conferences").data('source')
+		@scheduled_conferences.url = $("#conferences").data('scheduled')
+		@unscheduled_conferences.url = $("#conferences").data('unscheduled')
 
 	index: ->
-		@view = new TiProject.Views.Conferences.IndexView(scheduled_conferences: @scheduled_conferences, selector: "#conferences", unscheduled_conferences: @unscheduled_conferences)
+		@view = new TiProject.Views.Conferences.IndexView(scheduled_conferences: @scheduled_conferences, unscheduled_conferences: @unscheduled_conferences)
 		@view.render()
-		@scheduled_conferences.fetch(add: true)
-		@unscheduled_conferences.fetch(add: true)
+		@view.reload()

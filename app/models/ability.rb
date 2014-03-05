@@ -45,6 +45,9 @@ class Ability
     can :manage, Staff
     can :manage, Lecturer
     can :manage, Student
+    can :manage_seminar_scheduling, Seminar
+    can :manage_sidang_scheduling, Sidang
+    can :set_local, Conference
   end
 
   def student
@@ -186,9 +189,25 @@ class Ability
     can :show, Seminar
     can :show, Sidang
     can :update, Conference
-    can [:edit_department_director_approval, :update_department_director_approval], Conference do |conference|
+    can :manage_department_director_approval, Conference do |conference|
         conference.skripsi.student.department_id == @user.userable.department_id
     end
+    can :manage_conference_examiners, Conference do |conference|
+        if conference.type == "Sidang"
+            (conference.skripsi.student.department_id == @user.userable.department_id) && (conference.examiners.size < @user.userable.department.setting.examiner_amount)
+        else
+            false
+        end
+    end
+    # can :manage_seminar_scheduling, Seminar do |seminar|
+    #     seminar.skripsi.student.department_id == @user.userable.department_id
+    # end
+    # can :manage_sidang_scheduling, Sidang do |sidang|
+    #     sidang.skripsi.student.department_id == @user.userable.department_id
+    # end
+    # can :set_local, Conference do |conference|
+    #     conference.skripsi.student.department_id == @user.userable.department_id
+    # end
     can :manage, Setting
   end
 

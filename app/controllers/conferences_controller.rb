@@ -4,6 +4,11 @@ class ConferencesController < ApplicationController
   # GET /conferences
   # GET /conferences.json
   def index
+    if current_user.userable_type == "Student" && !params[:skripsi_id].present?
+      raise CanCan::AccessDenied.new 
+    elsif current_user.userable_type == "Lectrurer" && !current_user.userable.is_admin?
+      raise CanCan::AccessDenied.new 
+    end
     respond_to do |format|
       format.html
       format.json do 

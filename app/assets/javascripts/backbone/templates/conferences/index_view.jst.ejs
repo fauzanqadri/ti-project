@@ -1,0 +1,68 @@
+<div class="action">
+	<div class="form-inline" role="form">
+		<div class="form-group">
+
+			<div class="btn-group" data-toggle="buttons"  id="byConference" >
+				<label class="btn btn-default active">
+					<input type="radio" name="byConference" value="all"> Semua
+				</label>
+				<label class="btn btn-default">
+					<input type="radio" name="byConference" value="scheduled"> Dijadwalkan
+				</label>
+				<label class="btn btn-default">
+					<input type="radio" name="byConference" value="unscheduled"> Belum dijadwalkan
+				</label>
+			</div>
+		</div>
+		<div class="form-group">
+
+			<div class="btn-group" data-toggle="buttons" id="byType">
+				<label class="btn btn-default active">
+					<input type="radio" name="byType" value="all"> Semua
+				</label>
+				<label class="btn btn-default">
+					<input type="radio" name="byType" value="Seminar"> Seminar
+				</label>
+				<label class="btn btn-default">
+					<input type="radio" name="byType" value="Sidang"> Sidang
+				</label>
+			</div>
+		</div>
+
+			
+		<div class="form-group">
+			<label class="sr-only" for="sSearch">Search</label>
+			<input type="text" class="form-control col-xs-4" id="sSearch" name="sSearch" placeholder="Nim / Nama Mahasiswa / Judul Skripsi">
+		</div>
+		<div class="form-group pull-right" style="margin-top: 5px;">
+			<label>
+				Show 
+				<select size="1" name="iDisplayLength" id="iDisplayLength" class="form-control">
+					<option value="10" selected="selected">10</option>
+					<option value="25">25</option>
+					<option value="50">50</option>
+					<option value="100">100</option>
+				</select> 
+				entries yang belum dijadwalkan
+			</label>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>
+<hr>
+<div class="row">
+	<div class="col-sm-8">
+		<div id="scheduled-conference"></div>
+	</div>
+	<div class="col-sm-4">
+		<header>
+			<h3>Belum dijadwalkan</h3>
+		</header>
+		<section>
+			<div id="unscheduled-conference">
+			</div>
+		</section>
+		<footer><div id="paginate"></div></footer>
+		
+	</div>
+</div>

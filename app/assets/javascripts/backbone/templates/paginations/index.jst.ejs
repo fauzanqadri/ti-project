@@ -1,10 +1,17 @@
+<%
+	if(typeof cTotalRecords != 'undefined'){
+		total_records = cTotalRecords
+	} else {
+		total_records = iTotalRecords
+	}
+%>
 <% if(pages > 1){%>
 	<% if(prev) {%>
 		<li><a href="#" id="prev">&laquo; Prev</a></li>
 	<%}else{%>
 		<li class="disabled"><a>&laquo; Prev</a></li>
 	<%}%>
-	<%= range[0] %>..<%= range[1] %> of <%= cTotalRecords %>
+	<%= range[0] %>..<%= range[1] %> of <%= total_records %>
 	<% if(next) {%>
 		<li><a href="#" id="next">Next &raquo;</a></li>
 	<%}else{%>

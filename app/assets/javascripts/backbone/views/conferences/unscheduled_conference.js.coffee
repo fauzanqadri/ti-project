@@ -4,9 +4,14 @@ class TiProject.Views.Conferences.UnscheduledView extends Backbone.View
 
 	className: =>
 		if @model.attributes.department_director_approval == true
-			return "panel panel-primary"
+			klas = "panel panel-primary"
 		else
-			return "panel panel-warning"
+			klas = "panel panel-warning"
+		if @model.attributes.manage_conference_scheduling == true
+			return klas + " cool-event"
+		else
+			return klas
+		
 
 	events:
 		'click input[type="checkbox"]' : 'approve'

@@ -29,19 +29,34 @@
 				</dd>
 			</dl>
 			<div class="form-horizontal">
-				<div class="form-group">
-					<label for="department_director_approval" class="col-sm-4 control-label">Persetujuan Jurusan</label>
-					<div class="col-sm-8">
-						<div class="checkbox">
-							<label>
-								<input name="department_director_approval" type="checkbox" <%= department_director_approval == true ? "checked" : "" %>> Setujui
-							</label>
+				<% if(manage_department_director_approval == true){ %>
+					<div class="form-group">
+						<label for="department_director_approval" class="col-sm-4 control-label">Persetujuan Jurusan</label>
+						<div class="col-sm-8">
+							<div class="checkbox">
+								<label>
+									<input name="department_director_approval" type="checkbox" <%= department_director_approval == true ? "checked" : "" %>> Setujui
+								</label>
+							</div>
 						</div>
 					</div>
-				</div>
+				<% } %>
+				<% if(type == 'Sidang'){%>
+					<legend>Penguji</legend>
+					<div id="examiners">
+						<ol><%= examiners%></ol>
+						<div class="examiners-form"></div>
+					</div>
+				<% } %>
 			</div>
 		</div>
 		<div class="modal-footer">
+			<%if(manage_conference_examiners == true){%>
+				<button type="button" class="btn btn-default" id="add-examiner">
+					<i class="fa fa-users"></i>
+					Tambah Penguji
+				</button>
+			<%}%>
 			<a href="<%= skripsi.url%>" class="btn btn-primary"><i class="fa fa-book"></i> Skripsi</a>
 			<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
 		</div>
