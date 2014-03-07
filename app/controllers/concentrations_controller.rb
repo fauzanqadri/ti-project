@@ -37,7 +37,7 @@ class ConcentrationsController < ApplicationController
   # POST /concentrations.json
   def create
     @concentration = Concentration.new(concentration_params)
-    # authorize! :create, @concentration
+    authorize! :create, @concentration
     respond_to do |format|
       if @concentration.save
         flash[:notice] = 'Concentration was successfully created.'

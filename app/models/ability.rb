@@ -45,9 +45,35 @@ class Ability
     can :manage, Staff
     can :manage, Lecturer
     can :manage, Student
-    can :manage_seminar_scheduling, Seminar
-    can :manage_sidang_scheduling, Sidang
-    can :set_local, Conference
+
+    can :read, Course
+    can :read, Paper
+    can :read, Supervisor
+    can :read, Feedback
+    can :read, Consultation
+
+
+    can :manage_seminar_scheduling, Seminar do |seminar|
+        seminar.skripsi.student.department.faculty_id == @user.userable.faculty_id
+    end
+    can :manage_sidang_scheduling, Sidang do |sidang|
+        sidang.skripsi.student.department.faculty_id == @user.userable.faculty_id
+    end
+
+    can :show, Sidang do |sidang|
+        sidang.skripsi.student.department.faculty_id == @user.userable.faculty_id && sidang.department_director_approval?
+    end
+    can :show, Seminar do |seminar|
+        seminar.skripsi.student.department.faculty_id == @user.userable.faculty_id && seminar.department_director_approval?
+    end
+
+    can :set_local_sidang, Sidang do |sidang|
+        sidang.skripsi.student.department.faculty_id == @user.userable.faculty_id
+    end
+
+    can :set_local_seminar, Seminar do |seminar|
+        seminar.skripsi.student.department.faculty_id == @user.userable.faculty_id
+    end
   end
 
   def student
@@ -64,7 +90,9 @@ class Ability
     can :update, Pkl, student_id: @user.userable_id
     can :destroy, Pkl, student_id: @user.userable_id 
 
-    can :create, Paper
+    can :create, Paper do |paper|
+        paper.course.student_id == @user.userable_id
+    end
     can :read, Paper
     can :destroy, Paper
 
@@ -170,7 +198,6 @@ class Ability
 
     can :show, Sidang do |sidang|
         sidang.skripsi.supervisors.approved_supervisors.pluck(:lecturer_id).include? @user.userable_id && sidang.department_director_approval?
-        
     end
 
     can :create, Sidang do |sidang|
@@ -178,6 +205,9 @@ class Ability
         supervisors = sidang.skripsi.supervisors.approved_supervisors.pluck(:lecturer_id)
         sd.nil? && supervisors.include?(@user.userable_id)
     end
+
+    can :read, ConferenceLog
+    can :approve, ConferenceLog
 
     if @user.userable.is_admin?
         as_lecturer_admin
@@ -192,6 +222,15 @@ class Ability
     can :manage_department_director_approval, Conference do |conference|
         conference.skripsi.student.department_id == @user.userable.department_id
     end
+    
+    can :create, Examiner do |examiner|
+        examiner.sidang.skripsi.student.department_id && @user.userable.department_id && examiner.sidang.examiners.size < @user.userable.department.setting.examiner_amount
+    end
+
+    can :destroy, Examiner do |examiner|
+        examiner.sidang.skripsi.student.department_id && @user.userable.department_id
+    end
+
     can :manage_conference_examiners, Conference do |conference|
         if conference.type == "Sidang"
             (conference.skripsi.student.department_id == @user.userable.department_id) && (conference.examiners.size < @user.userable.department.setting.examiner_amount)
@@ -199,16 +238,22 @@ class Ability
             false
         end
     end
-    # can :manage_seminar_scheduling, Seminar do |seminar|
-    #     seminar.skripsi.student.department_id == @user.userable.department_id
-    # end
-    # can :manage_sidang_scheduling, Sidang do |sidang|
-    #     sidang.skripsi.student.department_id == @user.userable.department_id
-    # end
-    # can :set_local, Conference do |conference|
-    #     conference.skripsi.student.department_id == @user.userable.department_id
-    # end
+
+    can :manage, Examiner
+    can :manage_seminar_scheduling, Seminar do |seminar|
+        seminar.skripsi.student.department_id == @user.userable.department_id && @user.userable.department.director_manage_seminar_scheduling?
+    end
+    can :manage_sidang_scheduling, Sidang do |sidang|
+        sidang.skripsi.student.department_id == @user.userable.department_id && @user.userable.department.director_manage_sidang_scheduling?
+    end
+    can :set_local_sidang, Sidang do |sidang|
+        sidang.skripsi.student.department_id == @user.userable.department_id && @user.userable.department.director_set_local_sidang?
+    end
+    can :set_local_seminar, Seminar do |seminar|
+        seminar.skripsi.student.department_id == @user.userable.department_id && @user.userable.department.director_set_local_seminar?
+    end
     can :manage, Setting
+    can :manage, Assessment
   end
 
 end

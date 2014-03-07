@@ -58,6 +58,7 @@ class TiProject.Collections.ConferenceCollections extends Backbone.Collection
 		options or (options = {})
 		data = (options.data or {})
 		params = 
+			# add: true
 			reset: true
 			data: $.param({
 				sEcho: @sEcho,

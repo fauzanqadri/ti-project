@@ -1,5 +1,7 @@
 class AssessmentsController < ApplicationController
   before_action :set_department, except: :index
+  load_and_authorize_resource
+  skip_load_resource only: [:create]
 
   # GET /assessments
   # GET /assessments.json
@@ -30,6 +32,7 @@ class AssessmentsController < ApplicationController
   # POST /assessments.json
   def create
     @assessment = @department.assessments.build(assessment_params)
+    authorize! :create, @assessment
     respond_to do |format|
       if @assessment.save
         flash[:notice] = 'Aspek Penilaian berhasil ditambahkan' 

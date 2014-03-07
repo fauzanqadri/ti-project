@@ -3,13 +3,14 @@ class TiProject.Views.Conferences.IndexView extends Backbone.View
 	template: JST["backbone/templates/conferences/index_view"]
 
 	events:
-		'keyup #sSearch' : "filter"
-		'change #byType input': 'filter'
+		'keyup #sSearch' : "reload"
+		'change #byType input': 'reload'
 		"change #iDisplayLength" : 'changeLength'
 
 	initialize: () ->
 		@options.scheduled_conferences.bind('reset', @addAll)
 		@options.unscheduled_conferences.bind('reset', @unscheduledConferencesAddAll)
+		@options.unscheduled_conferences.bind('reset', @rerenderUnscheduledConferences)
 
 	addAll: () =>
 		$("#scheduled-conference").fullCalendar('removeEvents')
@@ -20,16 +21,20 @@ class TiProject.Views.Conferences.IndexView extends Backbone.View
 		$("#scheduled-conference").fullCalendar('renderEvent', item.toEventData(), true)
 
 	unscheduledConferencesAddAll: () =>
-		$("#unscheduled-conference").empty()
+		$("#unscheduled-conference .panel").each (i, e)->
+			$(this).delay(i*1000).slideUp "fast", =>
+				$(this).remove()
 		@options.unscheduled_conferences.each(@unscheduledConferencesAddOne)
 		pagination = new TiProject.Views.Paginations.IndexView(page_info: @options.unscheduled_conferences.page_info(), return_action: this)
 		$("#paginate").append(pagination.render().el)
 
 	unscheduledConferencesAddOne: (item) =>
-		$($("#unscheduled-conference .panel").data("eventObject", item.id)).slideUp "slow", () ->
-			$(this).remove()
 		unscheduledConferencesView = new TiProject.Views.Conferences.UnscheduledView({model: item, return_action: this})
-		$(unscheduledConferencesView.render().el).hide().appendTo("#unscheduled-conference").slideDown('slow')
+		$(unscheduledConferencesView.render().el).hide().appendTo("#unscheduled-conference")
+
+	rerenderUnscheduledConferences: =>
+		$("#unscheduled-conference .panel").each (i, e)->
+			$(this).delay(i*1000).slideDown("fast")
 
 	eventResizeDrop: (evt) =>
 		model = @options.scheduled_conferences.get(evt.id)
@@ -53,57 +58,26 @@ class TiProject.Views.Conferences.IndexView extends Backbone.View
 			success: @extSuccess
 		)
 
+	buildParams: ()=>
+		type = $("#byType input[type=\"radio\"]:checked").val()
+		iDisplayLength = $("#iDisplayLength").val()
+		query = $("#sSearch").val()
+		params =
+			byType: type
+			iDisplayLength: iDisplayLength
+
+		if sSearch
+			_.extend(params, {sSearch: query})
+		return params
+
+
 	extSuccess: (item) =>
 		$($("#unscheduled-conference .panel").data("eventObject", item.id)).remove()
-		type = $("#byType input[type=\"radio\"]:checked").val()
-		iDisplayLength = $("#iDisplayLength").val()
-		query = $("#sSearch").val()
-		params =
-			byType: type
-			iDisplayLength: iDisplayLength
-		if sSearch
-			_.extend(params, {sSearch: query})
-		@options.scheduled_conferences.buildRequest(params)
-		@options.scheduled_conferences.fetch()
-		iDisplayLength = $("#iDisplayLength").val()
-		_.extend(params, {iDisplayLength: iDisplayLength})
-		@options.unscheduled_conferences.buildRequest(params)
-		@options.unscheduled_conferences.fetch()
-
-	filter: =>
-		type = $("#byType input[type=\"radio\"]:checked").val()
-		query = $("#sSearch").val()
-		iDisplayLength = $("#iDisplayLength").val()
-		params =
-			byType: type
-			iDisplayLength: iDisplayLength
-		if sSearch
-			_.extend(params, {sSearch: query})
-
-		if @theConference() instanceof Array
-			i = 0
-			while i < @theConference().length
-				@theConference()[i].buildRequest(params)
-				@theConference()[i].fetch()
-				i++
-		else
-			@theConference().buildRequest(params)
-			@theConference().fetch()
+		@reload()
 
 	changeLength: =>
-		type = $("#byType input[type=\"radio\"]:checked").val()
-		iDisplayLength = $("#iDisplayLength").val()
-		query = $("#sSearch").val()
-		params =
-			byType: type
-			iDisplayLength: iDisplayLength
-
-		if sSearch
-			_.extend(params, {sSearch: query})
-
-		@options.unscheduled_conferences.buildRequest(params)
+		@options.unscheduled_conferences.buildRequest(@buildParams())
 		@options.unscheduled_conferences.fetch()
-
 
 	theConference: =>
 		conferencesType = $("#byConference input[type=\"radio\"]:checked").val()
@@ -115,24 +89,16 @@ class TiProject.Views.Conferences.IndexView extends Backbone.View
 			return [@options.scheduled_conferences, @options.unscheduled_conferences]
 
 	reload: =>
-		type = $("#byType input[type=\"radio\"]:checked").val()
-		query = $("#sSearch").val()
-		iDisplayLength = $("#iDisplayLength").val()
-		params =
-			byType: type
-			iDisplayLength: iDisplayLength
-		if sSearch
-			_.extend(params, {sSearch: query})
-
 		if @theConference() instanceof Array
 			i = 0
 			while i < @theConference().length
-				@theConference()[i].buildRequest(params)
+				@theConference()[i].buildRequest(@buildParams())
 				@theConference()[i].fetch()
 				i++
 		else
-			@theConference().buildRequest(params)
+			@theConference().buildRequest(@buildParams())
 			@theConference().fetch()
+	
 	next: () =>
 		@options.unscheduled_conferences.nextPage()
 

@@ -95,7 +95,7 @@ class ConferencesDatatable
 				manage_department_director_approval: can?(:manage_department_director_approval, conference),
 				manage_conference_examiners: can?(:manage_conference_examiners, conference),
 				manage_conference_scheduling: scheduling_conference(conference),
-				set_local_conference: can?(:set_local_conference, conference)
+				set_local_conference: set_local_conference(conference)
 			}	
 		end
 	end
@@ -112,7 +112,17 @@ class ConferencesDatatable
 
 	def examiners conference
 		return nil if conference.type == "Seminar"
-		conference.examiners.includes(:lecturer).map{|examiner| ["<li>#{examiner.lecturer.to_s} | #{link_to("<i class='fa fa-trash-o'></i>".html_safe, url_helpers.skripsi_sidang_examiner_path(conference.skripsi, conference, examiner), class: 'btn btn-xs btn-danger', method: :delete, data: {confirm: "Konfirmasi penghapusan ?"})}</li>"]}.join("\n").html_safe
+		exms = []
+		conference.examiners.includes(:lecturer).each do |examiner|
+			lecturer_name = "#{examiner.lecturer.to_s}"
+			delete_link = if can? :manage, Examiner
+				" | #{link_to("<i class='fa fa-trash-o'></i> Hapus".html_safe, url_helpers.skripsi_sidang_examiner_path(conference.skripsi, conference, examiner), method: :delete, data: {confirm: "Konfirmasi penghapusan ?"})}".html_safe
+			else
+				""
+			end
+			exms << "<li>#{lecturer_name}#{delete_link}</li>".html_safe
+		end
+		exms.join("\n")
 	end
 
 	def scheduling_conference conference
@@ -121,6 +131,19 @@ class ConferencesDatatable
 		else
 			return can?(:manage_seminar_scheduling, conference)
 		end
+	end
+
+	def set_local_conference conference
+		if conference.type == "Sidang"
+			return can?(:set_local_sidang, conference)
+		else
+			return can?(:set_local_seminar, conference)
+		end
+	end
+
+	def destroy_examiner conference, examiner
+		return false if conference.type == "Seminar"
+		can?(:destroy, examiner)
 	end
 
 	def act conference

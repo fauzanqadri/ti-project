@@ -15,8 +15,7 @@ class TiProject.Views.Conferences.ExaminerFormView extends Backbone.View
 
 	success: (conference) =>
 		delete conference.attributes['examiners_attributes']
-		$("#sessionModal").modal('hide')
-		@options.return_action.reload()
+		@options.return_action.success(conference)
 
 	render: =>
 		$(@el).html(@template())

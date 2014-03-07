@@ -41,6 +41,19 @@
 						</div>
 					</div>
 				<% } %>
+				<% if(set_local_conference == true){ %>
+					<div class="form-group">
+						<label for="local" class="col-sm-3 control-label">Lokal</label>
+						<div class="col-sm-8">
+							<div class="input-group">
+								<input type="text" name="local" id="local" class="form-control" placeholder="local" value="<%= local %>">
+								<span class="input-group-btn">
+									<button type="button" id="set-local" class="btn btn-primary"><i class="fa fa-upload"></i></button>
+								</span>
+							</div>
+						</div>
+					</div>
+				<% } %>
 				<% if(type == 'Sidang'){%>
 					<legend>Penguji</legend>
 					<div id="examiners">

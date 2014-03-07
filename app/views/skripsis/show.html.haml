@@ -171,9 +171,10 @@
 									.col-sm-6
 										.pull-right
 											.action{style: "margin-top: 20px;"}
-												= link_to new_skripsi_feedback_path(@skripsi), class: "btn btn-default", remote: true do
-													%i.fa.fa-comment
-													Tambah Feedback
+												- if can_create_feedback? @skripsi
+													= link_to new_skripsi_feedback_path(@skripsi), class: "btn btn-default", remote: true do
+														%i.fa.fa-comment
+														Tambah Feedback
 						#consultations.tab-pane.fade
 							%header
 								.row

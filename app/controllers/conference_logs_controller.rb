@@ -1,4 +1,6 @@
 class ConferenceLogsController < ApplicationController
+  load_and_authorize_resource
+  skip_load_resource only: [:approve]
 
   # GET /conference_logs
   # GET /conference_logs.json
@@ -12,6 +14,7 @@ class ConferenceLogsController < ApplicationController
 
   def approve
     @conference_log = ConferenceLog.find(params[:id])
+    authorize! :approve, @conference_log
     if @conference_log.approve?
       redirect_to conference_logs_url, notice: "Berhasil menyetujui permohonan pendaftaran #{@conference_log.conference.type}"
     else

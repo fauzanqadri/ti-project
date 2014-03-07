@@ -16,6 +16,43 @@
             = f.label :website, class: "col-sm-3 control-label"
             .col-sm-9
               = f.text_field :website, class: "form-control", placeholder: "http://example.com"
+          .form-group
+            = f.label :director_manage_seminar_scheduling, "Panjadwalan Seminar", class: "col-sm-3 control-label"
+            .col-sm-9
+              .checkbox
+                %label
+                  = f.check_box :director_manage_seminar_scheduling
+                  Perbolehkan
+              %span.help-block
+                Perbolehkan ketua prodi untuk mengatur jadwal seminar skripsi mahasiswa
+          .form-group
+            = f.label :director_manage_sidang_scheduling, "Penjadwalan Sidang", class: "col-sm-3 control-label"
+            .col-sm-9
+              .checkbox
+                %label
+                  = f.check_box :director_manage_sidang_scheduling
+                  Perbolehkan
+              %span.help-block
+                Perbolehkan ketua prodi untuk mengatur jadwal sidang skripsi mahasiswa
+          .form-group
+            = f.label :director_set_local_seminar, "Pengaturan Lokal Seminar", class: "col-sm-3 control-label"
+            .col-sm-9
+              .checkbox
+                %label
+                  = f.check_box :director_set_local_seminar
+                  Perbolehkan
+              %span.help-block
+                Perbolehkan ketua prodi untuk mengatur lokal seminar skripsi mahasiswa
+          .fotm-group
+            = f.label :director_set_local_sidang, "Pengaturan Lokal Sidang", class: "col-sm-3 control-label"
+            .col-sm-9
+              .checkbox
+                %label
+                  = f.check_box :director_set_local_sidang
+                  Perbolehkan
+              %span.help-block
+                Perbolehkan ketua prodi untuk mengatur lokal sidang skripsi mahasiswa
+          .clearfix
         .modal-footer
           %button.btn.btn-primary{type: "submit"}
             %i.fa.fa-upload

@@ -13,30 +13,30 @@
 					= link_to authenticated_root_path do
 						%i.fa.fa-home
 						Dashboard
-				- if can? :manage, Faculty
-					%li
-						= link_to "Fakultas", faculties_path
-				- if can? :manage, Department
-					%li
-						= link_to "Jurusan", departments_path
-				- if can? :manage, Concentration
-					%li
-						= link_to "Konsentrasi", concentrations_path
-				- if can? :manage, Staff
-					%li
-						= link_to "Staff", staffs_path
-				- if can? :manage, Student
-					%li
-						= link_to "Mahasiswa", students_path
-				- if can? :manage, Lecturer
-					%li
-						= link_to "Dosen", lecturers_path
 				%li.dropdown
 					= link_to "#", class: "dropdown-toggle", "data-toggle" => "dropdown" do
 						%i.fa.fa-list-ol
 						Menu
 						%span.caret
 					%ul.dropdown-menu
+						- if can? :manage, Faculty
+							%li
+								= link_to "Fakultas", faculties_path
+						- if can? :manage, Department
+							%li
+								= link_to "Jurusan", departments_path
+						- if can? :manage, Concentration
+							%li
+								= link_to "Konsentrasi", concentrations_path
+						- if can? :manage, Staff
+							%li
+								= link_to "Staff", staffs_path
+						- if can? :manage, Student
+							%li
+								= link_to "Mahasiswa", students_path
+						- if can? :manage, Lecturer
+							%li
+								= link_to "Dosen", lecturers_path
 						- if can? :waiting_approval, Supervisor
 							%li
 								= link_to waiting_approval_path do
@@ -47,11 +47,13 @@
 								= link_to conference_logs_path do
 									Persetujuan Seminar / Sidang
 									%span.badge= conference_logs_count
-						- if current_user.userable_type == "Lecturer" && current_user.userable.is_admin?
+						- if (current_user.userable_type == "Lecturer" && current_user.userable.is_admin?) || current_user.userable_type == "Staff"
+							%li.divider
 							%li
 								= link_to conferences_path do 
 									Seminar / Sidang
 									/ %span.badge= last_conferences_agreement_counts
+						- if current_user.userable_type == "Lecturer" && current_user.userable.is_admin?
 							%li.divider
 							%li
 								= link_to settings_path do 

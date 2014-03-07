@@ -8,6 +8,7 @@ class TiProject.Views.Conferences.ModalView extends Backbone.View
 	events:
 		'click input[type="checkbox"]' : 'approve'
 		'click #add-examiner' : 'addExaminer'
+		'click #set-local'	: 'setLocal'
 
 	approve: (e) =>
 		if @model.attributes.department_director_approval == true
@@ -17,10 +18,17 @@ class TiProject.Views.Conferences.ModalView extends Backbone.View
 
 		@model.set({department_director_approval: status}).save null,
 			success: @success
+
 	addExaminer: (e) =>
 		$("#examiners .examiners-form").empty()
-		add_examiner_view = new TiProject.Views.Conferences.ExaminerFormView({model: @model, return_action: @options.return_action})
+		add_examiner_view = new TiProject.Views.Conferences.ExaminerFormView({model: @model, return_action: this})
 		$(add_examiner_view.render().el).hide().appendTo("#examiners .examiners-form").fadeIn("slow")
+
+	setLocal: (e) =>
+		local = $("#local").val()
+		if local
+			@model.set({local: local}).save null,
+				success: @success
 
 	success: (conference) =>
 		$(@el).modal('hide')

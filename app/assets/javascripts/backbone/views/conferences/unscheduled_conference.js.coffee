@@ -15,8 +15,7 @@ class TiProject.Views.Conferences.UnscheduledView extends Backbone.View
 
 	events:
 		'click input[type="checkbox"]' : 'approve'
-		'click #add-examiner' : 'addExaminer'
-		
+		'click #add-examiner' : 'addExaminer'		
 
 	initialize: () ->
 		$(@el).data('eventObject', @model.id)
@@ -30,11 +29,15 @@ class TiProject.Views.Conferences.UnscheduledView extends Backbone.View
 			success: @success
 
 	success: (conference) =>
-		@options.return_action.unscheduledConferencesAddOne(conference)
+		@model = conference
+		$(@el).slideUp 'slow', =>
+			$(@el).remove()
+			@options.return_action.unscheduledConferencesAddOne(@model)
+			@options.return_action.rerenderUnscheduledConferences()
 
 	addExaminer: (e) =>
 		$("#examiners .examiners-form").empty()
-		add_examiner_view = new TiProject.Views.Conferences.ExaminerFormView({model: @model, return_action: @options.return_action})
+		add_examiner_view = new TiProject.Views.Conferences.ExaminerFormView({model: @model, return_action: this})
 		$(add_examiner_view.render().el).hide().appendTo("#examiners .examiners-form").fadeIn("slow")
 
 	render: =>

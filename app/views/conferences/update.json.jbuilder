@@ -12,7 +12,18 @@ json.skripsi do |json|
 end
 def examiners conference
 	return nil if conference.type == "Seminar"
-	conference.examiners.includes(:lecturer).map{|examiner| ["<li>#{examiner.lecturer.to_s} | #{link_to("<i class='fa fa-trash-o'></i>".html_safe, skripsi_sidang_examiner_path(conference.skripsi, conference, examiner), class: 'btn btn-xs btn-danger', method: :delete, data: {confirm: "Konfirmasi penghapusan ?"})}</li>"]}.join("\n").html_safe
+	exms = []
+	conference.examiners.includes(:lecturer).each do |examiner|
+		lecturer_name = "#{examiner.lecturer.to_s}"
+		delete_link = if can? :manage, Examiner
+			" | #{link_to("<i class='fa fa-trash-o'></i> Hapus".html_safe, skripsi_sidang_examiner_path(conference.skripsi, conference, examiner), method: :delete, data: {confirm: "Konfirmasi penghapusan ?"})}".html_safe
+		else
+			""
+		end
+		exms << "<li>#{lecturer_name}#{delete_link}</li>".html_safe
+	end
+	# conference.examiners.includes(:lecturer).map{|examiner| ["<li>#{examiner.lecturer.to_s} | #{link_to("<i class='fa fa-trash-o'></i>".html_safe, skripsi_sidang_examiner_path(conference.skripsi, conference, examiner), class: 'btn btn-xs btn-danger', method: :delete, data: {confirm: "Konfirmasi penghapusan ?"})}</li>"]}.join("\n").html_safe
+	exms.join("\n")
 end
 json.set! :examiners, examiners(@conference)
 json.set! :manage_department_director_approval, can?(:manage_department_director_approval, @conference)

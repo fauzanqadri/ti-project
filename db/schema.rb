@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140302092128) do
+ActiveRecord::Schema.define(version: 20140306061038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,12 +81,16 @@ ActiveRecord::Schema.define(version: 20140302092128) do
   create_table "departments", force: true do |t|
     t.string   "name"
     t.text     "website"
-    t.integer  "faculty_id",                       null: false
-    t.integer  "students_count",       default: 0
-    t.integer  "lecturers_count",      default: 0
+    t.integer  "faculty_id",                                         null: false
+    t.integer  "students_count",                     default: 0
+    t.integer  "lecturers_count",                    default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "concentrations_count", default: 0
+    t.integer  "concentrations_count",               default: 0
+    t.boolean  "director_manage_seminar_scheduling", default: true,  null: false
+    t.boolean  "director_manage_sidang_scheduling",  default: false, null: false
+    t.boolean  "director_set_local_seminar",         default: false, null: false
+    t.boolean  "director_set_local_sidang",          default: false, null: false
   end
 
   add_index "departments", ["faculty_id"], name: "index_departments_on_faculty_id", using: :btree
