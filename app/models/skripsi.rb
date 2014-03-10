@@ -12,6 +12,7 @@
 #  created_at        :datetime
 #  updated_at        :datetime
 #  feedbacks_count   :integer          default(0), not null
+#  is_finish         :boolean          default(FALSE)
 #
 
 class Skripsi < Course

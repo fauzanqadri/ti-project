@@ -18,41 +18,60 @@ class Supervisor < ActiveRecord::Base
 	belongs_to :userable, :polymorphic => true
 	has_many :consultations, as: :consultable, dependent: :destroy
 	has_many :conference_logs, dependent: :destroy
+	has_one :surcease, as: :provenable, dependent: :destroy
 	validates_presence_of :course_id, :lecturer_id
 	validates :lecturer_id, uniqueness: {scope: :course_id, message: "Telah menjadi / ditugaskan sebagai pembimbing pada skripsi / pkl ini"} 
 	validate :lecturer_lead_coures_rule, :supervisor_course_amount, :maximum_lecturer_course_lead
 	before_save :set_approval
 	
-	after_save :update_lecturer_counter_cache
-	after_save :update_course_counter_cache
-	after_destroy :update_lecturer_counter_cache
-	after_destroy :update_course_counter_cache
+	
+	after_save :create_surcease_course
+
+	after_save :increment_lecturer_counter_cache
+	after_destroy :decrement_lecturer_counter_cache
+	after_save :increment_course_counter_cache
+	after_destroy :decrement_course_counter_cache 
 
 	scope :approved_supervisors, -> {where{(approved == true)} }
 	default_scope {order('created_at asc')}
 
 	private
-	def update_lecturer_counter_cache
-		l_id = self.lecturer_id
-		supervisors = Supervisor.where{(approved == true) & (lecturer_id == l_id)}
-		self.lecturer.supervisors_count = supervisors.count
+	def increment_lecturer_counter_cache
+		Lecturer.increment_counter(:supervisors_count, self.lecturer_id)
 		if self.course.class == Skripsi
-			self.lecturer.supervisors_skripsi_count += 1 if self.approved? && self.persisted?
-			self.lecturer.supervisors_skripsi_count -= 1 unless self.persisted?
+			Lecturer.increment_counter(:supervisors_skripsi_count, self.lecturer_id) if self.approved?
+			Lecturer.decrement_counter(:supervisors_skripsi_count, self.lecturer_id) if self.approved_changed? && !self.approved?
 		else
-			self.lecturer.supervisors_pkl_count += 1 if self.approved? && self.persisted?
-			self.lecturer.supervisors_pkl_count -= 1 unless self.persisted?
+			Lecturer.increment_counter(:supervisors_pkl_count, self.lecturer_id) if self.approved?
+			Lecturer.decrement_counter(:supervisors_pkl_count, self.lecturer_id) if self.approved_changed? && !self.approved?
 		end
-		self.lecturer.save
 	end
 
-	def update_course_counter_cache
-		if self.approved? && self.persisted?
-			self.course.supervisors_count += 1
-			self.course.save
+	def decrement_lecturer_counter_cache
+		Lecturer.decrement_counter(:supervisors_count, self.lecturer_id)
+		if self.course.class == Skripsi
+			Lecturer.decrement_counter(:supervisors_skripsi_count, self.lecturer_id) if self.approved?
 		else
-			self.course.supervisors_count -= 1
-			self.course.save
+			Lecturer.decrement_counter(:supervisors_pkl_count, self.lecturer_id) if self.approved?
+		end
+	end
+
+	def increment_course_counter_cache
+		Course.increment_counter(:supervisors_count, self.course_id) if self.approved?
+		Course.decrement_counter(:supervisors_count, self.course_id) if self.approved_changed? && !self.approved?
+	end
+
+	def decrement_course_counter_cache
+		Course.decrement_counter(:supervisors_count, self.course_id) if self.approved?
+	end
+
+	def create_surcease_course
+		if !self.surcease && self.approved?
+			crs_id = self.course_id
+			src = self.build_surcease(course_id: crs_id)
+			src.save
+		elsif self.surcease && !self.approved?
+			self.surcease.destroy
 		end
 	end
 
@@ -128,6 +147,6 @@ class Supervisor < ActiveRecord::Base
 		else
 			department_lecturer_lead_course_rule = self.course.student.department.setting.lecturer_lead_pkl_rule
 		end
-		errors.add(:lecturer_id, "Level dosen belum terpenuhi untuk melakakukan pembimbingan skripsi / pkl ini") unless rules_check?(department_lecturer_lead_course_rule)
+		errors.add(:lecturer_id, "Persyaratan peraturan level dosen belum terpenuhi untuk melakakukan pembimbingan skripsi / pkl ini") if !rules_check?(department_lecturer_lead_course_rule) && self.approved?
 	end
 end

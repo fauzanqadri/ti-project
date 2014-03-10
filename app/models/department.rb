@@ -2,15 +2,19 @@
 #
 # Table name: departments
 #
-#  id                   :integer          not null, primary key
-#  name                 :string(255)
-#  website              :text
-#  faculty_id           :integer          not null
-#  students_count       :integer          default(0)
-#  lecturers_count      :integer          default(0)
-#  created_at           :datetime
-#  updated_at           :datetime
-#  concentrations_count :integer          default(0)
+#  id                                 :integer          not null, primary key
+#  name                               :string(255)
+#  website                            :text
+#  faculty_id                         :integer          not null
+#  students_count                     :integer          default(0)
+#  lecturers_count                    :integer          default(0)
+#  created_at                         :datetime
+#  updated_at                         :datetime
+#  concentrations_count               :integer          default(0)
+#  director_manage_seminar_scheduling :boolean          default(TRUE), not null
+#  director_manage_sidang_scheduling  :boolean          default(FALSE), not null
+#  director_set_local_seminar         :boolean          default(FALSE), not null
+#  director_set_local_sidang          :boolean          default(FALSE), not null
 #
 
 class Department < ActiveRecord::Base

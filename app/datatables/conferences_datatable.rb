@@ -37,12 +37,14 @@ class ConferencesDatatable
 	end
 
 	def as_json opt = {}
-		{
-			sEcho: params[:sEcho].to_i,
+		echo = params[:datatable_format].present? && params[:datatable_format]  == 'true' ? page : params[:sEcho].to_i,
+		res = {
+			sEcho: echo,
 			iTotalRecords: total_records.size,
 			iTotalDisplayRecords: conferences.total_entries,
 			aaData: data
 		}
+		res
 	end
 
 
@@ -162,19 +164,13 @@ class ConferencesDatatable
 	def total_records
 		if params[:skripsi_id].present?
 			conferences = skripsi.conferences.includes(:userable, skripsi: [{supervisors: :lecturer}, :student])
-		end
-
-		if current_user.userable_type == "Lecturer"
-			conferences = Conference.includes(:userable, skripsi: [{supervisors: :lecturer}, :student]).by_department(department.id).approved_supervisors
-		elsif current_user.userable_type == "Staff"
-			f_id = faculty.id
-			conferences = Conference.includes(:userable, skripsi: [{supervisors: :lecturer}, :student]).by_faculty(f_id).approved_supervisors.approved_department_director
-		end
-
-		if params[:use_pagination].present? && params[:use_pagination] == 'true'
-			conferences = conferences.page(page).per_page(per_page)
-		elsif params[:use_pagination].present? && params[:use_pagination] == 'false'
-			conferences = conferences.page(1).per_page()
+		else
+			if current_user.userable_type == "Lecturer"
+				conferences = Conference.includes(:userable, skripsi: [{supervisors: :lecturer}, :student]).by_department(department.id).approved_supervisors
+			elsif current_user.userable_type == "Staff"
+				f_id = faculty.id
+				conferences = Conference.includes(:userable, skripsi: [{supervisors: :lecturer}, :student]).by_faculty(f_id).approved_supervisors.approved_department_director
+			end
 		end
 
 		if params[:scheduled].present? && params[:scheduled] == 'true'

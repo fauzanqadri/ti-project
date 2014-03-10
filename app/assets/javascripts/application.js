@@ -15,7 +15,11 @@
 //= require turbolinks
 //= require jquery_ujs
 //= require jquery.remotipart
-//= require jquery.ui.all
+//= require jquery.ui.draggable
+//= require jquery.ui.droppable
+//= require jquery.ui.resizable
+//= require jquery.ui.selectable
+//= require jquery.ui.autocomplete
 //= require twitter/bootstrap
 //= require moment
 //= require moment/id

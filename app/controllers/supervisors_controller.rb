@@ -44,7 +44,7 @@ class SupervisorsController < ApplicationController
   def destroy
     @supervisor.destroy
     respond_to do |format|
-      format.html { redirect_to authenticated_root_url }
+      format.html { redirect_to @course }
       format.json { head :no_content }
     end
   end

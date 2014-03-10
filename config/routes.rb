@@ -38,7 +38,7 @@ TiProject::Application.routes.draw do
     resources :papers, except: [:edit, :update]
     resources :supervisors, except: [:edit, :update, :show] do
       post '/become_supervisor', action: "become_supervisor", on: :collection
-      get 'approve', action: "approve", on: :member
+      post 'approve', action: "approve", on: :member
     end
     resources :feedbacks, except: [:edit, :update, :show]
     resources :consultations, except: :show
@@ -65,7 +65,16 @@ TiProject::Application.routes.draw do
   resources :conference_logs, only: [:index] do
     put '/approve', action: 'approve', on: :member
   end
-  resources :examiners
+  # resources :examiners
+  resources :surceases, only: :index do
+    post '/approve', action: 'approve', on: :member
+    post '/disapprove', action: 'disapprove', on: :member
+  end
+
+  get '/published_courses' => 'static_pages#published_courses'
+  get '/get_faculties' => 'static_pages#get_faculties'
+  get '/get_departments/:faculty_id' => 'static_pages#get_departments'
+  get '/get_concentrations/:department_id' => 'static_pages#get_concentrations'
 
   # devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.

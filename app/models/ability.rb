@@ -209,6 +209,8 @@ class Ability
     can :read, ConferenceLog
     can :approve, ConferenceLog
 
+    can :manage, Surcease
+
     if @user.userable.is_admin?
         as_lecturer_admin
     end

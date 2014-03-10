@@ -109,7 +109,6 @@ class TiProject.Views.Conferences.IndexView extends Backbone.View
 		html = $(@el).html(@template())
 		$(html).appendTo("#conferences")
 		$("#scheduled-conference").fullCalendar(
-			weekends: false
 			header: 
 				left: 'prev,next today'
 				center: 'title'

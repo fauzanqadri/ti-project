@@ -2,14 +2,13 @@
 #
 # Table name: assessments
 #
-#  id         :integer          not null, primary key
-#  aspect     :text             not null
-#  percentage :integer          not null
-#  category   :string(255)      not null
-#  version    :integer          default(1), not null
-#  setting_id :integer          not null
-#  created_at :datetime
-#  updated_at :datetime
+#  id            :integer          not null, primary key
+#  aspect        :text             not null
+#  percentage    :integer          not null
+#  category      :string(255)      not null
+#  department_id :integer          not null
+#  created_at    :datetime
+#  updated_at    :datetime
 #
 
 class Assessment < ActiveRecord::Base

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140306061038) do
+ActiveRecord::Schema.define(version: 20140307112755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,15 +67,16 @@ ActiveRecord::Schema.define(version: 20140306061038) do
   end
 
   create_table "courses", force: true do |t|
-    t.string   "title",             default: "", null: false
+    t.string   "title",             default: "",    null: false
     t.text     "description"
     t.integer  "concentration_id"
-    t.integer  "student_id",                     null: false
-    t.string   "type",              default: "", null: false
-    t.integer  "supervisors_count", default: 0,  null: false
+    t.integer  "student_id",                        null: false
+    t.string   "type",              default: "",    null: false
+    t.integer  "supervisors_count", default: 0,     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "feedbacks_count",   default: 0,  null: false
+    t.integer  "feedbacks_count",   default: 0,     null: false
+    t.boolean  "is_finish",         default: false
   end
 
   create_table "departments", force: true do |t|
@@ -206,6 +207,15 @@ ActiveRecord::Schema.define(version: 20140306061038) do
     t.boolean  "approved",      default: false, null: false
     t.string   "userable_type", default: "",    null: false
     t.integer  "userable_id",                   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "surceases", force: true do |t|
+    t.integer  "course_id",                       null: false
+    t.string   "provenable_type",                 null: false
+    t.integer  "provenable_id",                   null: false
+    t.boolean  "is_finish",       default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

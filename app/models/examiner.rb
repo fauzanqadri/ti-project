@@ -12,5 +12,19 @@
 class Examiner < ActiveRecord::Base
 	belongs_to :sidang
 	belongs_to :lecturer
+	has_one :surcease, as: :provenable, dependent: :destroy
 	validates :lecturer_id, presence: true
+	after_save :create_surcease_course
+
+	private
+
+	def create_surcease_course
+		if !self.surcease
+			crs_id = self.sidang.skripsi.id
+			src = self.build_surcease(course_id: crs_id)
+			src.save
+		end
+	end
+
+
 end

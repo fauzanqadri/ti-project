@@ -1,6 +1,7 @@
 var a = $("#supervisorWaiting").dataTable();
-var a = $("#supervisor").dataTable();
+var b = $("#supervisor").dataTable();
 a._fnAjaxUpdate();
+b._fnAjaxUpdate();
 $("#supervisor-modal").modal('hide');
 $("#supervisor-modal").on('hidden.bs.modal', function(e){
 	$(e.target).remove();

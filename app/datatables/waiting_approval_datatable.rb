@@ -38,7 +38,7 @@ class WaitingApprovalDatatable
 		supervisor_path = course.type == "Skripsi" ? url_helpers.skripsi_supervisor_path(course, supervisor) : url_helpers.pkl_supervisor_path(course, supervisor)
 		approve_path = course.type == "Skripsi" ? url_helpers.approve_skripsi_supervisor_path(course, supervisor) : url_helpers.approve_pkl_supervisor_path(course, supervisor)
 		action = []
-		action << raw(link_to(content_tag(:i, "", :class => "fa fa-check"), approve_path, :class => "btn btn-xs btn-success", data: {confirm: "Konfirmasi Persetujuan ?"}))
+		action << raw(link_to(content_tag(:i, "", :class => "fa fa-check"), approve_path, :class => "btn btn-xs btn-success", method: :post, data: {confirm: "Konfirmasi Persetujuan ?"}))
 		action << raw(link_to(content_tag(:i, "", :class => "fa fa-times"), supervisor_path, method: :delete, :class => "btn btn-xs btn-danger", data: {confirm: "Konfirmasi Penolakan ? "}))
 		action << raw(link_to content_tag(:i, "", :class => "fa fa-eye"), course, class: "btn btn-default btn-xs" )
 		content_tag :div, :class => "text-center" do

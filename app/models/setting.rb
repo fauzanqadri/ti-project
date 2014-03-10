@@ -17,6 +17,8 @@
 #  updated_at                           :datetime
 #  maximum_lecturer_lektor_pkl_lead     :integer          default(0), not null
 #  maximum_lecturer_aa_pkl_lead         :integer          default(0), not null
+#  department_director                  :integer
+#  department_secretary                 :integer
 #
 
 class Setting < ActiveRecord::Base

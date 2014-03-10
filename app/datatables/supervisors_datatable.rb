@@ -37,7 +37,7 @@ class SupervisorsDatatable
 		action = []
 
 		if can? :approve, supervisor
-			action << raw(link_to(content_tag(:i, "", :class => "fa fa-check"), approve_path, :class => "btn btn-xs btn-success", data: {confirm: "Konfirmasi Persetujuan ?"}))
+			action << raw(link_to(content_tag(:i, "", :class => "fa fa-check"), approve_path, :class => "btn btn-xs btn-success", method: :post, data: {confirm: "Konfirmasi Persetujuan ?"}))
 		end
 
 		if can? :destroy, supervisor
