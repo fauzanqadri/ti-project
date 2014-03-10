@@ -1,27 +1,15 @@
 class ConferencesController < ApplicationController
   before_action :set_conference, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
 
   # GET /conferences
   # GET /conferences.json
   def index
-    if current_user.userable_type == "Student" && !params[:skripsi_id].present?
-      raise CanCan::AccessDenied.new 
-    elsif current_user.userable_type == "Lectrurer" && !current_user.userable.is_admin?
-      raise CanCan::AccessDenied.new 
-    end
     respond_to do |format|
       format.html
       format.json do 
         render json: ConferencesDatatable.new(view_context)
       end
-    end
-  end
-
-
-  # GET /conferences/1/edit
-  def edit
-    respond_to do |format|
-      format.js
     end
   end
 
@@ -39,13 +27,12 @@ class ConferencesController < ApplicationController
     end
   end
 
-  # DELETE /conferences/1
-  # DELETE /conferences/1.json
-  def destroy
-    @conference.destroy
+  def unmanaged_conferences
     respond_to do |format|
-      format.html { redirect_to conferences_url }
-      format.json { head :no_content }
+      format.html
+      format.json do 
+        render json: UnmanagedConferencesDatatable.new(view_context)
+      end
     end
   end
 

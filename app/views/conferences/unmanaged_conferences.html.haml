@@ -1,0 +1,7 @@
+- content_for :specific_js do
+	= javascript_include_tag "conferences", "data-turbolinks-track" => true
+%header
+	%h1 Seminar / Sidang
+%section
+	#conferences{"data-scheduled" => "#{unmanaged_conferences_path(scheduled: true)}", "data-unscheduled" => "#{unmanaged_conferences_path(use_pagination: true, scheduled: false)}"}
+%footer

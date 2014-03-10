@@ -6,7 +6,7 @@ class ExaminersController < ApplicationController
   def destroy
     @examiner.destroy
     respond_to do |format|
-      format.html { redirect_to conferences_url }
+      format.html { redirect_to unmanaged_conferences_url }
       format.json { head :no_content }
     end
   end

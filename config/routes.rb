@@ -61,7 +61,6 @@ TiProject::Application.routes.draw do
   resources :assessments, except: :show
   get "/waiting_approval" => "supervisors#waiting_approval"
   # resources :conferences, except: [:new, :create, :show]
-  resources :conferences
   resources :conference_logs, only: [:index] do
     put '/approve', action: 'approve', on: :member
   end
@@ -70,11 +69,14 @@ TiProject::Application.routes.draw do
     post '/approve', action: 'approve', on: :member
     post '/disapprove', action: 'disapprove', on: :member
   end
-
+  
+  resources :conferences, only: :update
+  get '/unmanaged_conferences' => 'conferences#unmanaged_conferences'
   get '/published_courses' => 'static_pages#published_courses'
   get '/get_faculties' => 'static_pages#get_faculties'
   get '/get_departments/:faculty_id' => 'static_pages#get_departments'
   get '/get_concentrations/:department_id' => 'static_pages#get_concentrations'
+
 
   # devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.

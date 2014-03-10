@@ -57,7 +57,7 @@
 								- if (current_user.userable_type == "Lecturer" && current_user.userable.is_admin?) || current_user.userable_type == "Staff"
 									%li.divider
 									%li
-										= link_to conferences_path do 
+										= link_to unmanaged_conferences_path do 
 											Seminar / Sidang
 											/ %span.badge= last_conferences_agreement_counts
 								- if current_user.userable_type == "Lecturer" && current_user.userable.is_admin?

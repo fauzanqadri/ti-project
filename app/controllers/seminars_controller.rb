@@ -3,18 +3,6 @@ class SeminarsController < ApplicationController
   load_and_authorize_resource
   skip_load_resource only: [:new, :create]
 
-  def index
-    @skripsi = Skripsi.find(params[:skripsi_id])
-    @seminar = @skripsi.seminar
-    respond_to do |format|
-      format.js
-      format.pdf do
-        pdf = SeminarShowPdf.new(view_context)
-        send_data pdf.render, type: "application/pdf", disposition: "inline", filename: "Laporan_Seminar.pdf"
-      end
-    end
-  end
-
   # GET /seminars/1
   # GET /seminars/1.json
   def show
