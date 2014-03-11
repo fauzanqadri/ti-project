@@ -1,5 +1,6 @@
 class PklsController < ApplicationController
   before_action :set_pkl, only: [:show, :edit, :update, :destroy]
+  skip_before_filter :authenticate_user!, only: :show
   load_and_authorize_resource
   skip_load_resource only: [:create]
   # GET /pkls/1

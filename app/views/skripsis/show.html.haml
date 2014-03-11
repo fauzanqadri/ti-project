@@ -8,38 +8,39 @@
 				%i.fa.fa-book
 				Skripsi
 		.col-md-6
-			.pull-right
-				.action{style: "margin-top: 15px;"}
-					.btn-group.btn-lg
-						- if can_become_supervisor? @skripsi
-							= link_to become_supervisor_skripsi_supervisors_path(@skripsi), class: "btn btn-success btn-lg", method: :post, data: {confirm: "Konfirmasi Pembimbing ?"} do
-								%i.fa.fa-gavel
-								Bimbing
-						- if can? :edit, @skripsi
-							= link_to edit_skripsi_path(@skripsi), class: "btn btn-primary btn-lg", remote: true do
-								%i.fa.fa-edit
-								Edit
-						- if can_create_seminar?(@skripsi) || can_create_sidang?(@skripsi)
-							.btn-group
-								%button.btn.btn-info.btn-lg.dropdown-toggle{"data-toggle" => "dropdown", type: "button"}
+			- if user_signed_in?
+				.pull-right
+					.action{style: "margin-top: 15px;"}
+						.btn-group.btn-lg
+							- if can_become_supervisor?(@skripsi)
+								= link_to become_supervisor_skripsi_supervisors_path(@skripsi), class: "btn btn-success btn-lg", method: :post, data: {confirm: "Konfirmasi Pembimbing ?"} do
 									%i.fa.fa-gavel
-									Seminar / Sidang
-									%span.caret
-								%ul.dropdown-menu{role: "menu"}
-									- if can_create_seminar? @skripsi
-										%li
-											= link_to new_skripsi_seminar_path(@skripsi), remote: true do
-												%i.fa.fa-leaf
-												Daftar Seminar
-									- if can_create_sidang? @skripsi
-										%li
-											= link_to skripsi_sidangs_path(@skripsi), method: :post do
-												%i.fa.fa-gavel
-												Daftar Sidang
-						- if can? :destroy, @skripsi
-							= link_to @skripsi, class: "btn btn-danger btn-lg", method: :delete, data: {confirm: "Konfirmasi Penghapusan ? "} do
-								%i.fa.fa-trash-o
-								Hapus
+									Bimbing
+							- if can? :edit, @skripsi
+								= link_to edit_skripsi_path(@skripsi), class: "btn btn-primary btn-lg", remote: true do
+									%i.fa.fa-edit
+									Edit
+							- if can_create_seminar?(@skripsi) || can_create_sidang?(@skripsi)
+								.btn-group
+									%button.btn.btn-info.btn-lg.dropdown-toggle{"data-toggle" => "dropdown", type: "button"}
+										%i.fa.fa-gavel
+										Seminar / Sidang
+										%span.caret
+									%ul.dropdown-menu{role: "menu"}
+										- if can_create_seminar? @skripsi
+											%li
+												= link_to new_skripsi_seminar_path(@skripsi), remote: true do
+													%i.fa.fa-leaf
+													Daftar Seminar
+										- if can_create_sidang? @skripsi
+											%li
+												= link_to skripsi_sidangs_path(@skripsi), method: :post do
+													%i.fa.fa-gavel
+													Daftar Sidang
+							- if can? :destroy, @skripsi
+								= link_to @skripsi, class: "btn btn-danger btn-lg", method: :delete, data: {confirm: "Konfirmasi Penghapusan ? "} do
+									%i.fa.fa-trash-o
+									Hapus
 %section
 	.row
 		.col-sm-4
@@ -125,7 +126,7 @@
 									%tbody
 				%footer
 					.pull-right
-						- if can_create_supervisor? @skripsi
+						- if user_signed_in? && can_create_supervisor?(@skripsi)
 							= link_to new_skripsi_supervisor_path(@skripsi), class: "btn btn-primary", remote: true do
 								%i.fa.fa-group
 								Assign Dosen
@@ -171,7 +172,7 @@
 									.col-sm-6
 										.pull-right
 											.action{style: "margin-top: 20px;"}
-												- if can_create_feedback? @skripsi
+												- if user_signed_in?() && can_create_feedback?(@skripsi)
 													= link_to new_skripsi_feedback_path(@skripsi), class: "btn btn-default", remote: true do
 														%i.fa.fa-comment
 														Tambah Feedback
@@ -185,7 +186,7 @@
 									.col-sm-6
 										.pull-right
 											.action{style: "margin-top: 20px;"}
-												- if can_create_consultation? @skripsi
+												- if user_signed_in? && can_create_consultation?(@skripsi)
 													= link_to new_skripsi_consultation_path(@skripsi), class: "btn btn-default", remote: true do
 														%i.fa.fa-upload
 														Buat baru

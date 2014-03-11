@@ -1,4 +1,5 @@
 class ConferencesController < ApplicationController
+  skip_before_filter :authenticate_user!, only: :index
   before_action :set_conference, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
 

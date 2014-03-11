@@ -40,7 +40,7 @@ class Ability
 			consultation.course.is_finish?
 		end
 
-		can :read, Conference do |conference|
+		can :index, Conference do |conference|
 			conference.skripsi.is_finish?
 		end
 	end

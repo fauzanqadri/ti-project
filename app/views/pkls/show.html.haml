@@ -7,21 +7,22 @@
 				%i.fa.fa-file
 				Pkl
 		.col-md-6
-			.pull-right
-				.action{style: "margin-top: 15px;"}
-					.btn-group
-						- if can_become_supervisor? @pkl
-							= link_to become_supervisor_pkl_supervisors_path(@pkl), class: "btn btn-success btn-lg", method: :post, data: {confirm: "Konfirmasi Pembimbing ?"} do
-								%i.fa.fa-gavel
-								Bimbing
-						- if can? :edit, @pkl
-							= link_to edit_pkl_path(@pkl), class: "btn btn-primary btn-lg", remote: true do
-								%i.fa.fa-edit
-								Edit
-						- if can? :destroy, @pkl
-							= link_to @pkl, class: "btn btn-danger btn-lg", method: :delete, data: {confirm: "Konfirmasi Penghapusan ? "} do
-								%i.fa.fa-trash-o
-								Hapus
+			- if user_signed_in?
+				.pull-right
+					.action{style: "margin-top: 15px;"}
+						.btn-group
+							- if can_become_supervisor? @pkl
+								= link_to become_supervisor_pkl_supervisors_path(@pkl), class: "btn btn-success btn-lg", method: :post, data: {confirm: "Konfirmasi Pembimbing ?"} do
+									%i.fa.fa-gavel
+									Bimbing
+							- if can? :edit, @pkl
+								= link_to edit_pkl_path(@pkl), class: "btn btn-primary btn-lg", remote: true do
+									%i.fa.fa-edit
+									Edit
+							- if can? :destroy, @pkl
+								= link_to @pkl, class: "btn btn-danger btn-lg", method: :delete, data: {confirm: "Konfirmasi Penghapusan ? "} do
+									%i.fa.fa-trash-o
+									Hapus
 %section
 	.row
 		.col-sm-4
@@ -107,7 +108,7 @@
 									%tbody
 				%footer
 					.pull-right
-						- if can_create_supervisor? @pkl
+						- if user_signed_in? && can_create_supervisor?(@pkl)
 							= link_to new_pkl_supervisor_path(@pkl), class: "btn btn-primary", remote: true do
 								%i.fa.fa-group
 								Assign Dosen
@@ -162,7 +163,7 @@
 									.col-sm-6
 										.pull-right
 											.action{style: "margin-top: 20px;"}
-												- if can_create_consultation? @pkl
+												- if user_signed_in? && can_create_consultation?(@pkl)
 													= link_to new_pkl_consultation_path(@pkl), class: "btn btn-default", remote: true do
 														%i.fa.fa-upload
 														Buat baru

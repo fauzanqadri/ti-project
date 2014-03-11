@@ -27,13 +27,7 @@ class ConferencesDatatable
 	end
 
 	def skripsi
-		if current_user.userable_type == "Student"
-			@skripsi ||= userable.skripsis.find(params[:skripsi_id])
-		elsif current_user.userable_type == "Lecturer"
-			@skripsi ||= Skripsi.by_department(department.id).find(params[:skripsi_id])
-		else
-			@skripsi ||= Skripsi.by_faculty(faculty.id).find(params[:skripsi_id])
-		end
+		@skripsi ||= Skripsi.find(params[:skripsi_id])
 	end
 
 	def as_json opt = {}

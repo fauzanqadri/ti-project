@@ -1,4 +1,5 @@
 class FeedbacksController < ApplicationController
+  skip_before_filter :authenticate_user!, only: :index
   before_action :set_feedback, only: :destroy
   load_and_authorize_resource
   skip_load_resource only: [:create, :new]

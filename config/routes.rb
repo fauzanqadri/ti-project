@@ -28,7 +28,7 @@ TiProject::Application.routes.draw do
     resources :papers, except: [:edit, :update]
     resources :supervisors, except: [:edit, :update, :show] do
       post '/become_supervisor', action: "become_supervisor", on: :collection
-      get 'approve', action: "approve", on: :member
+      post 'approve', action: "approve", on: :member
     end
     resources :feedbacks, except: [:edit, :update, :show]
     resources :consultations, except: :show
