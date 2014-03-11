@@ -1,7 +1,7 @@
-working_directory "/vagrant"
-pid "/vagrant/tmp/pids/unicorn.pid"
-stderr_path "/vagrant/log/unicorn.log"
-stdout_path "/vagrant/log/unicorn.log"
+working_directory "/Volumes/Projects/Ruby/rails/ti-project"
+pid "/Volumes/Projects/Ruby/rails/ti-project/tmp/pids/unicorn.pid"
+stderr_path "/Volumes/Projects/Ruby/rails/ti-project/log/unicorn.log"
+stdout_path "/Volumes/Projects/Ruby/rails/ti-project/log/unicorn.log"
 
 listen "/tmp/unicorn.ti_project.sock", :backlog => 64
 worker_processes 4
