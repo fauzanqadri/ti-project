@@ -52,7 +52,7 @@ class PublishedCoursesDatatable
 	end
 
 	def total_records
-		courses = Course.is_finish
+		courses = Course.includes(:concentration, student: {department: :faculty}).is_finish
 		if params[:byType].present? && params[:byType] != "all"
 			query = params[:byType]
 			courses = courses.by_type(query)
