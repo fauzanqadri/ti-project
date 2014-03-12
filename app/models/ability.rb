@@ -77,6 +77,10 @@ class Ability
 			conference.skripsi.student.department.faculty_id == @user.userable.faculty_id || conference.skripsi.is_finish?
 		end
 
+		can :update, Conference do |conference|
+			conference.skripsi.student.department.faculty_id == @user.userable.faculty_id
+		end
+
 		can :unmanaged_conferences, Conference
 
 		can :manage_seminar_scheduling, Seminar do |seminar|
@@ -151,7 +155,7 @@ class Ability
 
 		can :read, Consultation
 
-		can :read, Conference do |conference|
+		can :index, Conference do |conference|
 			conference.skripsi.student.department_id == @user.userable.department_id || conference.skripsi.is_finish?
 		end
 
@@ -227,7 +231,7 @@ class Ability
 			supervisors_id.include?(consultable_id)
 		end
 
-		can :read, Conference do |conference|
+		can :index, Conference do |conference|
 			conference.skripsi.student.department_id == @user.userable.department_id || conference.skripsi.is_finish?
 		end
 
@@ -266,7 +270,9 @@ class Ability
 		can :show, Sidang
 
 		can :unmanaged_conferences, Conference
-		can :update, Conference
+		can :update, Conference do |conference|
+			conference.skripsi.student.department_id == @user.userable.department_id
+		end
 
 		can :manage_department_director_approval, Conference do |conference|
 			conference.skripsi.student.department_id == @user.userable.department_id
@@ -304,5 +310,10 @@ class Ability
 		can :manage, Setting
 		can :manage, Assessment
 	end
+
+	# def checking_settings
+	# 	setting = @user.userable.department.setting
+	# 	raise Exceptions::SettingsRequired.new if (setting.department_director.nil? || setting.department_director.blank?) || (setting.department_secretary.nil? || setting.department_secretary.blank?)
+	# end
 
 end

@@ -1,4 +1,6 @@
 class SupervisorsController < ApplicationController
+  skip_before_filter :checking_setting!, only: :index
+  skip_before_filter :checking_assessment!, only: :index
   skip_before_filter :authenticate_user!, only: :index
   before_action :set_supervisor, only: [:destroy, :approve]
   load_and_authorize_resource

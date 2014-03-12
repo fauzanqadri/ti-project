@@ -70,12 +70,18 @@ TiProject::Application.routes.draw do
     post '/disapprove', action: 'disapprove', on: :member
   end
   
-  resources :conferences, only: :update
+  resources :conferences, only: [:edit, :update]
   get '/unmanaged_conferences' => 'conferences#unmanaged_conferences'
   get '/published_courses' => 'static_pages#published_courses'
   get '/get_faculties' => 'static_pages#get_faculties'
   get '/get_departments/:faculty_id' => 'static_pages#get_departments'
   get '/get_concentrations/:department_id' => 'static_pages#get_concentrations'
+  get '/profile' => 'static_pages#profile'
+  put '/profile' => 'static_pages#update_profile'
+  get '/account' => 'static_pages#account'
+  put '/account' => 'static_pages#update_account'
+  get '/password' => 'static_pages#password'
+  put '/password' => 'static_pages#update_password'
 
 
   # devise_for :users

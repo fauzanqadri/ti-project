@@ -1,0 +1,24 @@
+#account-modal.modal.fade{tabindex: "-1", role: "dialog", "aria-labelledby" => "accountModalLabel", "aria-hidden" => true, "data-backdrop" => "static", "data-keyboard" => "true"}
+	.modal-dialog
+		.modal-content
+			.modal-header
+				%button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
+				%h4#accountModalLabel.modal-title Account
+			= form_for account, url: account_path, remote: "true", method: :put, html: {role: "form", class: "form-horizontal"} do |f|
+				.modal-body
+					= render 'layouts/shared/errors', :object => f.object
+					.form-group
+						= f.label :email, class: "col-sm-3 control-label"
+						.col-sm-9
+							= f.email_field :email, class: "form-control", placeholder: "example@mail.me"
+					.form-group
+						= f.label :username, class: "col-sm-3 control-label"
+						.col-sm-9
+							= f.text_field :username, class: "form-control", placeholder: "Username"
+				.modal-footer
+					%button.btn.btn-primary{type: "submit"}
+						%i.fa.fa-upload
+						Simpan
+					%button.btn.btn-default{type: "button", "data-dismiss" => "modal"}
+						%i.fa.fa-times
+						Cencel

@@ -1,4 +1,6 @@
 class AssessmentsController < ApplicationController
+  skip_before_filter :checking_setting!
+  skip_before_filter :checking_assessment!
   before_action :set_department, except: :index
   load_and_authorize_resource
   skip_load_resource only: [:create]

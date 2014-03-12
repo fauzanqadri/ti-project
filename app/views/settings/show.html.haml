@@ -80,12 +80,12 @@
 		.form-group
 			= f.label :department_director, "Nama Dosen Ketua Prodi", class: "col-sm-3 control-label"
 			.col-sm-9
-				%input{type: "text", id: "department_director_name", class: "form-control", placeholder: "Nama Dosen", "data-source" => "#{search_lecturers_url}", value: "#{Lecturer.find(@setting.department_director).to_s}"}
+				%input{type: "text", id: "department_director_name", class: "form-control", placeholder: "Nama Dosen", "data-source" => "#{search_lecturers_url}", value: "#{setting_department_director_name(@setting.department_director)}"}
 				= f.hidden_field :department_director
 		.form-group
 			= f.label :department_secretary, "Nama Dosen Sekertari Prodi", class: "col-sm-3 control-label"
 			.col-sm-9
-				%input{type: "text", id: "department_secretary_name", class: "form-control", placeholder: "Nama Dosen", "data-source" => "#{search_lecturers_url}", value: "#{Lecturer.find(@setting.department_secretary).to_s}"}
+				%input{type: "text", id: "department_secretary_name", class: "form-control", placeholder: "Nama Dosen", "data-source" => "#{search_lecturers_url}", value: "#{setting_department_director_name(@setting.department_secretary)}"}
 				= f.hidden_field :department_secretary
 	%footer
 		.form-group

@@ -1,0 +1,32 @@
+#user-profile-modal.modal.fade{tabindex: "-1", role: "dialog", "aria-labelledby" => "staffProfileModalLabel", "aria-hidden" => true, "data-backdrop" => "static", "data-keyboard" => "true"}
+	.modal-dialog
+		.modal-content
+			.modal-header
+				%button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
+				%h4#staffProfileModalLabel.modal-title Profile Staff
+			= form_for user, url: profile_path, remote: "true", method: :put, html: {role: "form", class: "form-horizontal"} do |f|
+				.modal-body
+					= render 'layouts/shared/errors', :object => f.object
+					.form-group
+						= f.label :full_name, "Nama Lengkap", class: "col-sm-3 control-label"
+						.col-sm-9
+							= f.text_field :full_name, class: "form-control", placeholder: "Nama Lengkap"
+					.form-group
+						= f.label :address, "Alamat",class: "col-sm-3 control-label"
+						.col-sm-9
+							= f.text_area :address, class: "form-control", placeholder: "Alamat..."
+					.fom-group
+						= f.label :born, "Tanggal Lahir", class: "col-sm-3 control-label"
+						.col-sm-9
+							.input-group.date.datepicker
+								= f.text_field :born, class: "form-control", placeholder: "Tanggal Lahir", "data-format" => "YYYY-MM-DD"
+								%span.input-group-addon
+									%span.fa.fa-calendar
+					.clearfix
+				.modal-footer
+					%button.btn.btn-primary{type: "submit"}
+						%i.fa.fa-upload
+						Simpan
+					%button.btn.btn-default{type: "button", "data-dismiss" => "modal"}
+						%i.fa.fa-times
+						Cencel

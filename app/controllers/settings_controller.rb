@@ -1,4 +1,6 @@
 class SettingsController < ApplicationController
+  skip_before_filter :checking_setting!
+  skip_before_filter :checking_assessment!
   before_action :set_department
   load_and_authorize_resource
   # GET /settings

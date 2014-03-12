@@ -73,7 +73,7 @@ class SidangShowPdf < Prawn::Document
 
 	def aspects_of_assessment_opening
 		spvs = supervisors.to_enum.with_index(1).map{|supervisor, i| ["#{i}. #{supervisor.lecturer.to_s}"] }.join("\n")
-		exms = examiners.to_enum.with_index(1).map{|examiner, i| ["#{i}.#{examiner.try(:lecturer).try(:to_s)}"]}.join("\n")
+		exms = examiners.to_enum.with_index(1).map{|examiner, i| ["#{i}. #{examiner.try(:lecturer).try(:to_s)}"]}.join("\n")
 		move_down 50
 		bounding_box([0, cursor], width: bounds.width) do
 			data = [
@@ -143,7 +143,7 @@ class SidangShowPdf < Prawn::Document
 				["NIM", ":", "#{skripsi.student.nim}"], 
 				["PROGRAM STUDI", ":", "#{skripsi.student.department.name}"],
 				["JUDUL", ":", {content: "#{skripsi.title}", align: :justify}],
-				["TANGGAL", ":", "NOT IMPLEMENT YET"],
+				["TANGGAL", ":", "#{sidang.tanggal}"],
 				["PEROLEHAN NILAI", ":", ""]
 			]
 			table(data,column_widths: [130], cell_style: {border_color: "FFFFFF", padding: [0,2,2,2]})

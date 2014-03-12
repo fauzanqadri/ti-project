@@ -1,4 +1,6 @@
 class LecturersController < ApplicationController
+  skip_before_filter :checking_setting!
+  skip_before_filter :checking_assessment!
   before_action :set_lecturer, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
   skip_load_resource only: [:create]
@@ -99,6 +101,6 @@ class LecturersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def lecturer_params
-      params.require(:lecturer).permit(:nip, :nid, :full_name, :address, :born, :level, :front_title, :back_title, :department_id)
+      params.require(:lecturer).permit(:nip, :nid, :full_name, :address, :born, :level, :front_title, :back_title, :department_id, :is_admin)
     end
 end

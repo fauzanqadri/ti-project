@@ -74,8 +74,8 @@ class SeminarShowPdf < Prawn::Document
 		bounding_box([0, cursor], width: 550, height: 45) do
 			text_box "Jl. Ir. H. Juanda No. 95, Ciputat 15412, Indonesia", size: 9, at: [5, cursor-5]
 			text_box "Telp. : (62-21)7493547, 7493606 Fax. : (62-21)7493315", size: 9, at: [5, cursor-17]
-			text_box "Email : uinjkt@cabi.net.id", size: 9, at: [bounds.width.to_i-125, cursor-5]
-			text_box "Website : #{faculty.website}", size: 9, at: [bounds.width.to_i-132, cursor-17]
+			text_box "Email : uinjkt@cabi.net.id", size: 9, at: [bounds.width.to_i-172, cursor-5]
+			text_box "Website : #{faculty.website}", size: 9, at: [bounds.width.to_i-172, cursor-17]
 			stroke do
 				horizontal_line 0, 525, at: cursor-30
 				horizontal_line 0, 525, at: cursor-31

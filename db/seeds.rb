@@ -6,23 +6,23 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 faculty_params = [
-  {name: "Sains dan Teknologi", description: "Fakultas Sains dan Teknologi"}
+  {name: "Sains dan Teknologi", website: "http://wwww.fst.uinjkt.ac.id"}
 ]
 faculty_params.each do |faculty|
   Faculty.find_or_initialize_by_name(faculty[:name]).tap do |t|
-    t.description = faculty[:description]
+    t.website = faculty[:website]
     t.save!
   end
 end
 f = Faculty.find_by_name("Sains dan Teknologi")
 
 department_params = [
-  {name: "Teknik Informatika", description: "Program Studi Teknik Informatika", faculty_id: f.id}
+  {name: "Teknik Informatika", website: "", faculty_id: f.id}
 ]
 
 department_params.each do |department|
   Department.find_or_initialize_by_name(department[:name]).tap do |t|
-    t.description = department[:description]
+    t.website = department[:website]
     t.faculty_id = department[:faculty_id]
     t.save!
   end
@@ -30,13 +30,12 @@ end
 d = Department.find_by_name("Teknik Informatika")
 
 concentration_params = [
-  {name: "Software Engineering", description: "Konsentrasi Software Engineering", department_id: d.id},
-  {name: "Networking", description: "Konsentrasi Networking", department_id: d.id},
-  {name: "Multimedia", description: "Konsentrasi Multimedia", department_id: d.id},
+  {name: "Software Engineering", department_id: d.id},
+  {name: "Networking", department_id: d.id},
+  {name: "Multimedia", department_id: d.id},
 ]
 concentration_params.each do |concentration|
   Concentration.find_or_initialize_by_name(concentration[:name]).tap do |t|
-    t.description = concentration[:description]
     t.department_id = concentration[:department_id]
     t.save!
   end
@@ -78,7 +77,7 @@ lecturers = [
   {full_name: "Muhammad Tabah Rosyadi", back_title: "MA", department_id: d.id, born: "1960-01-01", level: "Lektor", is_admin: false, front_title: ""},
   {full_name: "Nasrul Hakim", back_title: "MT", department_id: d.id, born: "1960-01-01", level: "Lektor", is_admin: false, front_title: ""},
   {full_name: "Nenny Anggraini", back_title: "S.Kom, MT", department_id: d.id, born: "1960-01-01", level: "Lektor", is_admin: false, front_title: ""},
-  {full_name: "Nurhayati ", back_title: "MT", department_id: d.id, born: "1960-01-01", level: "Lektor", is_admin: true, front_title: ""},
+  {full_name: "Nurhayati", back_title: "MT", department_id: d.id, born: "1960-01-01", level: "Lektor", is_admin: true, front_title: ""},
   {full_name: "Nurul Faizah Rozy", back_title: "MTI", department_id: d.id, born: "1960-01-01", level: "Lektor", is_admin: false, front_title: ""},
   {full_name: "Rayi Pradono Iswara", back_title: "M.Sc", department_id: d.id, born: "1960-01-01", level: "Lektor", is_admin: false, front_title: ""},
   {full_name: "Ria Hari Gusmita", back_title: "M.Kom", department_id: d.id, born: "1960-01-01", level: "Lektor", is_admin: false, front_title: ""},

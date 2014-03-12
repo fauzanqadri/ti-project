@@ -17,7 +17,8 @@
 #
 
 class Seminar < Conference
-
+	
+	validates :start, presence: true
 	before_create :set_seminars_durations
 	
 	private

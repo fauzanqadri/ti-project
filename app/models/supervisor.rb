@@ -76,7 +76,7 @@ class Supervisor < ActiveRecord::Base
 	end
 
 	def set_approval
-		self.approved = true if self.userable_id == self.lecturer_id
+		self.approved = true if self.userable_id == self.lecturer_id && self.userable_type == "Lecturer"
 	end
 
 	def supervisor_course_amount

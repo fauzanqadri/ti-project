@@ -37,6 +37,7 @@ class Lecturer < ActiveRecord::Base
 	validates :born, presence: true
 	validates :full_name, uniqueness: {scope: [:department_id, :born, :nip, :nid]}
 	after_create :reset_user
+	after_save :update_user_attributes
 
 	scope :by_faculty, ->(id) { joins{department}.where{department.faculty_id.eq(id)} }
 	scope :search, ->(query) {where{(full_name =~ "%#{query}%")}}
@@ -99,5 +100,12 @@ class Lecturer < ActiveRecord::Base
 														password_confirmation: password
 													)
 		user.save
+	end
+
+	private
+	def update_user_attributes
+		self.user.primary_identification = self.nip if self.nip_changed?
+		self.user.secondary_identification = self.nid if self.nid_changed?
+		self.user.save
 	end
 end

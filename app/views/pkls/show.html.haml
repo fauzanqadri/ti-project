@@ -150,9 +150,10 @@
 									.col-sm-6
 										.pull-right
 											.action{style: "margin-top: 20px;"}
-												= link_to new_pkl_feedback_path(@pkl), class: "btn btn-default", remote: true do
-													%i.fa.fa-comment
-													Tambah Feedback
+												- if user_signed_in?() && can_create_feedback?(@pkl)
+													= link_to new_pkl_feedback_path(@pkl), class: "btn btn-default", remote: true do
+														%i.fa.fa-comment
+														Tambah Feedback
 						#consultations.tab-pane.fade
 							%header
 								.row

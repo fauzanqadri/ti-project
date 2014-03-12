@@ -39,7 +39,7 @@ class StaffsController < ApplicationController
   # POST /staffs.json
   def create
     @staff = Staff.new(staff_params)
-    authorize! :create, @staffs
+    authorize! :create, @staff
     respond_to do |format|
       if @staff.save
         flash[:notice] = 'Staff was successfully created.'

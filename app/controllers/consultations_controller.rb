@@ -1,5 +1,7 @@
 class ConsultationsController < ApplicationController
   skip_before_filter :authenticate_user!, only: :index
+  skip_before_filter :checking_setting!, only: :index
+  skip_before_filter :checking_assessment!, only: :index
   before_action :set_consultation, only: [:edit, :update, :destroy]
   load_and_authorize_resource
   skip_load_resource only: [:create, :new]

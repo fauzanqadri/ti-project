@@ -1,5 +1,7 @@
 class ConferencesController < ApplicationController
   skip_before_filter :authenticate_user!, only: :index
+  skip_before_filter :checking_setting!, only: :index
+  skip_before_filter :checking_assessment!, only: :index
   before_action :set_conference, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
 
@@ -11,6 +13,12 @@ class ConferencesController < ApplicationController
       format.json do 
         render json: ConferencesDatatable.new(view_context)
       end
+    end
+  end
+
+  def edit
+    respond_to do |format|
+      format.js
     end
   end
 

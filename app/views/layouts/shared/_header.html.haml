@@ -63,8 +63,14 @@
 								- if current_user.userable_type == "Lecturer" && current_user.userable.is_admin?
 									%li.divider
 									%li
+										= link_to assessments_path do
+											Aspek Penilaian
+									%li.divider
+									%li
 										= link_to settings_path do 
 											Konfigurasi
+									
+
 				%ul.nav.navbar-nav.navbar-right
 					%li.dropdown
 						= link_to "#", class: "dropdown-toggle", "data-toggle" => "dropdown" do
@@ -72,8 +78,9 @@
 							= current_user.userable.to_s
 							%span.caret
 						%ul.dropdown-menu
-							%li= link_to "Profile", "#"
-							%li= link_to "Edit Profile", "#"
+							%li= link_to "Profile", profile_path, remote: true
+							%li= link_to "Account", account_path, remote: true
+							%li= link_to "Password", password_path, remote: true
 							%li.divider
 							%li= link_to "Log out", destroy_users_session_path, method: :delete
 			%ul.nav.navbar-nav

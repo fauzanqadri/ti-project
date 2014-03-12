@@ -78,7 +78,7 @@ class Conference < ActiveRecord::Base
 		papers_count = self.skripsi.papers.size
 		consultations_count = self.skripsi.consultations.size
 		setting = self.skripsi.student.department.setting.supervisor_skripsi_amount
-		errors.add(:skripsi_id, "belum siap untuk didaftarkan seminar / sidang") if (papers_count <= 1) || (consultations_count <= 1) || (supervisors_count < setting)
+		errors.add(:skripsi_id, "belum siap untuk didaftarkan seminar / sidang") if (papers_count < 1) || (consultations_count < 1) || (supervisors_count < setting)
 	end
 
 	def build_logs
