@@ -1,5 +1,5 @@
 class StudentsController < ApplicationController
-  before_action :set_student, only: [:show, :edit, :update, :destroy]
+  before_action :set_student, only: [:show, :edit, :update, :destroy, :reset_password]
   load_and_authorize_resource
   skip_load_resource only: [:create]
   # GET /students
@@ -81,6 +81,15 @@ class StudentsController < ApplicationController
     end
   end
 
+  def reset_password
+    if @student.reset_user
+      flash[:notice] = "Reset password berhasil dilakukan"
+      render templete: 'reset_password'
+    else
+      redirect_to authenticated_root, alert: "Something wrong happening here, contact developer"
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_student
@@ -89,6 +98,6 @@ class StudentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def student_params
-      params.require(:student).permit(:nim, :full_name, :address, :born, :student_since, :department_id, user_attributes: [:email, :username, :password, :password_confirmation])
+      params.require(:student).permit(:nim, :full_name, :address, :born, :student_since, :department_id, user_attributes: [:email, :username, :password, :password_confirmation], avatar_attributes: [:image])
     end
 end

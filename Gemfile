@@ -36,8 +36,10 @@ gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-ra
 gem 'foreman'
 gem 'rails-backbone'
 gem 'remotipart', '~> 1.2'
-gem 'twitter-typeahead-rails'
 gem 'dotenv-rails', :groups => [:development, :test]
+gem 'redcarpet'
+gem 'albino'
+gem 'nokogiri'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

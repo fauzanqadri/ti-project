@@ -70,7 +70,10 @@ class CoursesDatatable
 			{
 				title: course.title,
 				description: course.description.try(:truncate, 300),
-				student: {full_name: course.student.full_name},
+				student: {
+					full_name: course.student.full_name,
+					photo: course.student.avatar.image.url(:medium)
+				},
 				concentration: {name: course.concentration.try(:name)},
 				type: course.type,
 				supervisors_count: course.supervisors_count,

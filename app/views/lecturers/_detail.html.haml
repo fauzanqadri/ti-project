@@ -3,45 +3,58 @@
 		.modal-content
 			.modal-header
 				%button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
-				%h4#lecturerDetailModalLabel.modal-title Detail Dosen
-			.modal-body{style: "text-align:center;"}
+				%h4#lecturerDetailModalLabel.modal-title
+					%i.fa.fa-user
+					Detail Dosen
+			.modal-body
 				.row-fluid
 					.col-md-10.col-md-offset-1
 						#modalTab
 							.tab-content
 								.tab-pane.active
-									= image_tag("http://placehold.it/140x140", class: "img-circle", width: "140", height: "140")
-									%h3.media-heading
+									#photo{style: "text-align:center;"}
+										= image_tag(@lecturer.avatar.image.url(:medium), class: "img-circle img-thumbnail", width: "140", height: "140")
+									%hr.rainbow
+									%h3.media-heading{style: "text-align:center;"}
 										= @lecturer.to_s
-										%small= @lecturer.class.to_s
-									%p.text-left
-										%strong Nip :
+										%small= @lecturer.department.name
 										%br
-										%i.fa.fa-key
-										= @lecturer.nip
+										%small= @lecturer.nip
 										%br
-										%strong Nid :
+										%small= @lecturer.nid
 										%br
-										%i.fa.fa-key
-										= @lecturer.nid
-										%br
-										%strong Tanggal Lahir :
-										%br
-										%i.fa.fa-calendar
-										= @lecturer.born.try(:to_formatted_s, :long_ordinal)
-										%br
-										%strong level :
-										%br
-										%i.fa.fa-sitemap
-										= @lecturer.level
-										%br
-										%strong Jursuan :
-										%br
-										%i.fa.fa-thumb-tack
-										= @lecturer.department.name
-										%br
-										%strong Alamat :
-										%br
-										%i.fa.fa-map-marker
-										= @lecturer.address
+										%small= @lecturer.user.username
+									%hr.rainbow
+									.row
+										.col-sm-2
+											%h3{style: "margin-top: 0; margin-bottom: 0;"}
+												%i.fa.fa-envelope
+										.col-sm-10
+											%address= @lecturer.user.email
+									%hr
+									.row
+										.col-sm-2
+											%h1{style: "margin-top: 0; margin-bottom: 0;"}
+												%i.fa.fa-map-marker
+										.col-sm-10
+											%address= @lecturer.address
+									%hr
+									.row{style: "text-align:center;"}
+										.col-sm-6
+											%strong Tanggal Lahir :
+											%br
+											%i.fa.fa-calendar
+											= @lecturer.born.try(:to_formatted_s, :long_ordinal)
+										.col-sm-6
+											%strong Level :
+											%br
+											%i.fa.fa-sitemap
+											= @lecturer.level
 					.clearfix
+			.modal-footer
+				= link_to reset_password_lecturer_path(@lecturer), class: "btn btn-danger", method: :post, data: {confirm: "Konfirmasi reset password ?"} do
+					%i.fa.fa-key
+					Reset Password
+				%button.btn.btn-default{type: "button", "data-dismiss" => "modal"}
+					%i.fa.fa-times
+					Close

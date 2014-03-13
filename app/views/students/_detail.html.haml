@@ -3,40 +3,56 @@
 		.modal-content
 			.modal-header
 				%button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
-				%h4#studentDetailModalLabel.modal-title Detail Mahasiswa
-			.modal-body{style: "text-align:center;"}
+				%h4#studentDetailModalLabel.modal-title 
+					%i.fa.fa-user
+					Detail Mahasiswa
+			.modal-body
 				.row-fluid
 					.col-md-10.col-md-offset-1
 						#modalTab
 							.tab-content
 								.tab-pane.active
-									= image_tag("http://placehold.it/140x140", class: "img-circle", width: "140", height: "140")
-									%h3.media-heading
+									#photo{style: "text-align:center;"}
+										= image_tag(@student.avatar.image.url(:medium), class: "img-circle img-thumbnail", width: "140", height: "140")
+									%hr.rainbow
+									%h3.media-heading{style: "text-align:center;"}
 										= @student.full_name
-										%small= @student.class.to_s
-									%p.text-left
-										%strong Nim :
+										%small= @student.department.name
 										%br
-										%i.fa.fa-key
-										= @student.nim
+										%small= @student.nim
 										%br
-										%strong Tanggal Lahir :
-										%br
-										%i.fa.fa-calendar
-										= @student.born.try(:to_formatted_s, :long_ordinal)	
-										%br
-										%strong Mahasiswa Sejak :
-										%br
-										%i.fa.fa-calendar-o
-										= @student.student_since.try(:to_formatted_s, :long_ordinal)
-										%br
-										%strong Jurusan :
-										%br
-										%i.fa.fa-thumb-tack
-										= @student.department.name
-										%br
-										%strong Alamat :
-										%br
-										%i.fa.fa-map-marker
-										= @student.address
+										%small= @student.user.username
+									%hr.rainbow
+									.row
+										.col-sm-2
+											%h3{style: "margin-top: 0; margin-bottom: 0;"}
+												%i.fa.fa-envelope
+										.col-sm-10
+											%address= @student.user.email
+									%hr
+									.row
+										.col-sm-2
+											%h1{style: "margin-top: 0; margin-bottom: 0;"}
+												%i.fa.fa-map-marker
+										.col-sm-10
+											%address= @student.address
+									%hr
+									.row{style: "text-align:center;"}
+										.col-sm-6
+											%strong Tanggal Lahir :
+											%br
+											%i.fa.fa-calendar
+											= @student.born.try(:to_formatted_s, :long_ordinal)	
+										.col-sm-6
+											%strong Mahasiswa Sejak :
+											%br
+											%i.fa.fa-calendar-o
+											= @student.student_since.try(:to_formatted_s, :long_ordinal)
 					.clearfix
+			.modal-footer
+				= link_to reset_password_student_path(@student), class: "btn btn-danger", method: :post, data: {confirm: "Konfirmasi reset password ?"} do
+					%i.fa.fa-key
+					Reset Password
+				%button.btn.btn-default{type: "button", "data-dismiss" => "modal"}
+					%i.fa.fa-times
+					Close

@@ -1,7 +1,7 @@
 class LecturersController < ApplicationController
   skip_before_filter :checking_setting!
   skip_before_filter :checking_assessment!
-  before_action :set_lecturer, only: [:show, :edit, :update, :destroy]
+  before_action :set_lecturer, only: [:show, :edit, :update, :destroy, :reset_password]
   load_and_authorize_resource
   skip_load_resource only: [:create]
 
@@ -90,6 +90,15 @@ class LecturersController < ApplicationController
     @lecturers = Lecturer.where{(department_id == d_id)}.search(params[:query])
     respond_to do |format|
       format.json
+    end
+  end
+
+  def reset_password
+    if @lecturer.reset_user
+      flash[:notice] = "Reset password berhasil dilakukan"
+      render templete: 'reset_password'
+    else
+      redirect_to authenticated_root, alert: "Something wrong happening here, contact developer"
     end
   end
 

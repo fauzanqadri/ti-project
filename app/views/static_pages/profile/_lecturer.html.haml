@@ -7,6 +7,21 @@
 			= form_for user, url: profile_path, remote: "true", method: :put, html: {role: "form", class: "form-horizontal"} do |f|
 				.modal-body
 					= render 'layouts/shared/errors', :object => f.object
+					#avatar{style: "text-align:center;"}
+						= image_tag(avatar.image.url, class: "img-circle img-thumbnail", width: "140", height: "140")
+					%hr
+					= f.fields_for :avatar, avatar do |sa|
+						= sa.hidden_field :id
+						.form-group
+							= sa.label :image, "Avatar", class: "col-sm-3 control-label"
+							.col-sm-7
+								= sa.file_field :image, id: "fileUpload"
+								.input-group
+									%input#filename.form-control.disabled{ placeholder: "Select File", readonly: true}
+									%span#fileSelect.btn.btn-info.input-group-addon
+										%i.fa.fa-folder-open-o
+										Select File
+					%hr
 					.form-group
 						= f.label :nip, "Nip", class: "col-sm-3 control-label"
 						.col-sm-9

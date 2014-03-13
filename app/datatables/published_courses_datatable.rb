@@ -27,6 +27,7 @@ class PublishedCoursesDatatable
 				description: course.description.try(:truncate, 300),
 				student: {
 					full_name: course.student.full_name,
+					photo: course.student.avatar.image.url(:medium),
 					department: {
 						name: course.student.department.name,
 						faculty: {

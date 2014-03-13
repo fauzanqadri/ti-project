@@ -1,4 +1,4 @@
-var html = '<%= j render(partial: "static_pages/profile/#{current_user.userable_type.downcase}", locals: {user: @user}) %>';
+var html = '<%= j render(partial: "static_pages/profile/#{current_user.userable_type.downcase}", locals: {user: @user, avatar: @avatar}) %>';
 var userProfileModal = $("#user-profile-modal");
 if (userProfileModal.length == 1) {
 	userProfileModal.modal("hide");

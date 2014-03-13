@@ -44,7 +44,11 @@ class FeedbacksDatatable
 			{
 				content: feedback.content,
 				created_at: feedback.created_at.to_formatted_s(:long_ordinal),
-				userable: { full_name: feedback.userable.to_s, type: feedback.userable_type},
+				userable: { 
+					full_name: feedback.userable.to_s, 
+					type: feedback.userable_type,
+					photo: feedback.userable.avatar.image.url(:small)
+				},
 				action: act(feedback)
 			}
 		end

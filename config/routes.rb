@@ -12,13 +12,19 @@ TiProject::Application.routes.draw do
       post "/sign_in" => "devise/sessions#create", as: :user_session
     end
   end
-  resources :staffs
+
+  resources :staffs do
+    post 'reset_password', action: "reset_password", on: :member
+  end
   
   resources :lecturers do
     get '/search', action: "search", on: :collection
+    post 'reset_password', action: "reset_password", on: :member
   end
 
-  resources :students
+  resources :students do
+    post 'reset_password', action: "reset_password", on: :member
+  end
   resources :concentrations, except: :show
   resources :departments, except: :show
   resources :faculties, except: :show
@@ -40,14 +46,15 @@ TiProject::Application.routes.draw do
       post '/become_supervisor', action: "become_supervisor", on: :collection
       post 'approve', action: "approve", on: :member
     end
+    
     resources :feedbacks, except: [:edit, :update, :show]
     resources :consultations, except: :show
+
     resources :seminars, except: [:index, :destroy] do
       get "edit_department_director_approval", action: "edit_department_director_approval", on: :member
       put "edit_department_director_approval", action: "update_department_director_approval", on: :member
-      # put ""
     end
-    # resources :sidangs, only: [:create, :show]
+
     resources :sidangs, except: [:index, :destroy] do
       get "edit_department_director_approval", action: "edit_department_director_approval", on: :member
       put "edit_department_director_approval", action: "update_department_director_approval", on: :member
@@ -76,6 +83,7 @@ TiProject::Application.routes.draw do
   get '/get_faculties' => 'static_pages#get_faculties'
   get '/get_departments/:faculty_id' => 'static_pages#get_departments'
   get '/get_concentrations/:department_id' => 'static_pages#get_concentrations'
+  get '/avatar/:id/:style' => 'static_pages#avatar', as: :avatar
   get '/profile' => 'static_pages#profile'
   put '/profile' => 'static_pages#update_profile'
   get '/account' => 'static_pages#account'
@@ -83,60 +91,4 @@ TiProject::Application.routes.draw do
   get '/password' => 'static_pages#password'
   put '/password' => 'static_pages#update_password'
 
-
-  # devise_for :users
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 end

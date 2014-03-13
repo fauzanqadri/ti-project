@@ -14,10 +14,13 @@
 
 class Staff < ActiveRecord::Base
 	has_one :user, as: :userable, dependent: :destroy
+	has_one :avatar, as: :userable, dependent: :destroy
 	belongs_to :faculty, counter_cache: true
 	accepts_nested_attributes_for :user, reject_if: :all_blank
+	accepts_nested_attributes_for :avatar, reject_if: :all_blank
 	validates_presence_of :full_name, :born, :faculty_id
 	after_create :reset_user
+	after_create :build_avatar
 
 	def to_s
 		self.full_name
@@ -43,5 +46,10 @@ class Staff < ActiveRecord::Base
 														password_confirmation: password
 													)
 		user.save
+	end
+	
+	private
+	def build_avatar
+		self.create_avatar if self.avatar.nil?
 	end
 end

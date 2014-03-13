@@ -24,12 +24,15 @@ class Student < ActiveRecord::Base
 	has_many :assigned_supervisors, as: :userable, class_name: "Supervisor"
 	has_many :feedbacks, as: :userable
 	has_many :conference, as: :userable, dependent: :destroy
+	has_one :avatar, as: :userable, dependent: :destroy
 	accepts_nested_attributes_for :user, reject_if: :all_blank
+	accepts_nested_attributes_for :avatar, reject_if: :all_blank
 	validates_presence_of :born
 	validates_presence_of :department_id
 	validates :nim, presence: true, uniqueness: true
 	validates :full_name, presence: true, uniqueness: {scope: [:nim, :department_id] }
 	after_create :reset_user
+	after_create :build_avatar
 
 	scope :by_faculty, ->(id){ joins{department}.where{department.faculty_id.eq(id)}}
 
@@ -61,5 +64,10 @@ class Student < ActiveRecord::Base
 														password_confirmation: password
 													)
 		user.save
+	end
+	
+	private
+	def build_avatar
+		self.create_avatar if self.avatar.nil?
 	end
 end

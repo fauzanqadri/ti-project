@@ -1,5 +1,5 @@
 class StaffsController < ApplicationController
-  before_action :set_staff, only: [:show, :edit, :update, :destroy]
+  before_action :set_staff, only: [:show, :edit, :update, :destroy, :reset_password]
   load_and_authorize_resource
   skip_load_resource only: [:create]
   # GET /staffs
@@ -74,6 +74,15 @@ class StaffsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to staffs_url }
       format.json { head :no_content }
+    end
+  end
+
+  def reset_password
+    if @staff.reset_user
+      flash[:notice] = "Reset password berhasil dilakukan"
+      render templete: 'reset_password'
+    else
+      redirect_to authenticated_root, alert: "Something wrong happening here, contact developer"
     end
   end
 

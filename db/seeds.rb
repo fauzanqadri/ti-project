@@ -9,7 +9,7 @@ faculty_params = [
   {name: "Sains dan Teknologi", website: "http://wwww.fst.uinjkt.ac.id"}
 ]
 faculty_params.each do |faculty|
-  Faculty.find_or_initialize_by_name(faculty[:name]).tap do |t|
+  Faculty.find_or_initialize_by(name: faculty[:name]).tap do |t|
     t.website = faculty[:website]
     t.save!
   end
@@ -21,7 +21,7 @@ department_params = [
 ]
 
 department_params.each do |department|
-  Department.find_or_initialize_by_name(department[:name]).tap do |t|
+  Department.find_or_initialize_by(name: department[:name]).tap do |t|
     t.website = department[:website]
     t.faculty_id = department[:faculty_id]
     t.save!
@@ -35,11 +35,35 @@ concentration_params = [
   {name: "Multimedia", department_id: d.id},
 ]
 concentration_params.each do |concentration|
-  Concentration.find_or_initialize_by_name(concentration[:name]).tap do |t|
+  Concentration.find_or_initialize_by(name: concentration[:name]).tap do |t|
     t.department_id = concentration[:department_id]
     t.save!
   end
 end
+
+assessment_params = [
+  {aspect: "Persiapan Seminar", percentage: 15, category: "Seminar", department_id: d.id},
+  {aspect: "Sistematika Penyajian", percentage: 20, category: "Seminar", department_id: d.id},
+  {aspect: "Kejelasan dalam memberikan tanggapan terhadap pertanyaan, kritik dan saran", percentage: "20", category: "Seminar", department_id: d.id},
+  {aspect: "Penggunaan Alat Peraga", percentage: 15, category: "Seminar", department_id: d.id},
+  {aspect: "Penampilan", percentage: 15, category: "Seminar", department_id: d.id},
+  {aspect: "Sikap dalam menyajikan argumentasi", percentage: 15, category: "Seminar", department_id: d.id},
+  {aspect: "Proposal penilitian dan pelaksana penelitian", percentage: 20, category: "Sidang", department_id: d.id},
+  {aspect: "Skripsi", percentage: 30, category: "Sidang", department_id: d.id},
+  {aspect: "Sistematika Presentasi", percentage: 15, category: "Sidang", department_id: d.id},
+  {aspect: "Kejelasan dalam memberikan tanggapan terhadap pertanyaan, kritik dan saran", percentage: 15, category: "Sidang", department_id: d.id},
+  {aspect: "Penggunaan Alat Peraga", percentage: 10, category: "Sidang", department_id: d.id},
+  {aspect: "Penampilan dan Sikap dalam menyajikan argumentasi", percentage: 10, category: "Sidang", department_id: d.id},
+]
+
+assessment_params.each do |assessment|
+  Assessment.find_or_initialize_by(aspect: assessment[:aspect], category: assessment[:category], department_id: assessment[:department_id]).tap do |t|
+    t.percentage = assessment[:percentage]
+    t.save!
+  end
+end
+
+
 
 students = [
   {nim: "109091000132", full_name: "Fauzan Qadri", address: "Some text address", born: "1991-04-07", student_since: "2009-08-16", department_id: d.id,},
@@ -47,7 +71,7 @@ students = [
   {nim: "109091000097", full_name: "Azhar Amir", address: "Some text address", born: "1990-01-11", student_since: "2009-08-16", department_id: d.id }
 ]
 students.each do |student|
-  Student.find_or_initialize_by_nim(student[:nim]).tap do |t|
+  Student.find_or_initialize_by(nim: student[:nim]).tap do |t|
     t.full_name = student[:full_name]
     t.address = student[:address]
     t.born = student[:born]
@@ -90,7 +114,7 @@ lecturers = [
 ]
 
 lecturers.each do |lecturer|
-  Lecturer.find_or_initialize_by_full_name(lecturer[:full_name]).tap do |t|
+  Lecturer.find_or_initialize_by(full_name: lecturer[:full_name]).tap do |t|
     t.back_title = lecturer[:back_title]
     t.front_title = lecturer[:front_title]
     t.department_id = lecturer[:department_id]
@@ -106,7 +130,7 @@ staffs = [
   {full_name: "Al Fayad", address: "Some text address", born: "01-01-1986", faculty_id: f.id}
 ]
 staffs.each do |staff|
-  Staff.find_or_initialize_by_full_name(staff[:full_name]).tap do |t|
+  Staff.find_or_initialize_by(full_name: staff[:full_name]).tap do |t|
     t.address = staff[:address]
     t.born = staff[:born]
     t.faculty_id = staff[:faculty_id]

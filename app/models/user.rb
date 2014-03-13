@@ -28,6 +28,7 @@ class User < ActiveRecord::Base
   attr_accessor :login
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:login]
+  validates :username, uniqueness: { case_sensitive: false }
 
   belongs_to :userable, polymorphic: true
 

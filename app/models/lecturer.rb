@@ -30,7 +30,9 @@ class Lecturer < ActiveRecord::Base
 	has_many :conference, as: :userable, dependent: :destroy
 	has_many :conference_logs, through: :supervisors
 	has_many :examiners, dependent: :destroy
+	has_one :avatar, as: :userable, dependent: :destroy
 	accepts_nested_attributes_for :user, reject_if: :all_blank
+	accepts_nested_attributes_for :avatar, reject_if: :all_blank
 	validates :level, presence: true, inclusion: {in: LEVEL}
 	validates :department_id, presence: true
 	validates :full_name, presence: true
@@ -38,6 +40,7 @@ class Lecturer < ActiveRecord::Base
 	validates :full_name, uniqueness: {scope: [:department_id, :born, :nip, :nid]}
 	after_create :reset_user
 	after_save :update_user_attributes
+	after_create :build_avatar
 
 	scope :by_faculty, ->(id) { joins{department}.where{department.faculty_id.eq(id)} }
 	scope :search, ->(query) {where{(full_name =~ "%#{query}%")}}
@@ -108,4 +111,9 @@ class Lecturer < ActiveRecord::Base
 		self.user.secondary_identification = self.nid if self.nid_changed?
 		self.user.save
 	end
+
+	def build_avatar
+		self.create_avatar if self.avatar.nil?
+	end
+	
 end

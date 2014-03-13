@@ -28,8 +28,15 @@ class StaticPagesController < ApplicationController
 		@concentrations = @department.concentrations
 	end
 
+	def avatar
+		avatar = Avatar.find(params[:id])
+		size = params[:size].presence || "large"
+		send_file avatar.image.path(size.to_sym), type: avatar.image_content_type, disposition: "inline"
+	end
+
 	def profile
 		@user = current_user.userable
+		@avatar = @user.avatar.presence || @user.build_avatar
 		respond_to do |format|
 			format.js
 		end
@@ -89,15 +96,15 @@ class StaticPagesController < ApplicationController
 	private
 
 	def staff_params
-		params.require(:staff).permit(:full_name, :address, :born)
+		params.require(:staff).permit(:full_name, :address, :born, avatar_attributes: [:id, :image])
 	end
 
 	def student_params
-		params.require(:student).permit(:full_name, :address, :born)
+		params.require(:student).permit(:full_name, :address, :born, avatar_attributes: [:id, :image])
 	end
 
 	def lecturer_params
-		params.require(:lecturer).permit(:nip, :nid, :full_name, :address, :born, :level, :front_title, :back_title)
+		params.require(:lecturer).permit(:nip, :nid, :full_name, :address, :born, :level, :front_title, :back_title, avatar_attributes: [:id, :image])
 	end
 
 	def account_params

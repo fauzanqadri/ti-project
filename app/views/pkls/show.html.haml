@@ -32,7 +32,7 @@
 				%section
 					.row
 						.col-sm-4
-							= image_tag("http://placehold.it/120x120", class: "img-circle img-thumbnail")
+							= image_tag(@pkl.student.avatar.image.url(:medium), class: "img-circle img-thumbnail")
 						.col-sm-8
 							%blockquote
 								%p

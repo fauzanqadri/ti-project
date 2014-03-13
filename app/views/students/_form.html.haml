@@ -40,6 +40,17 @@
             .col-sm-9
               = f.select :department_id, options_for_select(departments_opt, selected: @student.department_id), {}, {class: "form-control"}
           - if @student.new_record?
+            %legend Avatar
+            = f.fields_for :avatar, @student.build_avatar do |sa|
+              .form-group
+                = sa.label :avatar, "Avatar", class: "col-sm-3 control-label"
+                .col-sm-9
+                  = sa.file_field :avatar, id: "fileUpload"
+                  .input-group
+                    %input#filename.form-control.disabled{ placeholder: "Select File", readonly: true}
+                    %span#fileSelect.btn.btn-info.input-group-addon
+                      %i.fa.fa-folder-open-o
+                      Select File
             %legend Data User
             %span.help-block Kosongkan Semua Field di bawah jika menginginkan sistem meng-generate nya
             = f.fields_for :user, @student.build_user do |su|
