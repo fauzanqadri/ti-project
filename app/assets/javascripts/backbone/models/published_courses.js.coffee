@@ -39,7 +39,7 @@ class TiProject.Collections.PublishedCourseCollection extends Backbone.Collectio
 			unless typeof params.faculty_id is 'undefined'
 				@faculty_id = params.faculty_id
 			unless typeof params.department_id is 'undefined'
-				@department_id = params.faculty_id
+				@department_id = params.department_id
 			unless typeof params.concentration_id is 'undefined'
 				@concentration_id = params.concentration_id
 
