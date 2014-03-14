@@ -71,7 +71,7 @@
 						%tbody
 				%footer
 					.pull-right
-						- if can? :create, Paper
+						- if user_signed_in? && can_create_paper?(@pkl)
 							= link_to new_pkl_paper_path(@pkl), class: "btn btn-primary", remote: true do
 								%i.fa.fa-upload
 								Tambah File

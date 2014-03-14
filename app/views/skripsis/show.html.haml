@@ -89,7 +89,7 @@
 						%tbody
 				%footer
 					.pull-right
-						- if can? :create, Paper
+						- if user_signed_in? && can_create_paper?(@skripsi)
 							= link_to new_skripsi_paper_path(@skripsi), class: "btn btn-primary", remote: true do
 								%i.fa.fa-upload
 								Tambah File

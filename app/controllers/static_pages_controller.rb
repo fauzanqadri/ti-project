@@ -1,5 +1,5 @@
 class StaticPagesController < ApplicationController
-	skip_before_filter :authenticate_user!, only: [:published_courses, :get_faculties, :get_departments, :get_concentrations]
+	skip_before_filter :authenticate_user!, only: [:published_courses, :get_faculties, :get_departments, :get_concentrations, :avatar]
 	skip_before_filter :checking_setting!
 	skip_before_filter :checking_assessment!
 	
@@ -30,7 +30,7 @@ class StaticPagesController < ApplicationController
 
 	def avatar
 		avatar = Avatar.find(params[:id])
-		size = params[:size].presence || "large"
+		size = params[:style].presence || "large"
 		send_file avatar.image.path(size.to_sym), type: avatar.image_content_type, disposition: "inline"
 	end
 

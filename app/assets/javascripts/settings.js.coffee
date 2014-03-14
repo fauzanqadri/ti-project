@@ -29,7 +29,7 @@ $(document).ready ->
 	).data("ui-autocomplete")
 
 	autoComplete._renderItem = (ul, item) =>
-		html = "<li data-value=\""+item.value+"\"><a><div class=\"row\"><div class=\"col-sm-3\"><img class=\"img-circle img-thumbnail\" src=\""+item.photo+"\"></div><div class=\"col-sm-9\"><blockquote><p>"+item.label+"<br/><div class=\"label-group\"><span class=\"label label-primary\"><i class=\"fa fa-book\"></i> Skripsi : "+item.supervisors_skripsi_count+"</span><span class=\"label label-success\"><i class=\"fa fa-file\"></i> Pkl :"+item.supervisors_pkl_count+"</span></div></p></blockquote></div></div></a></li>";
+		html = "<li data-value=\""+item.value+"\"><a><div class=\"row\"><div class=\"col-sm-3\"><img class=\"img-circle img-thumbnail\" width=\"64\" height=\"64\" src=\""+item.photo+"\"></div><div class=\"col-sm-9\"><blockquote><p>"+item.label+"<br/><div class=\"label-group\"><span class=\"label label-primary\"><i class=\"fa fa-book\"></i> Skripsi : "+item.supervisors_skripsi_count+"</span><span class=\"label label-success\"><i class=\"fa fa-file\"></i> Pkl :"+item.supervisors_pkl_count+"</span></div></p></blockquote></div></div></a></li>";
 		return $(html).appendTo(ul);
 
 	anotherAutoComplete = $("#department_secretary_name").autocomplete(
@@ -62,7 +62,7 @@ $(document).ready ->
 	).data("ui-autocomplete")
 
 	anotherAutoComplete._renderItem = (ul, item) =>
-		html = "<li data-value=\""+item.value+"\"><a><div class=\"row\"><div class=\"col-sm-3\"><img class=\"img-circle img-thumbnail\" src=\""+item.photo+"\"></div><div class=\"col-sm-9\"><blockquote><p>"+item.label+"<br/><div class=\"label-group\"><span class=\"label label-primary\"><i class=\"fa fa-book\"></i> Skripsi : "+item.supervisors_skripsi_count+"</span><span class=\"label label-success\"><i class=\"fa fa-file\"></i> Pkl :"+item.supervisors_pkl_count+"</span></div></p></blockquote></div></div></a></li>";
+		html = "<li data-value=\""+item.value+"\"><a><div class=\"row\"><div class=\"col-sm-3\"><img class=\"img-circle img-thumbnail\" width=\"64\" height=\"64\" src=\""+item.photo+"\"></div><div class=\"col-sm-9\"><blockquote><p>"+item.label+"<br/><div class=\"label-group\"><span class=\"label label-primary\"><i class=\"fa fa-book\"></i> Skripsi : "+item.supervisors_skripsi_count+"</span><span class=\"label label-success\"><i class=\"fa fa-file\"></i> Pkl :"+item.supervisors_pkl_count+"</span></div></p></blockquote></div></div></a></li>";
 		return $(html).appendTo(ul);
 
 

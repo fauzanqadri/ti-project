@@ -8,7 +8,7 @@
 				.modal-body
 					= render 'layouts/shared/errors', :object => f.object
 					#avatar{style: "text-align:center;"}
-						= image_tag(avatar.image.url, class: "img-circle img-thumbnail", width: "140", height: "140")
+						= image_tag(avatar.image.url(:medium), class: "img-circle img-thumbnail", width: "140", height: "140")
 					%hr
 					= f.fields_for :avatar, avatar do |sa|
 						= sa.hidden_field :id

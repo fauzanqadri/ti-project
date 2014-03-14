@@ -21,9 +21,12 @@ class Supervisor < ActiveRecord::Base
 	has_one :surcease, as: :provenable, dependent: :destroy
 	validates_presence_of :course_id, :lecturer_id
 	validates :lecturer_id, uniqueness: {scope: :course_id, message: "Telah menjadi / ditugaskan sebagai pembimbing pada skripsi / pkl ini"} 
-	validate :lecturer_lead_coures_rule, :supervisor_course_amount, :maximum_lecturer_course_lead
-	before_save :set_approval
-	
+
+	validate :lecturer_lead_coures_rule, :supervisor_course_amount, :maximum_lecturer_course_lead	
+
+	before_validation(on: :create) do 
+		self.approved = true if (self.userable_id == self.lecturer_id && self.userable_type == "Lecturer") || (self.userable_id == self.course.student.department.setting.department_director && self.userable_type == "Lecturer")
+	end
 	
 	after_save :create_surcease_course
 
@@ -75,10 +78,6 @@ class Supervisor < ActiveRecord::Base
 		end
 	end
 
-	def set_approval
-		self.approved = true if self.userable_id == self.lecturer_id && self.userable_type == "Lecturer"
-	end
-
 	def supervisor_course_amount
 		department_supervisor_course_amount = self.course.type == "Skripsi" ? self.course.student.department.setting.supervisor_skripsi_amount : self.course.student.department.setting.supervisor_pkl_amount
 		errors.add(:course_id, " ini telah memiliki batas jumlah pembimbing yang telah ditentukan") if self.course.supervisors.size >= department_supervisor_course_amount
@@ -91,14 +90,18 @@ class Supervisor < ActiveRecord::Base
 				if department_maximum_lecturer_course_lead == 0
 					return true
 				else
-					errors.add(:lecturer_id, " telah memiliki batas jumlah skripsi / pkl yang boleh di bimbing") if self.lecturer.supervisors_skripsi_count >= department_maximum_lecturer_course_lead
+					unless self.userable_id == self.course.student.department.setting.department_director && self.userable_type == "Lecturer"
+						errors.add(:lecturer_id, " telah memiliki batas jumlah skripsi / pkl yang boleh di bimbing") if self.lecturer.supervisors_skripsi_count >= department_maximum_lecturer_course_lead
+					end
 				end
 			else
 				department_maximum_lecturer_course_lead = self.lecturer.level == "Lektor" ? self.course.student.department.setting.maximum_lecturer_lektor_pkl_lead : self.course.student.department.setting.maximum_lecturer_aa_pkl_lead
 				if department_maximum_lecturer_course_lead == 0
 					return true
 				else
-					errors.add(:lecturer_id, " telah memiliki batas jumlah skripsi / pkl yang boleh di bimbing") if self.lecturer.supervisors_pkl_count >= department_maximum_lecturer_course_lead
+					unless self.userable_id == self.course.student.department.setting.department_director && self.userable_type == "Lecturer"
+						errors.add(:lecturer_id, " telah memiliki batas jumlah skripsi / pkl yang boleh di bimbing") if self.lecturer.supervisors_pkl_count >= department_maximum_lecturer_course_lead
+					end
 				end
 			end
 		end
@@ -147,6 +150,9 @@ class Supervisor < ActiveRecord::Base
 		else
 			department_lecturer_lead_course_rule = self.course.student.department.setting.lecturer_lead_pkl_rule
 		end
-		errors.add(:lecturer_id, "Persyaratan peraturan level dosen belum terpenuhi untuk melakakukan pembimbingan skripsi / pkl ini") if !rules_check?(department_lecturer_lead_course_rule) && self.approved?
+
+		unless self.userable_id == self.course.student.department.setting.department_director && self.userable_type == "Lecturer"
+			errors.add(:lecturer_id, "Persyaratan peraturan level dosen belum terpenuhi untuk melakakukan pembimbingan skripsi / pkl ini") if ( !rules_check?(department_lecturer_lead_course_rule) && self.approved? ) 
+		end
 	end
 end

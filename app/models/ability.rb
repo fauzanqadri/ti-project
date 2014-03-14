@@ -265,7 +265,14 @@ class Ability
 	end
 
 	def as_lecturer_admin
-		can :create, Supervisor
+		can :create, Supervisor do |supervisor|
+			supervisor.course.student.department_id == @user.userable.department_id && @user.userable_id == @user.userable.department.setting.department_director
+		end
+		
+		can :destroy, Supervisor do |supervisor|
+			supervisor.course.student.department_id == @user.userable.department_id && @user.userable_id == @user.userable.department.setting.department_director
+		end
+
 		can :show, Seminar
 		can :show, Sidang
 
