@@ -20,7 +20,7 @@ class Staff < ActiveRecord::Base
 	accepts_nested_attributes_for :avatar, reject_if: :all_blank
 	validates_presence_of :full_name, :born, :faculty_id
 	after_create :reset_user
-	after_create :build_avatar
+	after_create :make_avatar
 
 	def to_s
 		self.full_name
@@ -49,7 +49,7 @@ class Staff < ActiveRecord::Base
 	end
 	
 	private
-	def build_avatar
+	def make_avatar
 		self.create_avatar if self.avatar.nil?
 	end
 end

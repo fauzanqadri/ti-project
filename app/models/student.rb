@@ -32,7 +32,7 @@ class Student < ActiveRecord::Base
 	validates :nim, presence: true, uniqueness: true
 	validates :full_name, presence: true, uniqueness: {scope: [:nim, :department_id] }
 	after_create :reset_user
-	after_create :build_avatar
+	after_create :make_avatar
 
 	scope :by_faculty, ->(id){ joins{department}.where{department.faculty_id.eq(id)}}
 
@@ -67,7 +67,7 @@ class Student < ActiveRecord::Base
 	end
 	
 	private
-	def build_avatar
+	def make_avatar
 		self.create_avatar if self.avatar.nil?
 	end
 end

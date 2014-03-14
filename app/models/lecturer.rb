@@ -40,7 +40,7 @@ class Lecturer < ActiveRecord::Base
 	validates :full_name, uniqueness: {scope: [:department_id, :born, :nip, :nid]}
 	after_create :reset_user
 	after_save :update_user_attributes
-	after_create :build_avatar
+	after_create :make_avatar
 
 	scope :by_faculty, ->(id) { joins{department}.where{department.faculty_id.eq(id)} }
 	scope :search, ->(query) {where{(full_name =~ "%#{query}%")}}
@@ -112,7 +112,7 @@ class Lecturer < ActiveRecord::Base
 		self.user.save
 	end
 
-	def build_avatar
+	def make_avatar
 		self.create_avatar if self.avatar.nil?
 	end
 	
