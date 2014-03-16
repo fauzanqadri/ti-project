@@ -32,6 +32,8 @@ TiProject::Application.configure do
   # config.threadsafe!
 
   # config.active_record.logger = ActiveSupport::Logger.new("#{Rails.root}/log/active_record.log")
+  config.logger = Logger.new(STDOUT)
+  config.logger.level = Logger.const_get(ENV['LOG_LEVEL'] ? ENV['LOG_LEVEL'].upcase : 'DEBUG')
   config.after_initialize do
     Bullet.enable = true
     Bullet.alert = true

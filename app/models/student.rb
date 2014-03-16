@@ -16,6 +16,7 @@
 #
 
 class Student < ActiveRecord::Base
+	# act_as_can_be_import
 	has_one :user, as: :userable, dependent: :destroy
 	belongs_to :department, counter_cache: true
 	has_many :courses, dependent: :destroy

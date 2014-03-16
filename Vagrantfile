@@ -10,11 +10,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "precise32"
+  config.vm.box = "base"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  # config.vm.box_url = "http://files.vagrantup.com/precise32.box"
   config.vm.box_url = "http://localhost:3000/precise32.box"
 
   # Create a forwarded port mapping which allows access to a specific port
@@ -27,7 +26,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # using a specific IP.
   config.vm.network :private_network, ip: "192.168.33.10"
 
-
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
   # your network.
@@ -35,19 +33,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
-  # config.ssh.private_key_path = [ '~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa' ]
   config.ssh.forward_agent = true
-
-  # config.vm.provision :shell do |shell|
-  #   shell.inline = "mkdir $1 && touch $2 && ssh-keyscan -H $3 >> $2 && chmod 600 $2"
-  #   shell.args = %q{/root/.ssh /root/.ssh/known_hosts "github.com"}
-  # end
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "/Users/fauzanqadri/paperclip_development", "/home/vagrant/paperclip_development"
+  config.vm.synced_folder "/Users/fauzanqadri/paperclip_development", "/vagrant_data"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -67,7 +59,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
   # You will need to create the manifests directory and a manifest in
-  # the file precise32.pp in the manifests_path directory.
+  # the file base.pp in the manifests_path directory.
   #
   # An example Puppet manifest to provision the message of the day:
   #

@@ -14,7 +14,8 @@
 #
 
 class Paper < ActiveRecord::Base
-	has_attached_file :bundle
+	has_attached_file :bundle,
+										path: ENV["PAPERCLIP_PATH"] + "/:class/bundle/:course_type/:course_id/:filename"
 	validates_attachment_content_type :bundle, content_type: "application/pdf"
 	validates_attachment_presence :bundle
 	validates :name, presence: true

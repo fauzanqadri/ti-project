@@ -40,6 +40,11 @@ gem 'dotenv-rails', :groups => [:development, :test]
 gem 'redcarpet'
 gem 'albino'
 gem 'nokogiri'
+gem 'roo'
+gem 'sidekiq' # require redis for memory database
+gem 'sinatra', require: false
+gem 'slim'
+gem 'faye'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

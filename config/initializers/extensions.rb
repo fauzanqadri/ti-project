@@ -1,0 +1,1 @@
+require 'act_as_can_be_import'

@@ -4,7 +4,7 @@ class Avatar < ActiveRecord::Base
 										styles: STYLES, 
 										default_url: "http://placehold.it/150x150",
 										url: "/avatar/:id/:style",
-										path: "/Users/fauzanqadri/paperclip_development/:class/image/:userable_type/:userable_id/:style/:filename"
+										path: "#{ENV["PAPERCLIP_PATH"]}/:class/image/:userable_type/:userable_id/:style/:filename"
 	validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
 	before_post_process :renaming_avatar_file
 	belongs_to :userable, polymorphic: true
