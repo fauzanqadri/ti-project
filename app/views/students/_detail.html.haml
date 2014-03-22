@@ -44,10 +44,10 @@
 											%i.fa.fa-calendar
 											= @student.born.try(:to_formatted_s, :long_ordinal)	
 										.col-sm-6
-											%strong Mahasiswa Sejak :
+											%strong Angkatan :
 											%br
 											%i.fa.fa-calendar-o
-											= @student.student_since.try(:to_formatted_s, :long_ordinal)
+											= @student.student_since
 					.clearfix
 			.modal-footer
 				= link_to reset_password_student_path(@student), class: "btn btn-danger", method: :post, data: {confirm: "Konfirmasi reset password ?"} do

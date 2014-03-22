@@ -27,16 +27,16 @@
 						.col-sm-9
 							= f.text_field :full_name, class: "form-control", placeholder: "Nama Lengkap"
 					.form-group
-						= f.label :address, "Alamat",class: "col-sm-3 control-label"
-						.col-sm-9
-							= f.text_area :address, class: "form-control", placeholder: "Alamat..."
-					.fom-group
 						= f.label :born, "Tanggal Lahir", class: "col-sm-3 control-label"
 						.col-sm-9
 							.input-group.date.datepicker
 								= f.text_field :born, class: "form-control", placeholder: "Tanggal Lahir", "data-format" => "YYYY-MM-DD"
 								%span.input-group-addon
 									%span.fa.fa-calendar
+					.form-group
+						= f.label :address, "Alamat",class: "col-sm-3 control-label"
+						.col-sm-9
+							= f.text_area :address, class: "form-control", placeholder: "Alamat..."
 					.clearfix
 				.modal-footer
 					%button.btn.btn-primary{type: "submit"}

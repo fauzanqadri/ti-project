@@ -34,9 +34,17 @@ class Supervisor < ActiveRecord::Base
 	after_destroy :decrement_lecturer_counter_cache
 	after_save :increment_course_counter_cache
 	after_destroy :decrement_course_counter_cache 
+	before_save :set_approved_time
+	after_save :send_notification
+	after_destroy :send_destroy_notification
 
 	scope :approved_supervisors, -> {where{(approved == true)} }
 	default_scope {order('created_at asc')}
+
+	def status
+		return "Menunggu Persetujuan" unless self.approved?
+		"Disetujui"
+	end
 
 	private
 	def increment_lecturer_counter_cache
@@ -154,5 +162,66 @@ class Supervisor < ActiveRecord::Base
 		unless self.userable_id == self.course.student.department.setting.department_director && self.userable_type == "Lecturer"
 			errors.add(:lecturer_id, "Persyaratan peraturan level dosen belum terpenuhi untuk melakakukan pembimbingan skripsi / pkl ini") if ( !rules_check?(department_lecturer_lead_course_rule) && self.approved? ) 
 		end
+	end
+
+	def set_approved_time
+		self.approved_time = Time.now if self.approved?
+	end
+
+	def send_notification
+		lecturer_notification
+		student_notification
+	end
+
+	def lecturer_notification
+		current_message = {
+			command: "renderFlash",
+			type: "private",
+			socket_identifier: self.lecturer.user.socket_identifier
+		}
+		data = if self.approved?
+			current_message.merge(
+				args: {
+					status: "notice",
+					message: "Kamu telah menyetujui menjadi pembimbing #{self.course.class.to_s.downcase}"
+				}
+			)
+		else
+			current_message.merge(
+				args: {
+					status: "warning",
+					message: "Seseorang telah meminta kamu menjadi pembimbing #{self.course.class.to_s.downcase}"
+				}
+			)
+		end
+		self.broadcast("/main_channel", data)
+	end
+
+	def student_notification
+		if self.approved?
+			data = {
+				command: "renderFlash", 
+				args: { 
+					status: "notice", 
+					message: "#{self.course.class.to_s} kamu telah memiliki pembimbing" 
+				},
+				type: "private",
+				socket_identifier: self.course.student.user.socket_identifier
+			}
+			self.broadcast("/main_channel", data)
+		end
+	end
+
+	def send_destroy_notification
+		data = {
+			command: "renderFlash", 
+			args: { 
+				status: "alert", 
+				message: "Pembimbingan pada #{self.course.class.to_s.downcase} dibatalkan" 
+			},
+			type: "private",
+			socket_identifier: self.course.student.user.socket_identifier
+		}
+		self.broadcast("/main_channel", data)
 	end
 end

@@ -82,7 +82,7 @@ class StudentsController < ApplicationController
   end
 
   def reset_password
-    if @student.reset_user
+    if @student.reset_password
       flash[:notice] = "Reset password berhasil dilakukan"
       render templete: 'reset_password'
     else

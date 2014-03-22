@@ -24,7 +24,9 @@ module TiProject
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
-    config.autoload_paths += Dir["#{Rails.root}/app/datatables", "#{Rails.root}/lib/**/"]
+    config.autoload_paths += Dir["#{Rails.root}/app/datatables"]
+    config.eager_load_paths += Dir["#{Rails.root}/lib/**/"]
+
     config.to_prepare do
       Devise::SessionsController.layout "devise"
       Devise::RegistrationsController.layout proc{ |controller| user_signed_in? ? "application" : "devise" }

@@ -44,7 +44,7 @@ end
 assessment_params = [
   {aspect: "Persiapan Seminar", percentage: 15, category: "Seminar", department_id: d.id},
   {aspect: "Sistematika Penyajian", percentage: 20, category: "Seminar", department_id: d.id},
-  {aspect: "Kejelasan dalam memberikan tanggapan terhadap pertanyaan, kritik dan saran", percentage: "20", category: "Seminar", department_id: d.id},
+  {aspect: "Kejelasan dalam memberikan tanggapan terhadap pertanyaan, kritik dan saran", percentage: 20, category: "Seminar", department_id: d.id},
   {aspect: "Penggunaan Alat Peraga", percentage: 15, category: "Seminar", department_id: d.id},
   {aspect: "Penampilan", percentage: 15, category: "Seminar", department_id: d.id},
   {aspect: "Sikap dalam menyajikan argumentasi", percentage: 15, category: "Seminar", department_id: d.id},
@@ -59,24 +59,6 @@ assessment_params = [
 assessment_params.each do |assessment|
   Assessment.find_or_initialize_by(aspect: assessment[:aspect], category: assessment[:category], department_id: assessment[:department_id]).tap do |t|
     t.percentage = assessment[:percentage]
-    t.save!
-  end
-end
-
-
-
-students = [
-  {nim: "109091000132", full_name: "Fauzan Qadri", address: "Some text address", born: "1991-04-07", student_since: "2009-08-16", department_id: d.id,},
-  {nim: "109091000122", full_name: "Zidni Mubarok", address: "Some text address", born: "1988-02-19", student_since: "2009-08-16", department_id: d.id },
-  {nim: "109091000097", full_name: "Azhar Amir", address: "Some text address", born: "1990-01-11", student_since: "2009-08-16", department_id: d.id }
-]
-students.each do |student|
-  Student.find_or_initialize_by(nim: student[:nim]).tap do |t|
-    t.full_name = student[:full_name]
-    t.address = student[:address]
-    t.born = student[:born]
-    t.student_since = student[:student_since]
-    t.department_id = student[:department_id]
     t.save!
   end
 end
@@ -126,8 +108,7 @@ lecturers.each do |lecturer|
 end
 
 staffs = [
-  {full_name: "Muhammad Adzimy", address: "Some text address", born: "01-01-1986", faculty_id: f.id},
-  {full_name: "Al Fayad", address: "Some text address", born: "01-01-1986", faculty_id: f.id}
+  {full_name: "Staff Admin", address: "Some text address", born: "01-01-1991", faculty_id: f.id},
 ]
 staffs.each do |staff|
   Staff.find_or_initialize_by(full_name: staff[:full_name]).tap do |t|

@@ -9,7 +9,6 @@ class ConferenceLogsController < ApplicationController
       format.html
       format.json { render json: ConferenceLogsDatatable.new(view_context)}
     end
-    # @conference_logs = ConferenceLog.all
   end
 
   def approve

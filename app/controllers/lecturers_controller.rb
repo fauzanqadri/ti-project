@@ -87,14 +87,14 @@ class LecturersController < ApplicationController
   def search
     authorize! :search, Lecturer
     d_id = current_user.userable.department_id
-    @lecturers = Lecturer.where{(department_id == d_id)}.search(params[:query])
+    @lecturers = Lecturer.includes(:avatar).where{(department_id == d_id)}.search(params[:query])
     respond_to do |format|
       format.json
     end
   end
 
   def reset_password
-    if @lecturer.reset_user
+    if @lecturer.reset_password
       flash[:notice] = "Reset password berhasil dilakukan"
       render templete: 'reset_password'
     else

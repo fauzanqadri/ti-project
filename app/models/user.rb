@@ -20,6 +20,7 @@
 #  userable_id              :integer          not null
 #  created_at               :datetime
 #  updated_at               :datetime
+#  socket_identifier        :string(255)      default(""), not null
 #
 
 class User < ActiveRecord::Base
@@ -31,14 +32,20 @@ class User < ActiveRecord::Base
   validates :username, uniqueness: { case_sensitive: false }
 
   belongs_to :userable, polymorphic: true
+  before_create :generate_socket_identifier
 
   def self.find_first_by_auth_conditions(warden_conditions)
   	conditions = warden_conditions.dup
   	if login = conditions.delete(:login)
   		where(conditions).where{(email == login.downcase) | (username == login.downcase) | (primary_identification == login.downcase) | (secondary_identification == login.downcase)}.first
-  		# where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
   	else
   		where(conditions).first
   	end
+  end
+
+  private 
+
+  def generate_socket_identifier
+    self.socket_identifier = SecureRandom.urlsafe_base64
   end
 end

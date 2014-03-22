@@ -13,7 +13,7 @@ class LecturersDatatable
 	def as_json opt = {}
 		{
 			sEcho: params[:sEcho].to_i,
-			iTotalRecords: Lecturer.by_faculty(current_user.userable.faculty_id).size,
+			iTotalRecords: total_records.size,
 			iTotalDisplayRecords: lecturers.total_entries,
 			aaData: data
 		}
@@ -45,14 +45,22 @@ class LecturersDatatable
 		end
 	end
 
-	def fetch_lecturers
-		id = current_user.userable.faculty_id
-		lecturers = Lecturer.includes(:department).by_faculty(current_user.userable.faculty_id).order("#{sort_column} #{sort_direction}")
-		lecturers = lecturers.page(page).per_page(per_page)
+	def total_records
+		lecturers = if current_user.userable.respond_to? :faculty_id
+			Lecturer.includes(:department).by_faculty(current_user.userable.faculty_id)
+		else
+			Lecturer.includes(:department).by_department(current_user.userable.department_id)
+		end
+		lecturers = lecturers.order("#{sort_column} #{sort_direction}")
 		if params[:sSearch].present?
 			query = params[:sSearch]
-			lecturers = lecturers.where{(full_name =~ "%#{query}%") | (nip =~ "%#{query}%") | (nid =~ "%#{query}%")}
+			lecturers = lecturers.search(query)
 		end
+		lecturers
+	end
+
+	def fetch_lecturers
+		lecturers = total_records.page(page).per_page(per_page)
 		lecturers
 	end
 

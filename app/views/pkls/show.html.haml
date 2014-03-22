@@ -76,44 +76,27 @@
 								%i.fa.fa-upload
 								Tambah File
 					.clearfix
-			#supervisors
+			#additional-report
 				%header
-					%h2 Pembimbing
+					%h2 Laporan Tambahan
 				%section
-					.panel.panel-success
-						.panel-heading
-							%i.fa.fa-group
-							Menyetujui Dosen Pembimbing
-						.panel-body
-							%table#supervisor.table.table-bordered{"data-source" => "#{pkl_supervisors_url(@pkl, format: "json")}"}
-								%thead
-									%tr
-										%th
-											.text-center Nama Dosen
-										%th
-											.text-center Action
-									%tbody
-					.panel.panel-default
-						.panel-heading
-							%i.fa.fa-refresh.fa-spin
-							Menunggu Persetujuan Dosen Pembimbing
-						.panel-body
-							%table#supervisorWaiting.table.table-bordered{"data-source" => "#{pkl_supervisors_url(@pkl, format: "json", pending_request: true)}"}
-								%thead
-									%tr
-										%th
-											.text-center Nama Dosen
-										%th
-											.text-center Action
-									%tbody
+					%table#reports.table.table-bordered{"data-source" => "#{pkl_reports_url(@pkl, format: "json")}"}
+						%thead
+							%tr
+								%th
+									.text-center Nama File
+								%th
+									.text-center Tanggal Upload
+								%th
+									.text-center Action
+						%tbody
 				%footer
 					.pull-right
-						- if user_signed_in? && can_create_supervisor?(@pkl)
-							= link_to new_pkl_supervisor_path(@pkl), class: "btn btn-primary", remote: true do
-								%i.fa.fa-group
-								Assign Dosen
+						- if user_signed_in? && can_create_report?(@pkl)
+							= link_to new_pkl_report_path(@pkl), class: "btn btn-primary", remote: true do
+								%i.fa.fa-bar-chart-o
+								Upload laporan tambahan
 					.clearfix
-
 		.col-sm-8
 			#main
 				%header
@@ -131,6 +114,10 @@
 				%section
 					%ul.nav.nav-tabs
 						%li.active
+							= link_to "#supervisors", "data-toggle" => "tab" do
+								%i.fa.fa-group
+								Pembimbing
+						%li
 							= link_to "#feedbacks", "data-toggle" => "tab" do
 								%i.fa.fa-comments
 								Feedbacks
@@ -140,7 +127,40 @@
 								%i.fa.fa-exchange
 								Catatan Bimbingan
 					.tab-content
-						#feedbacks.tab-pane.fade.in.active{"data-source" => "#{pkl_feedbacks_path(@pkl)}"}
+						#supervisors.tab-pane.fade.in.active
+							%header
+								.row
+									.col-sm-6
+										%h2
+											%i.fa.fa-group
+											Pembimbing
+									.col-sm-6
+										.pull-right
+											.action{style: "margin-top: 20px;"}
+												- if user_signed_in? && can_create_supervisor?(@pkl)
+													= link_to new_pkl_supervisor_path(@pkl), class: "btn btn-default", remote: true do
+														%i.fa.fa-group
+														Assign Dosen
+							%section
+								%table#supervisor.table.table-bordered{"data-source" => "#{pkl_supervisors_url(@pkl, format: "json")}"}
+									%thead
+										%tr
+											%th
+												.text-center Nama Dosen
+											%th
+												.text-center Level
+											%th
+												.text-center Pengaju Pembimbing
+											%th
+												.text-center Jenis Pengaju
+											%th
+												.text-center Status
+											%th
+												.text-center Tanggal Persetujuan
+											%th
+												.text-center Action
+									%tbody
+						#feedbacks.tab-pane.fade{"data-source" => "#{pkl_feedbacks_path(@pkl)}"}
 							%header
 								.row
 									.col-sm-6
@@ -188,4 +208,3 @@
 											%th
 												.text-center Action
 									%tbody
-							%footer

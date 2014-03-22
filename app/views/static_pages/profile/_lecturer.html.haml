@@ -39,6 +39,14 @@
 						.col-sm-9
 							= f.text_field :full_name, class: "form-control", placeholder: "Nama Lengkap"
 					.form-group
+						= f.label :born, "Tanggal Lahir", class: "col-sm-3 control-label"
+						.col-sm-9
+							.input-group.date.datepicker
+								= f.text_field :born, class: "form-control", placeholder: "Tanggal Lahir", "data-format" => "YYYY-MM-DD"
+								%span.input-group-addon
+									%span.fa.fa-calendar
+					.clearfix
+					.form-group
 						= f.label :back_title, "Title Belakang", class: "col-sm-3 control-label"
 						.col-sm-9
 							= f.text_field :back_title, class: "form-control", placeholder: "M.Sc"
@@ -52,14 +60,7 @@
 						= f.label :level, "Level Dosen", class: "col-sm-3 control-label"
 						.col-sm-9
 							= f.select :level, options_for_select(Lecturer::LEVEL, selected: user.level), {}, {class: "form-control"}
-					.fom-group
-						= f.label :born, "Tanggal Lahir", class: "col-sm-3 control-label"
-						.col-sm-9
-							.input-group.date.datepicker
-								= f.text_field :born, class: "form-control", placeholder: "Tanggal Lahir", "data-format" => "YYYY-MM-DD"
-								%span.input-group-addon
-									%span.fa.fa-calendar
-					.clearfix
+					
 				.modal-footer
 					%button.btn.btn-primary{type: "submit"}
 						%i.fa.fa-upload

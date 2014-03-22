@@ -1,0 +1,36 @@
+#import-modal.modal.fade{tabindex: "-1", role: "dialog", "aria-labelledby" => "importModalLabel", "aria-hidden" => true, "data-backdrop" => "static", "data-keyboard" => "true"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
+        %h4#importModalLabel.modal-title Import Data Mahasiswa
+      = form_for @import, remote: "true", html: {role: "form", class: "form-horizontal"} do |f|
+        .modal-body
+          = render 'layouts/shared/errors', :object => f.object
+          .form-group
+            = f.label :klass_action, "Jenis Data", class: "col-sm-3 control-label"
+            .col-sm-9
+              = f.select :klass_action, options_for_select(klass_action_opt), {}, {class: "form-control"}
+          - if current_user.userable_type == "Staff"
+            .form-group
+              = f.label :department_id, "Untuk Jurusan", class: "col-sm-3 control-label"
+              .col-sm-9
+                = f.select :department_id, options_for_select(departments_opt), {class: "form-control"}
+          .form-group
+            = f.label :package, "File", class: "col-sm-3 control-label"
+            .col-sm-9
+              = f.file_field :package, id: "fileUpload"
+              .input-group
+                %input#filename.form-control.disabled{ placeholder: "File bertipe .xls / .xlsx / .csv", readonly: true}
+                %span#fileSelect.btn.btn-info.input-group-addon
+                  %i.fa.fa-folder-open-o
+                  Select File
+              %span.help-block
+                Pastikan data memiliki header pada cell pertama pada file xls / xlsx / csv
+        .modal-footer
+          %button.btn.btn-primary{type: "submit"}
+            %i.fa.fa-upload
+            Simpan
+          %button.btn.btn-default{type: "button", "data-dismiss" => "modal"}
+            %i.fa.fa-times
+            Cencel

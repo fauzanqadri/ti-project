@@ -1,0 +1,29 @@
+#newReport-modal.modal.fade{tabindex: "-1", role: "dialog", "aria-labelledby" => "newReportModalLabel", "aria-hidden" => "true", "data-backdrop" => "static", "data-keyboard" => "true"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
+        %h4#newReportModalLabel.modal-title Laporan Tambahan
+      = form_for [@course, @report], remote: "true", html: {role: "form", class: "form-horizontal"} do |f|
+        .modal-body
+          = render 'layouts/shared/errors', :object => f.object
+          .form-group
+            = f.label :name, "Nama File", class: "col-sm-3 control-label"
+            .col-sm-9
+              = f.text_field :name, class: "form-control", placeholder: "Nama File e.g 'Laporan Lapangan'"
+          .form-group
+            = f.label :attachment, "File", class: "col-sm-3 control-label"
+            .col-sm-9
+              = f.file_field :attachment, id: "fileUpload"
+              .input-group
+                %input#filename.form-control.disabled{ placeholder: "Select File", readonly: true}
+                %span#fileSelect.btn.btn-info.input-group-addon
+                  %i.fa.fa-folder-open-o
+                  Select File
+        .modal-footer
+          %button.btn.btn-primary{type: "submit"}
+            %i.fa.fa-upload
+            Simpan
+          %button.btn.btn-default{type: "button", "data-dismiss" => "modal"}
+            %i.fa.fa-times
+            Cencel

@@ -4,6 +4,6 @@
 # Set timeout to 8 on Heroku, longer if you manage your own systems.
 :timeout: 30
 :queues:
-  - [often, 7]
-  - [default, 5]
-  - [seldom, 3]
+  - [critical, 20]
+  - [default, 10]
+  - [lazy, 5]

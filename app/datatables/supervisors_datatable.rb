@@ -25,6 +25,11 @@ class SupervisorsDatatable
 		supervisors.map do |supervisor|
 			[
 				supervisor.lecturer.to_s,
+				supervisor.lecturer.level,
+				supervisor.userable.to_s,
+				supervisor.userable_type,
+				supervisor.status,
+				supervisor.approved_time.try(:to_formatted_s, :long_ordinal),
 				act(supervisor)
 			]
 		end
@@ -52,12 +57,12 @@ class SupervisorsDatatable
 
 	def fetch_supervisors
 		course = Course.find(course_id)
-		supervisors = course.supervisors.includes(:course, :lecturer).joins{lecturer}
-		if params[:pending_request].present? && params[:pending_request] == 'true'
-			supervisors = supervisors.where{(approved == false)}
-		else
-			supervisors = supervisors.where{(approved == true)}
-		end
+		supervisors = course.supervisors.includes(:course, :lecturer)
+		# if params[:pending_request].present? && params[:pending_request] == 'true'
+		# 	supervisors = supervisors.where{(approved == false)}
+		# else
+		# 	supervisors = supervisors.where{(approved == true)}
+		# end
 		supervisors
 	end
 

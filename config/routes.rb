@@ -39,6 +39,7 @@ TiProject::Application.routes.draw do
     end
     resources :feedbacks, except: [:edit, :update, :show]
     resources :consultations, except: :show
+    resources :reports
   end
 
   resources :skripsis, except: :index do
@@ -62,6 +63,7 @@ TiProject::Application.routes.draw do
       resources :examiners, only: :destroy
     end
     resources :conferences, only: :index
+    resources :reports
     
   end
   
@@ -91,5 +93,9 @@ TiProject::Application.routes.draw do
   put '/account' => 'static_pages#update_account'
   get '/password' => 'static_pages#password'
   put '/password' => 'static_pages#update_password'
+
+  resources :imports, except: [:show, :edit, :update] do
+    get '/download', action: 'download', on: :member
+  end
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140313060848) do
+ActiveRecord::Schema.define(version: 20140322175255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20140313060848) do
     t.datetime "updated_at"
     t.integer  "feedbacks_count",   default: 0,     null: false
     t.boolean  "is_finish",         default: false
+    t.integer  "reports_count"
   end
 
   create_table "departments", force: true do |t|
@@ -132,6 +133,22 @@ ActiveRecord::Schema.define(version: 20140313060848) do
     t.datetime "updated_at"
   end
 
+  create_table "imports", force: true do |t|
+    t.string   "klass_action"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "package_file_name"
+    t.string   "package_content_type"
+    t.integer  "package_file_size"
+    t.datetime "package_updated_at"
+    t.integer  "total_row",                  default: 0,             null: false
+    t.string   "status",                     default: "on progress", null: false
+    t.integer  "department_id"
+    t.integer  "userable_id",                                        null: false
+    t.string   "userable_type",                                      null: false
+    t.string   "package_original_file_name", default: "",            null: false
+  end
+
   create_table "lecturers", force: true do |t|
     t.string   "nip"
     t.string   "nid"
@@ -163,6 +180,17 @@ ActiveRecord::Schema.define(version: 20140313060848) do
     t.string   "bundle_content_type"
     t.integer  "bundle_file_size"
     t.datetime "bundle_updated_at"
+  end
+
+  create_table "reports", force: true do |t|
+    t.string   "name",                    null: false
+    t.integer  "course_id",               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "attachment_file_name"
+    t.string   "attachment_content_type"
+    t.integer  "attachment_file_size"
+    t.datetime "attachment_updated_at"
   end
 
   create_table "settings", force: true do |t|
@@ -197,16 +225,20 @@ ActiveRecord::Schema.define(version: 20140313060848) do
   add_index "staffs", ["faculty_id"], name: "index_staffs_on_faculty_id", using: :btree
 
   create_table "students", force: true do |t|
-    t.string   "nim",            default: "", null: false
-    t.string   "full_name",      default: "", null: false
+    t.string   "nim",                      default: "", null: false
+    t.string   "full_name",                default: "", null: false
     t.text     "address"
     t.date     "born"
-    t.date     "student_since"
-    t.integer  "department_id",  default: 0,  null: false
-    t.integer  "pkls_count",     default: 0
-    t.integer  "skripsis_count", default: 0
+    t.integer  "department_id",            default: 0,  null: false
+    t.integer  "pkls_count",               default: 0
+    t.integer  "skripsis_count",           default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "student_since"
+    t.string   "sex",            limit: 2
+    t.string   "home_number"
+    t.string   "phone_number"
+    t.integer  "import_id"
   end
 
   add_index "students", ["department_id"], name: "index_students_on_department_id", using: :btree
@@ -220,6 +252,7 @@ ActiveRecord::Schema.define(version: 20140313060848) do
     t.integer  "userable_id",                   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "approved_time"
   end
 
   create_table "surceases", force: true do |t|
@@ -249,6 +282,7 @@ ActiveRecord::Schema.define(version: 20140313060848) do
     t.integer  "userable_id",                           null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "socket_identifier",        default: "", null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

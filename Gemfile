@@ -45,6 +45,8 @@ gem 'sidekiq' # require redis for memory database
 gem 'sinatra', require: false
 gem 'slim'
 gem 'faye'
+gem 'puma'
+# gem 'thin'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

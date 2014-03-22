@@ -1,0 +1,13 @@
+var html = "<%= j render('report') %>";
+var reportModal = $("#report-modal");
+if (reportModal.length == 1) {
+	reportModal.modal("hide");
+	reportModal.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		$("body").append(html);
+		$("#report-modal").modal({show: true});
+	});
+}else{
+	$("body").append(html);
+	$("#report-modal").modal({show: true});	
+}

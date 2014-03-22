@@ -1,1 +1,2 @@
-require 'act_as_can_be_import'
+require 'act_as_can_importing'
+require 'act_as_notify'

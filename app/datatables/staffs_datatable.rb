@@ -46,7 +46,7 @@ class StaffsDatatable
 
 	def fetch_staffs
 		id = current_user.userable.faculty_id
-		staffs = Staff.where{(faculty_id.eq(id))}.order("#{sort_column} #{sort_direction}")
+		staffs = Staff.includes(:faculty).order("#{sort_column} #{sort_direction}")
 		staffs = staffs.page(page).per_page(per_page)
 		if params[:sSearch].present?
 			query = params[:sSearch]

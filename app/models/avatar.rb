@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: avatars
+#
+#  id                 :integer          not null, primary key
+#  userable_type      :string(255)      not null
+#  userable_id        :integer          not null
+#  created_at         :datetime
+#  updated_at         :datetime
+#  image_file_name    :string(255)
+#  image_content_type :string(255)
+#  image_file_size    :integer
+#  image_updated_at   :datetime
+#
+
 class Avatar < ActiveRecord::Base
 	STYLES = { large: "200x200#", medium: "150x150#", small: "64x64#", thumb: "10x10#"}
 	has_attached_file :image, 

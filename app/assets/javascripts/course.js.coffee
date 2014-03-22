@@ -24,7 +24,7 @@ $(document).ready ->
 		bPaginate: false
 		aoColumnDefs: [
 			bSortable: false,
-			aTargets: [0, 1]
+			aTargets: [0, 1, 2, 3, 4, 5, 6]
 		]
 	$("#supervisorWaiting").dataTable
 		sPaginationType: "two_button"
@@ -49,6 +49,19 @@ $(document).ready ->
 		aoColumnDefs: [
 			bSortable: false,
 			aTargets: [1, 2, 4, 5]
+		]
+	$("#reports").dataTable
+		sPaginationType: "two_button"
+		bProcessing: true
+		bServerSide: true
+		sAjaxSource: $('#reports').data('source')
+		sPaginationType: "bootstrap"
+		bFilter: false
+		bInfo: false
+		bPaginate: false
+		aoColumnDefs: [
+			bSortable: false,
+			aTargets: [0, 1, 2]
 		]
 
 	window.feedbacksRoute = new TiProject.Routers.FeedbacksRouter()

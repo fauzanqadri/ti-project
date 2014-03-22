@@ -21,33 +21,28 @@
 #
 
 class Lecturer < ActiveRecord::Base
+	include Userable
 	LEVEL = ["Lektor", "Asisten Ahli"]
-	has_one :user, as: :userable, dependent: :destroy
+
 	belongs_to :department, counter_cache: true
+
 	has_many :supervisors, dependent: :destroy
 	has_many :assigned_supervisors, as: :userable, class_name: "Supervisor", dependent: :destroy
 	has_many :feedbacks, as: :userable, dependent: :destroy
 	has_many :conference, as: :userable, dependent: :destroy
 	has_many :conference_logs, through: :supervisors
 	has_many :examiners, dependent: :destroy
-	has_one :avatar, as: :userable, dependent: :destroy
-	accepts_nested_attributes_for :user, reject_if: :all_blank
-	accepts_nested_attributes_for :avatar, reject_if: :all_blank
+	has_many :imports, as: :userable, dependent: :nullify
+
 	validates :level, presence: true, inclusion: {in: LEVEL}
 	validates :department_id, presence: true
-	validates :full_name, presence: true
-	validates :born, presence: true
-	validates :full_name, uniqueness: {scope: [:department_id, :born, :nip, :nid]}
-	after_create :reset_user
+	
+	validates :full_name, uniqueness: {scope: [:nip, :nid] }
 	after_save :update_user_attributes
-	after_create :make_avatar
 
 	scope :by_faculty, ->(id) { joins{department}.where{department.faculty_id.eq(id)} }
-	scope :search, ->(query) {where{(full_name =~ "%#{query}%")}}
-
-	def to_param
-		"#{self.id}-#{self.full_name.parameterize}"
-	end
+	scope :by_department, ->(d_id) {where{department_id.eq(d_id)}}
+	scope :search, ->(query) {where{ (full_name =~ "%#{query}%") | (nip =~ "%#{query}%") | (nid =~ "#{query}") }}
 
 	def to_s
 		front = self.front_title.blank? ? "" : "#{self.front_title}."
@@ -73,38 +68,6 @@ class Lecturer < ActiveRecord::Base
 		end
 	end
 
-	# <-------------------------------------------------- Callback -------------------------------------------------->
-	def reset_user
-		self.user.destroy unless self.user.nil?
-		u = User.find_by_username(self.full_name.to_s.parameterize.underscore)
-		username = if u.blank?
-			self.full_name.to_s.parameterize.underscore
-		else
-			"#{self.full_name.to_s.parameterize.underscore}#{u.size}"
-		end
-		password = if !self.nip.nil? || !self.nip.blank?
-			self.nip
-		elsif !self.nid.nil? || !self.nid.blank?
-			self.nid
-		elsif !(self.nip.nil? || self.nip.blank?) && !(self.nid.nil? || self.nid.blank?)
-			self.nip
-		else
-			"#{username}12345678"
-		end
-		email = "#{username}@mail.me"
-		primary_identification = self.nip
-		secondary_identification = self.nid
-		user = self.build_user(
-														email: email, 
-														username: username,
-														primary_identification: primary_identification, 
-														secondary_identification: secondary_identification,
-														password: password, 
-														password_confirmation: password
-													)
-		user.save
-	end
-
 	private
 	def update_user_attributes
 		self.user.primary_identification = self.nip if self.nip_changed?
@@ -112,8 +75,4 @@ class Lecturer < ActiveRecord::Base
 		self.user.save
 	end
 
-	def make_avatar
-		self.create_avatar if self.avatar.nil?
-	end
-	
 end

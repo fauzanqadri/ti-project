@@ -23,6 +23,7 @@ class Course < ActiveRecord::Base
 	has_many :feedbacks, dependent: :destroy
 	has_many :consultations, dependent: :destroy
 	has_many :surceases, dependent: :destroy
+	has_many :reports, dependent: :destroy
 	accepts_nested_attributes_for :papers
 	validates :description, presence: true
 	validates :title, presence: true

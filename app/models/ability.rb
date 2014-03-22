@@ -43,6 +43,10 @@ class Ability
 		can :index, Conference do |conference|
 			conference.skripsi.is_finish?
 		end
+
+		can :read, Report do |report|
+			report.course.is_finish?
+		end
 	end
 
 	def staff
@@ -105,6 +109,10 @@ class Ability
 
 		can :set_local_seminar, Seminar do |seminar|
 			seminar.skripsi.student.department.faculty_id == @user.userable.faculty_id
+		end
+
+		can :read, Report do |report|
+			report.course.student.department.faculty_id == @user.userable.faculty_id
 		end
 
   end
@@ -176,6 +184,11 @@ class Ability
 			sd = Sidang.find_by_skripsi_id(sidang.skripsi_id)
 			sd.nil? && sidang.skripsi.student_id == @user.userable_id
 		end
+
+		can [:read, :create, :destroy], Report do |report|
+			report.course.student_id == @user.userable_id
+		end
+
 	end
 
 	def lecturer
@@ -259,12 +272,20 @@ class Ability
 
 		can :manage, Surcease
 
+		can [:read, :create, :destroy], Report do |report|
+			supervisors = report.course.supervisors.approved_supervisors.pluck(:lecturer_id)
+			supervisors.include?(@user.userable_id)
+		end
+
 		if @user.userable.is_admin?
 			as_lecturer_admin
 		end
 	end
 
 	def as_lecturer_admin
+		can :manage, Lecturer
+		can :manage, Student
+
 		can :create, Supervisor do |supervisor|
 			supervisor.course.student.department_id == @user.userable.department_id && @user.userable_id == @user.userable.department.setting.department_director
 		end
@@ -316,11 +337,10 @@ class Ability
 		end
 		can :manage, Setting
 		can :manage, Assessment
-	end
 
-	# def checking_settings
-	# 	setting = @user.userable.department.setting
-	# 	raise Exceptions::SettingsRequired.new if (setting.department_director.nil? || setting.department_director.blank?) || (setting.department_secretary.nil? || setting.department_secretary.blank?)
-	# end
+		can :manage, Report do |report|
+			report.course.student.department_id == @user.userable.department_id
+		end
+	end
 
 end

@@ -4,7 +4,9 @@
 		%meta{content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no", name: "viewport"}
 		%title= "SIMPS"
 		= stylesheet_link_tag    "application", :media => "all", "data-turbolinks-track" => true
+		= javascript_include_tag hierarchical_part_url
 		= javascript_include_tag "application", "data-turbolinks-track" => true
+		
 		= yield :specific_js
 		= yield :bottom_js
 		/[if lt IE 9]
@@ -12,6 +14,8 @@
 		= csrf_meta_tags
 	%body 
 		%section
+			- if user_signed_in?
+				%input#identification-unique{type: "hidden", value: current_user.socket_identifier}
 			#cover
 			= render 'layouts/shared/header'
 			#the-flash

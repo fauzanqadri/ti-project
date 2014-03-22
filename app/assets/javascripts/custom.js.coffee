@@ -6,7 +6,7 @@ $(document).delegate "#the-flash .alert button.close", "click", (e)->
 	parent.addClass("animated slideOutRight")
 	parent.one 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', ->
 		$(this).remove()
-$(document).delegate "#faculty-modal, #department-modal, #concentration-modal, #staff-modal, #staff-detail, #lecturer-modal, #lecturer-detail, #student-modal, #student-detail, #skripsi-modal, #pkl-modal, #paper-modal, #newPaper-modal, #supervisor-modal, #consultation-modal, #consultation-pdf-modal, #feedback-modal, #seminarReport-modal, #sidang-modal, #conference-modal, #seminar-modal, #assessment-modal, #sessionModal, #user-profile-modal, #account-modal, #password-modal", 'hidden.bs.modal', (e)->
+$(document).delegate "#faculty-modal, #department-modal, #concentration-modal, #staff-modal, #staff-detail, #lecturer-modal, #lecturer-detail, #student-modal, #student-detail, #skripsi-modal, #pkl-modal, #paper-modal, #newPaper-modal, #supervisor-modal, #consultation-modal, #consultation-pdf-modal, #feedback-modal, #seminarReport-modal, #sidang-modal, #conference-modal, #seminar-modal, #assessment-modal, #sessionModal, #user-profile-modal, #account-modal, #password-modal, #import-modal, #newReport-modal, #report-modal", 'hidden.bs.modal', (e)->
 	$(e.target).remove()
 	$(document).find(".bootstrap-datetimepicker-widget.dropdown-menu").each ->
 		$(this).remove()

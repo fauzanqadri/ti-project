@@ -94,42 +94,26 @@
 								%i.fa.fa-upload
 								Tambah File
 					.clearfix
-			#supervisors
+			#additional-report
 				%header
-					%h2 Pembimbing
+					%h2 Laporan Tambahan
 				%section
-					.panel.panel-success
-						.panel-heading
-							%i.fa.fa-group
-							Menyetujui Dosen Pembimbing
-						.panel-body
-							%table#supervisor.table.table-bordered{"data-source" => "#{skripsi_supervisors_url(@skripsi, format: "json")}"}
-								%thead
-									%tr
-										%th
-											.text-center Nama Dosen
-										%th
-											.text-center Action
-									%tbody
-					.panel.panel-default
-						.panel-heading
-							%i.fa.fa-refresh.fa-spin
-							Menunggu Persetujuan Dosen Pembimbing
-						.panel-body
-							%table#supervisorWaiting.table.table-bordered{"data-source" => "#{skripsi_supervisors_url(@skripsi, format: "json", pending_request: true)}"}
-								%thead
-									%tr
-										%th
-											.text-center Nama Dosen
-										%th
-											.text-center Action
-									%tbody
+					%table#reports.table.table-bordered{"data-source" => "#{skripsi_reports_url(@skripsi, format: "json")}"}
+						%thead
+							%tr
+								%th
+									.text-center Nama File
+								%th
+									.text-center Tanggal Upload
+								%th
+									.text-center Action
+						%tbody
 				%footer
 					.pull-right
-						- if user_signed_in? && can_create_supervisor?(@skripsi)
-							= link_to new_skripsi_supervisor_path(@skripsi), class: "btn btn-primary", remote: true do
-								%i.fa.fa-group
-								Assign Dosen
+						- if user_signed_in? && can_create_report?(@skripsi)
+							= link_to new_skripsi_report_path(@skripsi), class: "btn btn-primary", remote: true do
+								%i.fa.fa-bar-chart-o
+								Upload laporan tambahan
 					.clearfix
 
 		.col-sm-8
@@ -149,6 +133,10 @@
 				%section
 					%ul.nav.nav-tabs
 						%li.active
+							= link_to "#supervisors", "data-toggle" => "tab" do
+								%i.fa.fa-group
+								Pembimbing
+						%li
 							= link_to "#feedbacks", "data-toggle" => "tab" do
 								%i.fa.fa-comments
 								Feedbacks
@@ -162,7 +150,40 @@
 								%i.fa.fa-gavel
 								Seminar / Sidang
 					.tab-content
-						#feedbacks.tab-pane.fade.in.active{"data-source" => "#{skripsi_feedbacks_path(@skripsi)}"}
+						#supervisors.tab-pane.fade.in.active
+							%header
+								.row
+									.col-sm-6
+										%h2
+											%i.fa.fa-group
+											Pembimbing
+									.col-sm-6
+										.pull-right
+											.action{style: "margin-top: 20px;"}
+												- if user_signed_in? && can_create_supervisor?(@skripsi)
+													= link_to new_skripsi_supervisor_path(@skripsi), class: "btn btn-default", remote: true do
+														%i.fa.fa-group
+														Assign Dosen
+							%section
+								%table#supervisor.table.table-bordered{"data-source" => "#{skripsi_supervisors_url(@skripsi, format: "json")}"}
+									%thead
+										%tr
+											%th
+												.text-center Nama Dosen
+											%th
+												.text-center Level
+											%th
+												.text-center Pengaju Pembimbing
+											%th
+												.text-center Jenis Pengaju
+											%th
+												.text-center Status
+											%th
+												.text-center Tanggal Persetujuan
+											%th
+												.text-center Action
+									%tbody
+						#feedbacks.tab-pane.fade{"data-source" => "#{skripsi_feedbacks_path(@skripsi)}"}
 							%header
 								.row
 									.col-sm-6

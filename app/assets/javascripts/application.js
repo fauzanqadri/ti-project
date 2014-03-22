@@ -22,7 +22,6 @@
 //= require jquery.ui.autocomplete
 //= require twitter/bootstrap
 //= require moment
-//= require moment/id
 //= require bootstrap-datetimepicker.min
 //= require extend_date
 //= require fullcalendar
@@ -36,6 +35,6 @@
 //= require backbone_datalink
 //= require backbone/ti_project
 //= require load_page
-//= require signin
 //= require custom
 //= require bootstrap
+//= require faye_init
