@@ -16,6 +16,8 @@ module Userable
 		after_create :make_user
 		after_create :make_avatar
 
+		delegate :email, :username, :socket_identifier, :userable_type, :userable_id, to: :user, allow_nil: true
+
 	end
 
 	class UserGenerator

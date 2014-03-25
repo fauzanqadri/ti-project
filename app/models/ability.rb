@@ -214,7 +214,7 @@ class Ability
 			if @setting.allow_remove_supervisor_duration == 0
 				supervisor.lecturer_id == @user.userable_id && supervisor.approved == false
 			else
-				(supervisor.lecturer_id == @user.userable_id && supervisor.approved == false) || (supervisor.lecturer_id == @user.userable_id && supervisor.approved == true && (Time.now.to_i - supervisor.created_at.to_i) < @setting.allow_remove_supervisor_duration.minutes)
+				(supervisor.lecturer_id == @user.userable_id && supervisor.approved == false) || (supervisor.lecturer_id == @user.userable_id && supervisor.approved == true && (Time.now.to_i - supervisor.approved_time.to_i) < @setting.allow_remove_supervisor_duration.minutes)
 			end
 		end
 

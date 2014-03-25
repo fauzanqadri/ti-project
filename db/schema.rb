@@ -144,8 +144,8 @@ ActiveRecord::Schema.define(version: 20140322175255) do
     t.integer  "total_row",                  default: 0,             null: false
     t.string   "status",                     default: "on progress", null: false
     t.integer  "department_id"
-    t.integer  "userable_id",                                        null: false
-    t.string   "userable_type",                                      null: false
+    t.integer  "userable_id"
+    t.string   "userable_type"
     t.string   "package_original_file_name", default: "",            null: false
   end
 

@@ -36,7 +36,7 @@ class Student < ActiveRecord::Base
 	validates :nim, presence: true, uniqueness: true
 	validates :full_name, uniqueness: { scope: :nim }
 
-	delegate_import_attr nim: {key: "NIMHSMSMH", required: true}, full_name: { key: "NMMHSMSMH", required: true}, address: { key: "ALMHSMSMH", required: false}, student_since: { key: "TAHUNMSMH", required: false}, home_number: {key: "TELRMMSMH", required: false}, phone_number: { key: "NOHPPMSMH", required: false}
+	delegate_import_attr nim: {key: "NIMHSMSMH", required: true}, full_name: { key: "NMMHSMSMH", required: true}, address: { key: "ALMHSMSMH", required: false}, student_since: { key: "TAHUNMSMH", required: false}, home_number: {key: "TELRMMSMH", required: false}, phone_number: { key: "NOHPPMSMH", required: false}, born: {key: "TGLHRMSMH", required: false}
 	delegate_copy_importir_attr :department_id, required: true, to: :department_id
 	delegate_copy_importir_attr :import_id, required: true, to: :id
 

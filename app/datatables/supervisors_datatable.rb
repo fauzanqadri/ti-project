@@ -57,12 +57,7 @@ class SupervisorsDatatable
 
 	def fetch_supervisors
 		course = Course.find(course_id)
-		supervisors = course.supervisors.includes(:course, :lecturer)
-		# if params[:pending_request].present? && params[:pending_request] == 'true'
-		# 	supervisors = supervisors.where{(approved == false)}
-		# else
-		# 	supervisors = supervisors.where{(approved == true)}
-		# end
+		supervisors = course.supervisors.includes(:course, :lecturer, :userable)
 		supervisors
 	end
 

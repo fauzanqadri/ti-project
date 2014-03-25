@@ -31,14 +31,11 @@
           .form-group
             = f.label :mahasiswa_sejak, class: "col-sm-3 control-label"
             .col-sm-9
-              .input-group.date.datepicker
-                = f.text_field :student_since, class: "form-control", placeholder: "Mahasiswa Sejak", "data-format" => "YYYY-MM-DD"
-                %span.input-group-addon
-                  %span.fa.fa-calendar
+              = f.number_field :student_since, class: "form-control", placeholder: "Mahasiswa Sejak", "data-format" => "YYYY-MM-DD"
           .form-group
             = f.label :jurusan, class: "col-sm-3 control-label"
             .col-sm-9
-              = f.select :department_id, options_for_select(departments_opt, selected: @student.department_id), {}, {class: "form-control"}
+              = f.select :department_id, department_group_opt(@student.department_id), {}, {class: "form-control"}
           - if @student.new_record?
             %legend Avatar
             = f.fields_for :avatar, @student.build_avatar do |sa|

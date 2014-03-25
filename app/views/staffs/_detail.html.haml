@@ -17,14 +17,14 @@
 										= @staff.full_name
 										%small= @staff.faculty.name
 										%br
-										%small= @staff.user.username
+										%small= @staff.username
 									%hr.rainbow
 									.row
 										.col-sm-2
 											%h3{style: "margin-top: 0; margin-bottom: 0;"}
 												%i.fa.fa-envelope
 										.col-sm-10
-											%address= @staff.user.email
+											%address= @staff.email
 									%hr
 									.row
 										.col-sm-2

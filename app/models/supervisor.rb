@@ -29,11 +29,12 @@ class Supervisor < ActiveRecord::Base
 	end
 	
 	after_save :create_surcease_course
-
-	after_save :increment_lecturer_counter_cache
-	after_destroy :decrement_lecturer_counter_cache
-	after_save :increment_course_counter_cache
-	after_destroy :decrement_course_counter_cache 
+	after_commit :increment_global_lecturer_counter_cache, on: :create
+	after_commit :decrement_global_lecturer_counter_cache, on: :destroy
+	after_commit :increment_lecturer_counter_cache, on: [:create, :update]
+	after_commit :decrement_lecturer_counter_cache, on: [:destroy, :update]
+	after_commit :increment_course_counter_cache, on: [:create, :update]
+	after_commit :decrement_course_counter_cache, on: :destroy
 	before_save :set_approved_time
 	after_save :send_notification
 	after_destroy :send_destroy_notification
@@ -47,19 +48,24 @@ class Supervisor < ActiveRecord::Base
 	end
 
 	private
-	def increment_lecturer_counter_cache
+
+	def increment_global_lecturer_counter_cache
 		Lecturer.increment_counter(:supervisors_count, self.lecturer_id)
+	end
+
+	def decrement_global_lecturer_counter_cache
+		Lecturer.decrement_counter(:supervisors_count, self.lecturer_id)
+	end
+
+	def increment_lecturer_counter_cache
 		if self.course.class == Skripsi
 			Lecturer.increment_counter(:supervisors_skripsi_count, self.lecturer_id) if self.approved?
-			Lecturer.decrement_counter(:supervisors_skripsi_count, self.lecturer_id) if self.approved_changed? && !self.approved?
 		else
 			Lecturer.increment_counter(:supervisors_pkl_count, self.lecturer_id) if self.approved?
-			Lecturer.decrement_counter(:supervisors_pkl_count, self.lecturer_id) if self.approved_changed? && !self.approved?
 		end
 	end
 
 	def decrement_lecturer_counter_cache
-		Lecturer.decrement_counter(:supervisors_count, self.lecturer_id)
 		if self.course.class == Skripsi
 			Lecturer.decrement_counter(:supervisors_skripsi_count, self.lecturer_id) if self.approved?
 		else
@@ -177,7 +183,7 @@ class Supervisor < ActiveRecord::Base
 		current_message = {
 			command: "renderFlash",
 			type: "private",
-			socket_identifier: self.lecturer.user.socket_identifier
+			socket_identifier: self.lecturer.try(:socket_identifier)
 		}
 		data = if self.approved?
 			current_message.merge(
@@ -206,22 +212,24 @@ class Supervisor < ActiveRecord::Base
 					message: "#{self.course.class.to_s} kamu telah memiliki pembimbing" 
 				},
 				type: "private",
-				socket_identifier: self.course.student.user.socket_identifier
+				socket_identifier: self.course.student.try(:socket_identifier)
 			}
 			self.broadcast("/main_channel", data)
 		end
 	end
 
 	def send_destroy_notification
-		data = {
-			command: "renderFlash", 
-			args: { 
-				status: "alert", 
-				message: "Pembimbingan pada #{self.course.class.to_s.downcase} dibatalkan" 
-			},
-			type: "private",
-			socket_identifier: self.course.student.user.socket_identifier
-		}
-		self.broadcast("/main_channel", data)
+		if self.course.student.persisted?
+			data = {
+				command: "renderFlash", 
+				args: { 
+					status: "alert", 
+					message: "Pembimbingan pada #{self.course.class.to_s.downcase} dibatalkan" 
+				},
+				type: "private",
+				socket_identifier: self.course.student.try(:socket_identifier)
+			}
+			self.broadcast("/main_channel", data)
+		end
 	end
 end

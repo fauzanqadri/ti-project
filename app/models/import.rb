@@ -82,7 +82,7 @@ class Import < ActiveRecord::Base
 					message: "Import data telah berhasil #{self.total_row} telah di import untuk data #{self.klass_action.downcase}" 
 				},
 				type: "private",
-				socket_identifier: self.userable.user.socket_identifier
+				socket_identifier: self.userable.socket_identifier
 			}
 			self.broadcast("/main_channel", data)
 		end

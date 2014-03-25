@@ -28,7 +28,10 @@ class LecturersDatatable
 				lecturer.nid,
 				link_to(lecturer.to_s, lecturer, remote: true),
 				lecturer.department.name,
-				lecturer.created_at.try(:to_formatted_s, :long_ordinal),
+				lecturer.supervisors_skripsi_count,
+				lecturer.supervisors_pkl_count,
+				lecturer.supervisors_count,
+				# lecturer.created_at.try(:to_formatted_s, :long_ordinal),
 				act(lecturer)
 			]
 		end
@@ -73,7 +76,7 @@ class LecturersDatatable
 	end
 
 	def sort_column
-		columns =["nip", "nid", "full_name","", "created_at"]
+		columns =["nip", "nid", "full_name", "", "supervisors_skripsi_count", "supervisors_pkl_count", "supervisors_count",""]
 		columns[params[:iSortCol_0].to_i]
 	end
 
