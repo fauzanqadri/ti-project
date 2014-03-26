@@ -34,7 +34,7 @@ class SidangsController < ApplicationController
     @sidang.userable = current_user.userable
     authorize! :create, @sidang
     if @sidang.save
-      redirect_to @skripsi, notice: 'Pendaftaran sidang berhasil dilakukan'
+      redirect_to @skripsi, notice: "Pendaftaran sidang berhasil dilakukan, #{undo_link(@sidang)}"
     else
       redirect_to @skripsi, alert: @sidang.errors.full_messages.join(", ")
     end
@@ -45,7 +45,7 @@ class SidangsController < ApplicationController
   def update
     respond_to do |format|
       if @sidang.update(sidang_params)
-        format.html { redirect_to @sidang, notice: 'Sidang was successfully updated.' }
+        format.html { redirect_to @sidang, notice: "Sidang was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

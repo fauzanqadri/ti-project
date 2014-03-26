@@ -60,6 +60,10 @@
 										= link_to unmanaged_conferences_path do 
 											Seminar / Sidang
 											/ %span.badge= last_conferences_agreement_counts
+									%li.divider
+									%li
+										= link_to imports_path do
+											Import Data Mahasiswa
 								- if current_user.userable_type == "Lecturer" && current_user.userable.is_admin?
 									%li.divider
 									%li

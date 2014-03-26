@@ -11,6 +11,7 @@
 #
 
 class ConferenceLog < ActiveRecord::Base
+	has_paper_trail
 	belongs_to :conference
 	belongs_to :supervisor
 	validates :conference_id, presence: true

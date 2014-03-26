@@ -52,7 +52,7 @@ class ConsultationsController < ApplicationController
     authorize! :create, @consultation
     respond_to do |format|
       if @consultation.save
-        flash[:notice] = "Catatan bimbingan berhasil dibuat"
+        flash[:notice] = "Catatan bimbingan berhasil dibuat, #{undo_link(@consultation)}"
         format.js
         # format.html { redirect_to @consultation, notice: 'Consultation was successfully created.' }
         format.json { render action: 'show', status: :created, location: @consultation }
@@ -68,7 +68,7 @@ class ConsultationsController < ApplicationController
   def update
     respond_to do |format|
       if @consultation.update(consultation_params)
-        flash[:notice] = "Catatan bimbingan berhasil diupdate"
+        flash[:notice] = "Catatan bimbingan berhasil diupdate, #{undo_link(@consultation)}"
         format.js
       else
         format.js { render action: 'edit' }
@@ -82,6 +82,7 @@ class ConsultationsController < ApplicationController
   def destroy
     @consultation.destroy
     respond_to do |format|
+      flash[:notice] = "Catatan bimbingan berhasil dihapus, #{undo_link(@consultation)}"
       format.html { redirect_to @course }
       format.json { head :no_content }
     end

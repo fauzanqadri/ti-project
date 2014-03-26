@@ -14,8 +14,10 @@
 #
 
 class Report < ActiveRecord::Base
+	has_paper_trail
 	has_attached_file :attachment,
-										path: ENV["PAPERCLIP_PATH"] + "/:class/attachment/:course_type/:course_id/:filename"
+										path: ENV["PAPERCLIP_PATH"] + "/:class/attachment/:course_type/:course_id/:filename",
+										preserve_files: true
 	belongs_to :course, counter_cache: true
 
 	validates_attachment_presence :attachment

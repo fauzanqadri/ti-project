@@ -15,7 +15,7 @@ class SurceasesController < ApplicationController
     @surcease = Surcease.find(params[:id])
     respond_to do |format|
       if @surcease.approve
-        flash[:notice] = "Berhasil mem-publish"
+        flash[:notice] = "Berhasil mem-publish, #{undo_link(@surcease)}"
         format.js
       else
         flash[:alert] = "Ada kesalahan kontak ketua prodi"
@@ -29,7 +29,7 @@ class SurceasesController < ApplicationController
     @surcease = Surcease.find(params[:id])
     respond_to do |format|
       if @surcease.disapprove
-        flash[:notice] = "Publish dihentikan"
+        flash[:notice] = "Publish dihentikan, #{undo_link(@surcease)}"
         format.js
       else
         flash[:alert] = "Ada kesalahan kontak ketua prodi"

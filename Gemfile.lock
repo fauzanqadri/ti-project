@@ -196,6 +196,9 @@ GEM
     nprogress-rails (0.1.2.3)
     numerizer (0.1.1)
     orm_adapter (0.5.0)
+    paper_trail (3.0.1)
+      activerecord (>= 3.0, < 5.0)
+      activesupport (>= 3.0, < 5.0)
     paperclip (3.5.3)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -376,6 +379,7 @@ DEPENDENCIES
   momentjs-rails
   nokogiri
   nprogress-rails
+  paper_trail
   paperclip (~> 3.0)
   paperclip-googledrive
   pg

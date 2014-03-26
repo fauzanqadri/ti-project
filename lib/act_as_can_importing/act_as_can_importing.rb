@@ -59,6 +59,7 @@ module ActAsCanImporting
 
 		def provide
 			raw_data.each do |data|
+				data.delete_if {|k, v| !v.present? }
 				klass_delegation.find_or_initialize_by(data).tap do |t|
 					t.save
 				end

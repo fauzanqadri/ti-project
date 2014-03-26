@@ -23,6 +23,7 @@
 class Lecturer < ActiveRecord::Base
 	include Userable
 	LEVEL = ["Lektor", "Asisten Ahli"]
+	has_paper_trail
 
 	belongs_to :department, counter_cache: true
 

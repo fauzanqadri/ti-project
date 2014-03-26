@@ -13,6 +13,7 @@
 #
 
 class Consultation < ActiveRecord::Base
+	has_paper_trail
 	belongs_to :course
 	belongs_to :consultable, :polymorphic => true
 	

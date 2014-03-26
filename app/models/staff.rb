@@ -14,6 +14,7 @@
 
 class Staff < ActiveRecord::Base
 	include Userable
+	has_paper_trail
 	has_many :imports, as: :userable, dependent: :nullify
 	belongs_to :faculty, counter_cache: true
 	validates :faculty_id, presence: true

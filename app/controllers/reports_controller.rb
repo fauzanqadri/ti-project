@@ -47,6 +47,7 @@ class ReportsController < ApplicationController
     authorize! :create, @report
     respond_to do |format|
       if @report.save
+        flash[:notice] = "Laporan tambahan berhasil dibuat, #{undo_link(@report)}"
         format.js
         format.json { render action: 'show', status: :created, location: @report }
       else
@@ -62,6 +63,7 @@ class ReportsController < ApplicationController
   def destroy
     @report.destroy
     respond_to do |format|
+      flash[:notice] = "Laporan tambahan berhasil dihapus, #{undo_link(@report)}"
       format.html { redirect_to @course }
     end
   end

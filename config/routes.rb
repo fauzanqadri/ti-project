@@ -95,7 +95,10 @@ TiProject::Application.routes.draw do
   put '/password' => 'static_pages#update_password'
 
   resources :imports, except: [:show, :edit, :update] do
-    get '/download', action: 'download', on: :member
+    post '/download', action: 'download', on: :member
+    post '/populate', action: 'populate', on: :member
   end
+
+  post 'versions/:id/revert' => "versions#revert", as: "revert_version"
 
 end

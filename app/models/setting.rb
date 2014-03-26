@@ -22,6 +22,7 @@
 #
 
 class Setting < ActiveRecord::Base
+	has_paper_trail
 	belongs_to :department
 	validates :supervisor_skripsi_amount, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1}
 	validates :supervisor_pkl_amount, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1}

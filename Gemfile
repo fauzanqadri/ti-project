@@ -47,6 +47,7 @@ gem 'slim'
 gem 'faye'
 gem 'puma'
 # gem 'thin'
+gem 'paper_trail'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

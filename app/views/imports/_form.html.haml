@@ -15,7 +15,7 @@
             .form-group
               = f.label :department_id, "Untuk Jurusan", class: "col-sm-3 control-label"
               .col-sm-9
-                = f.select :department_id, options_for_select(departments_opt), {class: "form-control"}
+                = f.select :department_id, options_for_select(departments_opt), {}, {class: "form-control"}
           .form-group
             = f.label :package, "File", class: "col-sm-3 control-label"
             .col-sm-9

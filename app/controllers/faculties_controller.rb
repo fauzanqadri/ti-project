@@ -40,7 +40,7 @@ class FacultiesController < ApplicationController
     authorize! :create, @faculty
     respond_to do |format|
       if @faculty.save
-        flash[:notice] = 'Faculty was successfully created.'
+        flash[:notice] = "Record fakultas berhasil dibuat, #{undo_link(@faculty)}"
         format.json { render action: 'show', status: :created, location: @faculty }
         format.js
       else
@@ -55,7 +55,7 @@ class FacultiesController < ApplicationController
   def update
     respond_to do |format|
       if @faculty.update(faculty_params)
-        flash[:notice] = 'Faculty was successfully updated.'
+        flash[:notice] = "Record fakultas berhasil diubah, #{undo_link(@faculty)}"
         format.html { redirect_to faculties_path }
         format.json { head :no_content }
         format.js
@@ -71,6 +71,7 @@ class FacultiesController < ApplicationController
   def destroy
     @faculty.destroy
     respond_to do |format|
+      flash[:notice] = "Record fakultas berhasil dihapus, #{undo_link(@faculty)}"
       format.html { redirect_to faculties_url }
       format.json { head :no_content }
     end
@@ -78,12 +79,13 @@ class FacultiesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_faculty
-      @faculty = Faculty.find(params[:id])
-    end
+  def set_faculty
+    @faculty = Faculty.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def faculty_params
-      params.require(:faculty).permit(:name, :description, :website)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def faculty_params
+    params.require(:faculty).permit(:name, :description, :website)
+  end
+
 end

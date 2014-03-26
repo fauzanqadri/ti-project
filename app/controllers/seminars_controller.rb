@@ -45,7 +45,7 @@ class SeminarsController < ApplicationController
     authorize! :create, @seminar
     respond_to do |format|
       if @seminar.save
-        flash[:notice] = 'Pendaftaran seminar berhasil dilakukan'
+        flash[:notice] = "Pendaftaran seminar berhasil dilakukan, #{undo_link(@seminar)}"
         format.js
         format.html { redirect_to @skripsi }
       else
@@ -61,7 +61,7 @@ class SeminarsController < ApplicationController
   def update
     respond_to do |format|
       if @seminar.update(seminar_params)
-        format.html { redirect_to @seminar, notice: 'Seminar was successfully updated.' }
+        format.html { redirect_to @seminar, notice: "Seminar was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -79,7 +79,7 @@ class SeminarsController < ApplicationController
   def update_department_director_approval
     respond_to do |format|
       if @seminar.update(seminar_department_director_approval_params)
-        notice_text = @seminar.department_director? && @seminar.undertake_plan.present? ? "Permohonan seminar berhasil disetujui" : "Permohonan seminar berhasil diubah"
+        notice_text = @seminar.department_director? && @seminar.undertake_plan.present? ? "Permohonan seminar berhasil disetujui, #{undo_link(@seminar)}" : "Permohonan seminar berhasil diubah, #{undo_link(@seminar)}"
         flash[:notice] = notice_text
         format.js
         format.json { head :no_content }

@@ -37,7 +37,7 @@ class AssessmentsController < ApplicationController
     authorize! :create, @assessment
     respond_to do |format|
       if @assessment.save
-        flash[:notice] = 'Aspek Penilaian berhasil ditambahkan' 
+        flash[:notice] = "Aspek Penilaian berhasil ditambahkan, #{undo_link(@assessments)}"
         format.js
       else
         format.js { render action: 'new' }
@@ -51,7 +51,7 @@ class AssessmentsController < ApplicationController
     @assessment = @department.assessments.find(params[:id])
     respond_to do |format|
       if @assessment.update(assessment_params)
-        flash[:notice] = 'Aspek Penilaian berhasil diubah' 
+        flash[:notice] = "Aspek Penilaian berhasil diubah, #{undo_link(@assessments)}"
         format.js
       else
         format.js { render action: 'edit' }
@@ -65,6 +65,7 @@ class AssessmentsController < ApplicationController
     @assessment = @department.assessments.find(params[:id])
     @assessment.destroy
     respond_to do |format|
+      flash[:notice] = "Aspek Penilaian berhasil dihapus, #{undo_link(@assessments)}"
       format.html { redirect_to assessments_url }
       format.json { head :no_content }
     end

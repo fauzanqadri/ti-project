@@ -17,4 +17,9 @@ module ApplicationHelper
     return "" if id.nil? || id.blank?
     Lecturer.find(id).to_s
   end
+
+  def undo_link resource
+    # link_name = params[:redo] == "true" ? "undo" : "redo"
+    view_context.link_to("undo", revert_version_path(resource.versions.scoped.last), :method => :post)
+  end
 end

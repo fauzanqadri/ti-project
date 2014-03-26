@@ -32,7 +32,7 @@ class SupervisorsController < ApplicationController
     @supervisor.userable = current_user.userable
     respond_to do |format|
       if @supervisor.save
-        flash[:notice] = 'Permohonan pengajuan pembimbing berhasil'
+        flash[:notice] = "Permohonan pengajuan pembimbing berhasil, #{undo_link(@supervisor)}"
         format.js
         format.html { redirect_to @supervisor}
       else
@@ -47,6 +47,7 @@ class SupervisorsController < ApplicationController
   def destroy
     @supervisor.destroy
     respond_to do |format|
+      flash[:notice] = "Permohonan pengajuan pembimbing dibatalkan, #{undo_link(@supervisor)}"
       format.html { redirect_to @course }
       format.json { head :no_content }
     end
@@ -58,7 +59,7 @@ class SupervisorsController < ApplicationController
     @supervisor.userable = current_user.userable
     authorize! :become_supervisor, @supervisor
     if @supervisor.save
-      redirect_to @course, notice: "Berhasil menjadi pembimbing pada #{@course.class.to_s.downcase} ini"
+      redirect_to @course, notice: "Berhasil menjadi pembimbing pada #{@course.class.to_s.downcase} ini, #{undo_link(@supervisor)}"
     else
       msg = @supervisor.errors.full_messages.join(", ")
       redirect_to authenticated_root_path, alert: msg

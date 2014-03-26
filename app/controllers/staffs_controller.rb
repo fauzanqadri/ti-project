@@ -42,7 +42,7 @@ class StaffsController < ApplicationController
     authorize! :create, @staff
     respond_to do |format|
       if @staff.save
-        flash[:notice] = 'Staff was successfully created.'
+        flash[:notice] = "Record staff berhasil dibuat, #{undo_link(@staff)}"
         format.js
         format.json { render action: 'show', status: :created, location: @staff }
       else
@@ -57,7 +57,7 @@ class StaffsController < ApplicationController
   def update
     respond_to do |format|
       if @staff.update(staff_params)
-        flash[:notice] = 'Staff was successfully updated.'
+        flash[:notice] = "Record staff berhasil diubah, #{undo_link(@staff)}"
         format.js
         format.json { head :no_content }
       else
@@ -72,6 +72,7 @@ class StaffsController < ApplicationController
   def destroy
     @staff.destroy
     respond_to do |format|
+      flash[:notice] = "Record staff berhasil dihapus, #{undo_link(@staff)}"
       format.html { redirect_to staffs_url }
       format.json { head :no_content }
     end

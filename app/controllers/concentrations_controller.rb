@@ -40,7 +40,7 @@ class ConcentrationsController < ApplicationController
     authorize! :create, @concentration
     respond_to do |format|
       if @concentration.save
-        flash[:notice] = 'Concentration was successfully created.'
+        flash[:notice] = "Record konsentrasi berhasil dibuat, #{undo_link(@concentration)}"
         format.json { render action: 'show', status: :created, location: @concentration }
         format.js
       else
@@ -55,7 +55,7 @@ class ConcentrationsController < ApplicationController
   def update
     respond_to do |format|
       if @concentration.update(concentration_params)
-        flash[:notice] = 'Concentration was successfully updated.'
+        flash[:notice] = "Record konsentrasi berhasil diubah, #{undo_link(@concentration)}"
         format.js
         # format.html { redirect_to @concentration, notice: 'Concentration was successfully updated.' }
         format.json { head :no_content }
@@ -72,6 +72,7 @@ class ConcentrationsController < ApplicationController
   def destroy
     @concentration.destroy
     respond_to do |format|
+      flash[:notice] = "Record konsentrasi berhasil dihapus, #{undo_link(@concentration)}"
       format.html { redirect_to concentrations_url }
       format.json { head :no_content }
     end

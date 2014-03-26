@@ -15,11 +15,13 @@
 
 class Avatar < ActiveRecord::Base
 	STYLES = { large: "200x200#", medium: "150x150#", small: "64x64#", thumb: "10x10#"}
+	has_paper_trail
 	has_attached_file :image, 
 										styles: STYLES, 
 										default_url: "http://placehold.it/150x150",
 										url: "/avatar/:id/:style",
-										path: "#{ENV["PAPERCLIP_PATH"]}/:class/image/:userable_type/:userable_id/:style/:filename"
+										path: "#{ENV["PAPERCLIP_PATH"]}/:class/image/:userable_type/:userable_id/:style/:filename",
+										preserve_files: true
 	validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
 	before_post_process :renaming_avatar_file
 	belongs_to :userable, polymorphic: true

@@ -12,6 +12,7 @@
 #
 
 class Faculty < ActiveRecord::Base
+	has_paper_trail
 	has_many :departments, dependent: :destroy
 	has_many :staffs, dependent: :destroy
 	validates :name, presence: true, uniqueness: true

@@ -16,6 +16,7 @@
 #
 
 class Course < ActiveRecord::Base
+	has_paper_trail
 	belongs_to :student
 	belongs_to :concentration
 	has_many :papers, dependent: :destroy

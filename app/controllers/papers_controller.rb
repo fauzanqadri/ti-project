@@ -46,7 +46,7 @@ class PapersController < ApplicationController
     authorize! :create, @paper
     respond_to do |format|
       if @paper.save
-        flash[:notice] = "File berhasil ditambahkan"
+        flash[:notice] = "File berhasil ditambahkan, #{undo_link(@paper)}"
         format.js
         format.json { render action: 'show', status: :created, location: @paper }
       else
@@ -61,6 +61,7 @@ class PapersController < ApplicationController
   def destroy
     @paper.destroy
     respond_to do |format|
+      flash[:notice] = "File berhasil dihapus, #{undo_link(@paper)}"
       format.html { redirect_to @course }
       format.json { head :no_content }
     end

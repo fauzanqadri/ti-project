@@ -27,6 +27,7 @@ class StaffsDatatable
 				link_to(staff.full_name, staff, remote: true),
 				staff.address.try(:truncate, 30),
 				staff.born.to_formatted_s(:long_ordinal),
+				staff.faculty.name,
 				staff.staff_since.try(:to_formatted_s, :long_ordinal),
 				act(staff)
 			]
@@ -45,7 +46,6 @@ class StaffsDatatable
 	end
 
 	def fetch_staffs
-		id = current_user.userable.faculty_id
 		staffs = Staff.includes(:faculty).order("#{sort_column} #{sort_direction}")
 		staffs = staffs.page(page).per_page(per_page)
 		if params[:sSearch].present?
@@ -64,7 +64,7 @@ class StaffsDatatable
 	end
 
 	def sort_column
-		columns = %w[full_name born staff_since created_at]
+		columns = ["full_name", "", "born", "faculty_id", "staff_since", "created_at"]
 		columns[params[:iSortCol_0].to_i]
 	end
 

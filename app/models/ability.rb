@@ -56,6 +56,7 @@ class Ability
 		can :manage, Staff
 		can :manage, Lecturer
 		can :manage, Student
+		can :manage, Import
 
 		can :read, Course do |course|
 			course.student.department.faculty_id == @user.userable.faculty_id || course.is_finish?
@@ -285,6 +286,7 @@ class Ability
 	def as_lecturer_admin
 		can :manage, Lecturer
 		can :manage, Student
+		can :manage, Import
 
 		can :create, Supervisor do |supervisor|
 			supervisor.course.student.department_id == @user.userable.department_id && @user.userable_id == @user.userable.department.setting.department_director

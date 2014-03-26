@@ -39,7 +39,8 @@ class ImportsDatatable
 
 	def act import
 		action = []
-		action << raw(link_to(content_tag(:i, "", :class => "fa fa-download"), url_helpers.download_import_path(import), :class => "btn btn-xs btn-primary", remote: true))
+		action << raw(link_to(content_tag(:i, "", :class => "fa fa-download"), url_helpers.download_import_path(import), :class => "btn btn-xs btn-primary", method: :post))
+		action << raw(link_to(content_tag(:i, "", :class => "fa fa-arrow-up"), url_helpers.populate_import_path(import), :class => "btn btn-xs btn-success", method: :post))
 		action << raw(link_to(content_tag(:i, "", :class => "fa fa-times"), import, :class => "btn btn-xs btn-danger", method: :delete, data: {confirm: "Konfirmasi Penghapusan ?"}))
 		content_tag :div, :class => "text-center" do
 			content_tag :div, :class => "btn-group" do

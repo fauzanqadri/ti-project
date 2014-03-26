@@ -12,6 +12,7 @@
 #
 
 class Feedback < ActiveRecord::Base
+	has_paper_trail
 	belongs_to :course, counter_cache: true
 	belongs_to :userable, :polymorphic => true
 

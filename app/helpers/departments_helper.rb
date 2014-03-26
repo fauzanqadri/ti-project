@@ -6,7 +6,7 @@ module DepartmentsHelper
 	end
 
 	def faculties
-		@faculties ||= Faculty.all
+		@faculties ||= Faculty.includes(:departments).all
 	end
 
 	def department_group_opt selected_value = nil

@@ -19,10 +19,12 @@
 #
 
 class Import < ActiveRecord::Base
+	has_paper_trail
 	KLASS_ACTION = ["Student"]
 	STATUS = ["on progress", "extracting", "complete", "fail"]
 	has_attached_file :package, 
-										path: ENV["PAPERCLIP_PATH"] + "/:class/package/:klass_action/:filename"
+										path: ENV["PAPERCLIP_PATH"] + "/:class/package/:klass_action/:filename",
+										preserve_files: true
 
 	belongs_to :userable, polymorphic: true
 	belongs_to :department
@@ -41,7 +43,7 @@ class Import < ActiveRecord::Base
 	act_as_importir
 
 	scope :by_department, -> (d_id) {where{department_id.eq(d_id)}}
-	scope :by_faculty, -> (f_id) { joins(department).where{(department.faculty_id.eq(f_id)) } }
+	scope :by_faculty, -> (f_id) { joins{department}.where{(department.faculty_id.eq(f_id)) } }
 
 	Paperclip.interpolates :klass_action do |package, style|
 		package.instance.klass_action
@@ -50,6 +52,10 @@ class Import < ActiveRecord::Base
 	def remove_imported_data
 		im_id = self.id
 		self.klass_action.classify.constantize.where{ (import_id.eq(im_id) )}.destroy_all
+	end
+
+	def populate_imported_file
+		self.populate
 	end
 
 	private
@@ -63,10 +69,6 @@ class Import < ActiveRecord::Base
 		if self.userable_type == "Lecturer"
 			self.department_id = self.userable.department_id
 		end
-	end
-
-	def populate_imported_file
-		self.populate
 	end
 
 	def userable_condition?

@@ -15,7 +15,7 @@ class ConferenceLogsController < ApplicationController
     @conference_log = ConferenceLog.find(params[:id])
     authorize! :approve, @conference_log
     if @conference_log.approve?
-      redirect_to conference_logs_url, notice: "Berhasil menyetujui permohonan pendaftaran #{@conference_log.conference.type}"
+      redirect_to conference_logs_url, notice: "Berhasil menyetujui permohonan pendaftaran #{@conference_log.conference.type}, #{undo_link(@conference_log)}"
     else
       redirect_to conference_logs_url, alert: "Ermmm, Contact Ketua Prodi"
     end

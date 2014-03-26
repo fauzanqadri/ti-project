@@ -10,6 +10,7 @@
 #
 
 class Examiner < ActiveRecord::Base
+	has_paper_trail
 	belongs_to :sidang
 	belongs_to :lecturer
 	has_one :surcease, as: :provenable, dependent: :destroy

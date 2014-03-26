@@ -42,7 +42,7 @@ class StudentsController < ApplicationController
     authorize! :create, @student
     respond_to do |format|
       if @student.save
-        flash[:notice] = 'Student was successfully created.'
+        flash[:notice] = "Record mahasiswa berhasil dibuat, #{undo_link(@student)}"
         format.js
         # format.html { redirect_to @student, notice: 'Student was successfully created.' }
         format.json { render action: 'show', status: :created, location: @student }
@@ -59,7 +59,7 @@ class StudentsController < ApplicationController
   def update
     respond_to do |format|
       if @student.update(student_params)
-        flash[:notice] = 'Student was successfully updated.'
+        flash[:notice] = "Record mahasiswa berhasil diubah, #{undo_link(@student)}"
         format.js
         # format.html { redirect_to @student, notice: 'Student was successfully updated.' }
         format.json { head :no_content }
@@ -76,6 +76,7 @@ class StudentsController < ApplicationController
   def destroy
     @student.destroy
     respond_to do |format|
+      flash[:notice] = 'Record mahasiswa berhasil dihapus, #{undo_link(@student)}'
       format.html { redirect_to students_url }
       format.json { head :no_content }
     end

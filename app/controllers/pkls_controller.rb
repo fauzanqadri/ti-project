@@ -32,7 +32,7 @@ class PklsController < ApplicationController
     authorize! :create, @pkl
     respond_to do |format|
       if @pkl.save
-        flash[:notice] = 'Pkl was successfully created.'
+        flash[:notice] = "Record pkl berhasil dibuat, #{undo_link(@pkl)}"
         format.js
         format.json { render action: 'show', status: :created, location: @pkl }
       else
@@ -47,7 +47,7 @@ class PklsController < ApplicationController
   def update
     respond_to do |format|
       if @pkl.update(pkl_params)
-        flash[:notice] = 'Pkl was successfully updated.'
+        flash[:notice] = "Record pkl berhasil diubah, #{undo_link(@pkl)}"
         format.js
         format.json { head :no_content }
       else
@@ -62,6 +62,7 @@ class PklsController < ApplicationController
   def destroy
     @pkl.destroy
     respond_to do |format|
+      flash[:notice] = "Record pkl berhasil dihapus, #{undo_link(@pkl)}"
       format.html { redirect_to authenticated_root_path }
       format.json { head :no_content }
     end

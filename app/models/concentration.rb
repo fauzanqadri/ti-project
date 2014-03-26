@@ -10,6 +10,7 @@
 #
 
 class Concentration < ActiveRecord::Base
+	has_paper_trail
 	belongs_to :department, counter_cache: :concentrations_count
 	has_many :courses, dependent: :nullify
 	validates :name, presence: true, uniqueness: {scope: [:department_id, :name]}

@@ -45,7 +45,7 @@ class LecturersController < ApplicationController
     authorize! :create, @lecturer
     respond_to do |format|
       if @lecturer.save
-        flash[:notice] = 'Lecturer was successfully created.'
+        flash[:notice] = "Record dosen berhasil dibuat, #{undo_link(@lecturer)}"
         format.js
         # format.html { redirect_to @lecturer, notice: 'Lecturer was successfully created.' }
         format.json { render action: 'show', status: :created, location: @lecturer }
@@ -62,7 +62,7 @@ class LecturersController < ApplicationController
   def update
     respond_to do |format|
       if @lecturer.update(lecturer_params)
-        flash[:notice] = 'Lecturer was successfully updated.'
+        flash[:notice] = "Record dosen berhasil diubah, #{undo_link(@lecturer)}"
         format.js
         # format.html { redirect_to @lecturer, notice: 'Lecturer was successfully updated.' }
         format.json { head :no_content }
@@ -79,6 +79,7 @@ class LecturersController < ApplicationController
   def destroy
     @lecturer.destroy
     respond_to do |format|
+      flash[:notice] = "Record dosen berhasil dihapus, #{undo_link(@lecturer)}"
       format.html { redirect_to lecturers_url }
       format.json { head :no_content }
     end

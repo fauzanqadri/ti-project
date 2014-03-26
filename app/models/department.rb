@@ -18,6 +18,7 @@
 #
 
 class Department < ActiveRecord::Base
+  has_paper_trail
 	belongs_to :faculty, counter_cache: true
   has_many :concentrations, dependent: :destroy
   has_many :students, dependent: :destroy

@@ -1,5 +1,7 @@
 class ImportsController < ApplicationController
-  before_action :set_import, only: [:download, :destroy]
+  before_action :set_import, only: [:download, :destroy, :populate]
+  load_and_authorize_resource
+  skip_load_resource only: [:create]
 
   # GET /imports
   # GET /imports.json
@@ -12,6 +14,7 @@ class ImportsController < ApplicationController
   end
 
   def download
+    head :ok
     send_file(@import.package.path, disposition: "attachment", type: @import.package_content_type)
   end
 
@@ -27,9 +30,11 @@ class ImportsController < ApplicationController
   # POST /imports.json
   def create
     @import = Import.new(import_params)
+    authorize! :create, @import
     @import.userable = current_user.userable
     respond_to do |format|
       if @import.save
+        flash[:notice] = "Record import berhasil dibuat, proses ekstraksi sedang berjalan, mohon tidak menghapus record sampai proses selesai"
         format.js
         format.json { render action: 'show', status: :created, location: @import }
       else
@@ -45,8 +50,19 @@ class ImportsController < ApplicationController
   def destroy
     @import.destroy
     respond_to do |format|
+      flash[:notice] = "Record import berhasil dihapus, #{undo_link(@import)}"
       format.html { redirect_to imports_url }
       format.json { head :no_content }
+    end
+  end
+
+  def populate
+    if @import.populate_imported_file
+      flash[:notice] = "Extraksi ulang file record import, mohon tidak menghapus record sampai proses selesai"
+      redirect_to imports_url
+    else
+      flash[:notice] = "Extraksi gagal kontak developer"
+      redirect_to imports_url
     end
   end
 

@@ -16,7 +16,7 @@ class SettingsController < ApplicationController
     @setting = @department.setting
     respond_to do |format|
       if @setting.update(setting_params)
-        format.html { redirect_to settings_url, notice: 'Konfigurasi Berhasil diperbarui' }
+        format.html { redirect_to settings_url, notice: "Konfigurasi Berhasil diperbarui, #{undo_link(@setting)}" }
         # format.json { head :no_content }
       else
         format.html { render action: 'show' }

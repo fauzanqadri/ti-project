@@ -32,7 +32,7 @@ class SkripsisController < ApplicationController
     authorize! :create, @skripsi
     respond_to do |format|
       if @skripsi.save
-        flash[:notice] = 'Skripsi was successfully created.'
+        flash[:notice] = "Record skripsi berhasil dibuat, #{undo_link(@skripsi)}"
         format.js
         format.json { render action: 'show', status: :created, location: @skripsi }
       else
@@ -47,7 +47,7 @@ class SkripsisController < ApplicationController
   def update
     respond_to do |format|
       if @skripsi.update(skripsi_params)
-        flash[:notice] = 'Skripsi was successfully updated.'
+        flash[:notice] = "Record skripsi berhasil diubah, #{undo_link(@skripsi)}"
         format.js
         format.json { head :no_content }
       else
@@ -62,6 +62,7 @@ class SkripsisController < ApplicationController
   def destroy
     @skripsi.destroy
     respond_to do |format|
+      flash[:notice] = "Record skripsi berhasil dihapus, #{undo_link(@skripsi)}"
       format.html { redirect_to authenticated_root_path }
       format.json { head :no_content }
     end

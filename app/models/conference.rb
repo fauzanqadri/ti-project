@@ -18,6 +18,7 @@
 
 class Conference < ActiveRecord::Base
 	TYPE = ["Seminar", "Sidang"]
+	has_paper_trail
 	belongs_to :skripsi
 	belongs_to :userable, polymorphic: true
 	has_many :conference_logs, dependent: :destroy

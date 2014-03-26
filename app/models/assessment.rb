@@ -13,6 +13,7 @@
 
 class Assessment < ActiveRecord::Base
 	CATEGORY = %w{Seminar Sidang}
+	has_paper_trail
 	belongs_to :department
 	validates :aspect, presence: true
 	validates :percentage, presence: true, numericality: {only_integer: true, greater_than: 0, less_than: 100}

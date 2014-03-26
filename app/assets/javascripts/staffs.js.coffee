@@ -7,5 +7,5 @@ $(document).ready ->
 		sPaginationType: "bootstrap"
 		aoColumnDefs: [
 			bSortable: false,
-			aTargets: [1, 4]
+			aTargets: [1, 5]
 		]

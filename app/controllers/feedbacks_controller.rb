@@ -36,7 +36,7 @@ class FeedbacksController < ApplicationController
     authorize! :create, @feedback
     respond_to do |format|
       if @feedback.save
-        flash[:notice] = "Feedback berhasil dibuat"
+        flash[:notice] = "Feedback berhasil dibuat, #{undo_link(@feedback)}"
         format.js
         format.json { render action: 'show', status: :created, location: @feedback }
       else
@@ -51,6 +51,7 @@ class FeedbacksController < ApplicationController
   def destroy
     @feedback.destroy
     respond_to do |format|
+      flash[:notice] = "Feedback berhasil dihapus, #{undo_link(@feedback)}"
       format.html { redirect_to @course }
       format.json { head :no_content }
     end

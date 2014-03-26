@@ -36,10 +36,10 @@ class DepartmentsController < ApplicationController
   # POST /departments.json
   def create
     @department = current_user.userable.faculty.departments.build(department_params)
-    # authorize! :create, @department
+    authorize! :create, @department
     respond_to do |format|
       if @department.save
-        flash[:notice] = 'Department was successfully created.'
+        flash[:notice] = "Record jurusan berhasil dibuat, #{undo_link(@department)}"
         format.json { render action: 'show', status: :created, location: @department }
         format.js
       else
@@ -54,7 +54,7 @@ class DepartmentsController < ApplicationController
   def update
     respond_to do |format|
       if @department.update(department_params)
-        flash[:notice] = 'Department was successfully updated.'
+        flash[:notice] = "Record jurusan berhasil diubah, #{undo_link(@department)}"
         format.json { head :no_content }
         format.js
       else
@@ -70,6 +70,7 @@ class DepartmentsController < ApplicationController
   def destroy
     @department.destroy
     respond_to do |format|
+      flash[:notice] = "Record jurusan berhasil dihapus, #{undo_link(@department)}"
       format.html { redirect_to departments_url }
       format.json { head :no_content }
     end

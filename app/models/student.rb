@@ -21,6 +21,7 @@
 
 class Student < ActiveRecord::Base
 	include Userable
+	has_paper_trail
 	belongs_to :department, counter_cache: true
 
 	has_many :courses, dependent: :destroy
