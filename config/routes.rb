@@ -40,6 +40,7 @@ TiProject::Application.routes.draw do
     resources :feedbacks, except: [:edit, :update, :show]
     resources :consultations, except: :show
     resources :reports
+    resources :pkl_assessments, only: :index
   end
 
   resources :skripsis, except: :index do
@@ -100,5 +101,6 @@ TiProject::Application.routes.draw do
   end
 
   post 'versions/:id/revert' => "versions#revert", as: "revert_version"
+  resources :pkl_assessments
 
 end

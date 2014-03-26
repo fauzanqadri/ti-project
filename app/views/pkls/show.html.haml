@@ -1,3 +1,4 @@
+- provide(:title, "PKL")
 - content_for :specific_js do
 	= javascript_include_tag "course", "data-turbolinks-track" => true
 %header
@@ -78,7 +79,7 @@
 					.clearfix
 			#additional-report
 				%header
-					%h2 Laporan Tambahan
+					%h2 Laporan Penilaian
 				%section
 					%table#reports.table.table-bordered{"data-source" => "#{pkl_reports_url(@pkl, format: "json")}"}
 						%thead
@@ -92,10 +93,14 @@
 						%tbody
 				%footer
 					.pull-right
+						- if can? :read, PklAssessment
+							= link_to pkl_pkl_assessments_path(@pkl), class: "btn btn-success", remote: true do
+								%i.fa.fa-download
+								Form Laporan
 						- if user_signed_in? && can_create_report?(@pkl)
 							= link_to new_pkl_report_path(@pkl), class: "btn btn-primary", remote: true do
 								%i.fa.fa-bar-chart-o
-								Upload laporan tambahan
+								Upload laporan
 					.clearfix
 		.col-sm-8
 			#main

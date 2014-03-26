@@ -70,7 +70,7 @@ class AssessmentsDatatable
 	end
 
 	def sort_column
-		columns = ["", "percentage", "category"]
+		columns = ["aspect", "percentage", "category"]
 		columns[params[:iSortCol_0].to_i]
 	end
 

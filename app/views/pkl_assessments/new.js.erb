@@ -1,0 +1,13 @@
+var html = "<%= j render('form') %>";
+var pklASsessmentModal = $("#pkl-assessment-modal");
+if (pklASsessmentModal.length == 1) {
+	pklASsessmentModal.modal("hide");
+	pklASsessmentModal.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		$("body").append(html);
+		$("#pkl-assessment-modal").modal({show: true});
+	});
+}else{
+	$("body").append(html);
+	$("#pkl-assessment-modal").modal({show: true});	
+}

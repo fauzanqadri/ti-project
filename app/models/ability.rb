@@ -136,6 +136,8 @@ class Ability
 		can :update, Pkl, student_id: @user.userable_id
 		can :destroy, Pkl, student_id: @user.userable_id 
 
+		can :read, PklAssessment
+
 		can :create, Paper do |paper|
 			paper.course.student_id == @user.userable_id
 		end
@@ -287,6 +289,12 @@ class Ability
 		can :manage, Lecturer
 		can :manage, Student
 		can :manage, Import
+		can :new, PklAssessment
+
+		can [:create, :read, :update, :delete], PklAssessment do |pkl_assessment|
+			pkl_assessment.department_id == @user.userable.department_id
+		end
+		# can :manage, PklAssessment
 
 		can :create, Supervisor do |supervisor|
 			supervisor.course.student.department_id == @user.userable.department_id && @user.userable_id == @user.userable.department.setting.department_director

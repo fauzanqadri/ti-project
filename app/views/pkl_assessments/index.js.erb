@@ -1,0 +1,13 @@
+var html = "<%= j render partial: 'pkl_report', locals: {pkl: @pkl} %>";
+var pklReport = $("#pkl-report-modal");
+if (pklReport.length == 1) {
+	pklReport.modal("hide");
+	pklReport.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		$("body").append(html);
+		$("#pkl-report-modal").modal({show: true});
+	});
+}else{
+	$("body").append(html);
+	$("#pkl-report-modal").modal({show: true});	
+}

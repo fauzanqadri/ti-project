@@ -9,8 +9,7 @@ faculty_params = [
   {name: "Sains dan Teknologi", website: "http://wwww.fst.uinjkt.ac.id"}
 ]
 faculty_params.each do |faculty|
-  Faculty.find_or_initialize_by(name: faculty[:name]).tap do |t|
-    t.website = faculty[:website]
+  Faculty.find_or_initialize_by(faculty).tap do |t|
     t.save!
   end
 end
@@ -21,9 +20,7 @@ department_params = [
 ]
 
 department_params.each do |department|
-  Department.find_or_initialize_by(name: department[:name]).tap do |t|
-    t.website = department[:website]
-    t.faculty_id = department[:faculty_id]
+  Department.find_or_initialize_by(department).tap do |t|
     t.save!
   end
 end
@@ -35,8 +32,7 @@ concentration_params = [
   {name: "Multimedia", department_id: d.id},
 ]
 concentration_params.each do |concentration|
-  Concentration.find_or_initialize_by(name: concentration[:name]).tap do |t|
-    t.department_id = concentration[:department_id]
+  Concentration.find_or_initialize_by(concentration).tap do |t|
     t.save!
   end
 end
@@ -57,9 +53,27 @@ assessment_params = [
 ]
 
 assessment_params.each do |assessment|
-  Assessment.find_or_initialize_by(aspect: assessment[:aspect], category: assessment[:category], department_id: assessment[:department_id]).tap do |t|
+  Assessment.find_or_initialize_by(assessment).tap do |t|
     t.percentage = assessment[:percentage]
     t.save!
+  end
+end
+
+pkl_assessment_params = [
+  {aspect: "Substansi Materi", category: "Penulisan", department_id: d.id},
+  {aspect: "Kelengkapan Laporan", category: "Penulisan", department_id: d.id},
+  {aspect: "Ketepatan Waktu", category: "Penulisan", department_id: d.id},
+  {aspect: "Penggunaan Bahasa", category: "Penulisan", department_id: d.id},
+  {aspect: "Kerapihan Tulisan", category: "Penulisan", department_id: d.id},
+  {aspect: "Keahlian (Penguasaaan Alat)", category: "Aktifitas", department_id: d.id},
+  {aspect: "Penguasaan Materi", category: "Aktifitas", department_id: d.id},
+  {aspect: "Kehadiran", category: "Aktifitas", department_id: d.id},
+  {aspect: "Interaksi Sosial", category: "Aktifitas", department_id: d.id},
+]
+
+pkl_assessment_params.each do |assessment|
+  PklAssessment.find_or_initialize_by(assessment).tap do |t|
+    tap.save!
   end
 end
 
@@ -96,13 +110,7 @@ lecturers = [
 ]
 
 lecturers.each do |lecturer|
-  Lecturer.find_or_initialize_by(full_name: lecturer[:full_name]).tap do |t|
-    t.back_title = lecturer[:back_title]
-    t.front_title = lecturer[:front_title]
-    t.department_id = lecturer[:department_id]
-    t.born = lecturer[:born]
-    t.level = lecturer[:level]
-    t.is_admin = lecturer[:is_admin]
+  Lecturer.find_or_initialize_by(lecturer).tap do |t|
     t.save!
   end
 end
@@ -111,10 +119,7 @@ staffs = [
   {full_name: "Staff Admin", address: "Some text address", born: "01-01-1991", faculty_id: f.id},
 ]
 staffs.each do |staff|
-  Staff.find_or_initialize_by(full_name: staff[:full_name]).tap do |t|
-    t.address = staff[:address]
-    t.born = staff[:born]
-    t.faculty_id = staff[:faculty_id]
+  Staff.find_or_initialize_by(staff).tap do |t|
     t.save!
   end
 end

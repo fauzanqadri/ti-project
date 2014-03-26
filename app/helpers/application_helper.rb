@@ -22,4 +22,9 @@ module ApplicationHelper
     # link_name = params[:redo] == "true" ? "undo" : "redo"
     view_context.link_to("undo", revert_version_path(resource.versions.scoped.last), :method => :post)
   end
+
+  def full_title text
+    return "SIMPS | #{text}" if text.present?
+    return "SIMPS"
+  end
 end

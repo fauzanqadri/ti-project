@@ -1,0 +1,29 @@
+#pkl-assessment-modal.modal.fade{tabindex: "-1", role: "dialog", "aria-labelledby" => "pklAssessmentModalLabel", "aria-hidden" => true, "data-backdrop" => "static", "data-keyboard" => "true"}
+	.modal-dialog
+		.modal-content
+			.modal-header
+				%button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
+				%h4#pklAssessmentModalLabel.modal-title
+					= @pkl_assessment.new_record? ? "Tambah Aspek Penilaian" : "Edit Aspek Penilaian"
+			= form_for @pkl_assessment, remote: "true", html: {role: "form", class: "form-horizontal"} do |f|
+				.modal-body
+					= render 'layouts/shared/errors', :object => f.object
+					.form-group
+						= f.label :aspect, "Aspek Penilaian", class: "col-sm-3 control-label"
+						.col-sm-9
+							= f.text_field :aspect, class: "form-control", placeholder: "Aspek penilaian"
+					.form-group
+						= f.label :percentage, "Persentasi", class: "col-sm-3 control-label"
+						.col-sm-9
+							= f.number_field :percentage, class: "form-control", placeholder: "Persentasi aspek penilaian"
+					.form-group
+						= f.label :category, "Katekori Aspek Penilaian", class: "col-sm-3 control-label"
+						.col-sm-9
+							= f.select :category, options_for_select(PklAssessment::CATEGORY.map{|cat| cat}, selected: @pkl_assessment.category), {}, {class: "form-control"}
+				.modal-footer
+					%button.btn.btn-primary{type: "submit"}
+						%i.fa.fa-upload
+						Simpan
+					%button.btn.btn-default{type: "button", "data-dismiss" => "modal"}
+						%i.fa.fa-times
+						Cencel

@@ -25,6 +25,7 @@ class Department < ActiveRecord::Base
   has_many :lecturers, dependent: :destroy
   has_many :assessments, dependent: :destroy
   has_many :imports, dependent: :destroy
+  has_many :pkl_assessments, dependent: :destroy
   has_one :setting, dependent: :destroy
   validates :name, presence: true, uniqueness: {scope: [:faculty_id, :name]}
   validates :faculty_id, presence: true
