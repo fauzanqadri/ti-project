@@ -56,7 +56,7 @@ class FeedbacksDatatable
 
 
 	def fetch_feedbacks
-		feedbacks = course.feedbacks.includes(:userable).order("created_at desc")
+		feedbacks = course.feedbacks.includes(userable: :avatar).order("created_at desc")
 		feedbacks = feedbacks.page(page).per_page(per_page)
 		feedbacks
 	end

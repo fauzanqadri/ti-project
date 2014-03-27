@@ -1,0 +1,31 @@
+<li data-value="<%= value %>">
+	<a>
+		<div class="row">
+			<div class="col-sm-3">
+				<img class="img-circle img-thumbnail" width="64" height="64" src="<%= photo %>">
+			</div>
+			<div class="col-sm-9">
+				<blockquote>
+					<p>
+						<%= label %>
+						<br/>
+						<div class="label-group">
+							<span class="label label-primary">
+								<i class="fa fa-book"></i>
+								Skripsi : <%= supervisors_skripsi_count %>
+							</span>
+							<span class="label label-success">
+								<i class="fa fa-file"></i>
+								Pkl : <%= supervisors_pkl_count %>
+							</span>
+							<span class="label label-danger">
+								<i class="fa fa-male"></i>
+								Level : <%= level %>
+							</span>
+						</div>
+					</p>
+				</blockquote>
+			</div>
+		</div>
+	</a>
+</li>

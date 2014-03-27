@@ -36,7 +36,8 @@ class TiProject.Views.Conferences.ExaminerFormView extends Backbone.View
 								label: item.full_name,
 								supervisors_skripsi_count: item.supervisors_skripsi_count,
 								supervisors_pkl_count: item.supervisors_pkl_count,
-								photo: item.photo
+								photo: item.photo,
+								level: item.level
 
 							}
 						)
@@ -51,6 +52,6 @@ class TiProject.Views.Conferences.ExaminerFormView extends Backbone.View
 		).data("ui-autocomplete")
 
 		autoComplete._renderItem = (ul, item) =>
-			html = "<li data-value=\""+item.value+"\"><a><div class=\"row\"><div class=\"col-sm-3\"><img class=\"img-circle img-thumbnail\" width=\"64\" height=\"64\" src=\""+item.photo+"\"></div><div class=\"col-sm-9\"><blockquote><p>"+item.label+"<br/><div class=\"label-group\"><span class=\"label label-primary\"><i class=\"fa fa-book\"></i> Skripsi : "+item.supervisors_skripsi_count+"</span><span class=\"label label-success\"><i class=\"fa fa-file\"></i> Pkl :"+item.supervisors_pkl_count+"</span></div></p></blockquote></div></div></a></li>";
-			return $(html).appendTo(ul)
+			html = JST['templates/lecturer_search']
+			return $(html(item)).appendTo(ul)
 		return this

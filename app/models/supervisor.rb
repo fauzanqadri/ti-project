@@ -41,7 +41,7 @@ class Supervisor < ActiveRecord::Base
 	after_destroy :send_destroy_notification
 
 	scope :approved_supervisors, -> {where{(approved == true)} }
-	default_scope {order('created_at asc')}
+	default_scope {order('approved_time asc')}
 
 	def status
 		return "Menunggu Persetujuan" unless self.approved?
