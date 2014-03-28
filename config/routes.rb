@@ -83,6 +83,9 @@ TiProject::Application.routes.draw do
   
   resources :conferences, only: [:edit, :update]
   get '/unmanaged_conferences' => 'conferences#unmanaged_conferences'
+  get '/conferences_report' => 'conferences#conferences_report'
+  post '/scheduled_conferences_report' => 'conferences#scheduled_conferences_report'
+  get 'show_conferences_report' => 'conferences#show_conferences_report'
   get '/published_courses' => 'static_pages#published_courses'
   get '/get_faculties' => 'static_pages#get_faculties'
   get '/get_departments/:faculty_id' => 'static_pages#get_departments'

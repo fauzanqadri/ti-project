@@ -45,6 +45,32 @@ class ConferencesController < ApplicationController
     end
   end
 
+  def conferences_report
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def scheduled_conferences_report
+    @report_params = params[:conference_report]
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def show_conferences_report
+    pdf = ScheduledConferencesReportPdf.new(view_context)
+    respond_to do |format|
+      format.pdf do
+        if params[:download].present? && params[:download] == 'true'
+          send_data pdf.render, type: "application/pdf", disposition: "attachment", filename: "Laporan_Penjadwalan_Seminar_Sidang.pdf"
+        else
+          send_data pdf.render, type: "application/pdf", disposition: "inline", filename: "Laporan_Penjadwalan_Seminar_Sidang.pdf"
+        end
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_conference

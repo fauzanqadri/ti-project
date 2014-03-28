@@ -14,7 +14,6 @@
 								= f.text_field :start, class: "form-control", placeholder: "Tanggal dilaksanakan", "data-format" => "YYYY-MM-DD"
 								%span.input-group-addon
 									%span.fa.fa-calendar
-
 					- if @conference.type == "Sidang"
 						= render partial: 'conferences/examiners_form', locals: { conference_field: f, conference: @conference}
 				.modal-footer

@@ -38,6 +38,7 @@ class Conference < ActiveRecord::Base
 	scope :approved_department_director, -> { where{(department_director_approval == true)} }
 	scope :scheduled, -> {where{(start != nil) | (conferences.end != nil)}}
 	scope :unscheduled, -> {where{(start == nil) & (conferences.end == nil)}}
+	scope :daterange, -> (start, ends) { where(start: (start..ends)) }
 
 	def status
 		if !self.supervisor_approval?

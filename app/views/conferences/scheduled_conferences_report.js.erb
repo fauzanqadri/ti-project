@@ -1,0 +1,16 @@
+$("#conferences-report-form-modal").modal('hide');
+$("#conferences-report-form-modal").on('hidden.bs.modal', function(e){
+	var html = "<%= j render( partial: 'scheduled_conferences_report', locals: { report_params: @report_params }) %>";
+	var scheduledConferencesReportModal = $("#scheduled-conferences-report-modal");
+	if (scheduledConferencesReportModal.length == 1) {
+		scheduledConferencesReportModal.modal("hide");
+		scheduledConferencesReportModal.on('hidden.bs.modal', function(e){
+			$(e.target).remove();
+			$("body").append(html);
+			$("#scheduled-conferences-report-modal").modal({show: true});
+		});
+	}else{
+		$("body").append(html);
+		$("#scheduled-conferences-report-modal").modal({show: true});
+	}
+});

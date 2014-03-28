@@ -1,0 +1,40 @@
+#conferences-report-form-modal.modal.fade{tabindex: "-1", role: "dialog", "aria-labelledby" => "conferencesReportFormModalLabel", "aria-hidden" => true, "data-backdrop" => "static", "data-keyboard" => "true"}
+	.modal-dialog
+		.modal-content
+			.modal-header
+				%button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
+				%h4#conferencesReportFormModalLabel.modal-title Laporan Penjadwalan Seminar / Sidang
+			= form_for :conference_report, url: scheduled_conferences_report_path, remote: "true", html: {role: "form", class: "form-horizontal", method: :post} do |f|
+				.modal-body
+					.form-group
+						= f.label :start, "Mulai", class: "col-sm-3 control-label"
+						.col-sm-9
+							.input-group.date.datepicker
+								= f.text_field :start, class: "form-control", placeholder: "Tanggal Mulai", "data-format" => "YYYY-MM-DD HH:mm"
+								%span.input-group-addon
+									%span.fa.fa-calendar
+					.form-group
+						= f.label :end, "Selesai", class: "col-sm-3 control-label"
+						.col-sm-9
+							.input-group.date.datepicker
+								= f.text_field :end, class: "form-control", placeholder: "Tanggal Selesai", "data-format" => "YYYY-MM-DD HH:mm"
+								%span.input-group-addon
+									%span.fa.fa-calendar
+					.form-group
+						= f.label :type, "Jenis", class: "col-sm-3 control-label"
+						.col-sm-9
+							.radio-inline
+								%label
+									= f.radio_button :type, "Sidang", checked: true
+									Sidang
+							.radio-inline
+								%label
+									= f.radio_button :type, "Seminar"
+									Seminar
+				.modal-footer
+					%button.btn.btn-primary{type: "submit"}
+						%i.fa.fa-print
+						Cetak Laporan
+					%button.btn.btn-default{type: "button", "data-dismiss" => "modal"}
+						%i.fa.fa-times
+						Cencel
