@@ -1,5 +1,7 @@
 require 'sidekiq/web'
 TiProject::Application.routes.draw do
+  resources :posts
+
   mount Sidekiq::Web => '/sidekiq'
   devise_for :users, :skip => [:sessions, :registrations, :password]
   devise_scope :user do

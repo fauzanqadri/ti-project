@@ -37,6 +37,14 @@
 						= f.label :address, "Alamat",class: "col-sm-3 control-label"
 						.col-sm-9
 							= f.text_area :address, class: "form-control", placeholder: "Alamat..."
+					.form-group
+						= f.label :phone_number, "Hp", class: "control-label col-sm-3"
+						.col-sm-9
+							= f.text_field :phone_number, class: "form-control", placeholder: "Nomor telepon hp"
+					.form-group
+						= f.label :home_number, class: "control-label col-sm-3"
+						.col-sm-9
+							= f.text_field :home_number, class: "form-control", placeholder: "Nomor telepon rumah"
 					.clearfix
 				.modal-footer
 					%button.btn.btn-primary{type: "submit"}
