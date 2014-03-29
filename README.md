@@ -19,13 +19,13 @@ ___
 
 ###Installation  : 
 ___
-1. Install rvm dengan tutorial yang berada pada https://rvm.io/
+* Install rvm dengan tutorial yang berada pada https://rvm.io/
 setelah proses instalasi rvm selesai instal ruby versi 2.1.0 dengan mengetikan perintah berikut pada terminal anda
 ```bash
 $ rvm install 2.1.0
 ```
-2. Install redis dengan tutorial yang berada pada http://redis.io/topics/quickstart
-3. Setelah proses instalasi redis selesai clone repository ini dengan mengetikan perintah berikut pada terminal anda
+* Install redis dengan tutorial yang berada pada http://redis.io/topics/quickstart
+* Setelah proses instalasi redis selesai clone repository ini dengan mengetikan perintah berikut pada terminal anda
 ```bash
 $ git clone git@github.com:fauzanqadri/ti-project.git
 ```
@@ -33,7 +33,7 @@ atau
 ```bash
 $ git clone https://github.com/fauzanqadri/ti-project.git
 ```
-4. Setelah proses clone berhasil lalu ketikan perintah berikut pada terminal anda
+* Setelah proses clone berhasil lalu ketikan perintah berikut pada terminal anda
 ```bash
 $ cd ti-project
 ```
@@ -42,6 +42,6 @@ lalu ketikan perintah
 $ bundle install
 ```
 command diatas akan menginstall rails beserta dependency yang dibutuhkan oleh aplikasi ini
-5. Setelah proses instalasi dependency selesai set environment variable yang dibutuhkan pada shell anda dengan mengetikan perintah berikut
+* Setelah proses instalasi dependency selesai set environment variable yang dibutuhkan pada shell anda dengan mengetikan perintah berikut
 
 #To be Continued
