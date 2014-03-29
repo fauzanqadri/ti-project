@@ -32,10 +32,13 @@ class Supervisor < ActiveRecord::Base
 	after_save :create_surcease_course
 	after_commit :increment_global_lecturer_counter_cache, on: :create
 	after_commit :decrement_global_lecturer_counter_cache, on: :destroy
+
 	after_commit :increment_lecturer_counter_cache, on: [:create, :update]
 	after_commit :decrement_lecturer_counter_cache, on: [:destroy, :update]
+
 	after_commit :increment_course_counter_cache, on: [:create, :update]
 	after_commit :decrement_course_counter_cache, on: :destroy
+
 	before_save :set_approved_time
 	after_save :send_notification
 	after_destroy :send_destroy_notification
@@ -51,11 +54,11 @@ class Supervisor < ActiveRecord::Base
 	private
 
 	def increment_global_lecturer_counter_cache
-		Lecturer.increment_counter(:supervisors_count, self.lecturer_id)
+		Lecturer.increment_counter(:supervisors_count, self.lecturer_id) if self.approved?
 	end
 
 	def decrement_global_lecturer_counter_cache
-		Lecturer.decrement_counter(:supervisors_count, self.lecturer_id)
+		Lecturer.decrement_counter(:supervisors_count, self.lecturer_id) if self.approved? && self.lecturer.supervisors_count > 0
 	end
 
 	def increment_lecturer_counter_cache
@@ -68,19 +71,21 @@ class Supervisor < ActiveRecord::Base
 
 	def decrement_lecturer_counter_cache
 		if self.course.class == Skripsi
-			Lecturer.decrement_counter(:supervisors_skripsi_count, self.lecturer_id) if self.approved?
+			Lecturer.decrement_counter(:supervisors_skripsi_count, self.lecturer_id) if self.lecturer.supervisors_skripsi_count > 0 && self.approved?
 		else
-			Lecturer.decrement_counter(:supervisors_pkl_count, self.lecturer_id) if self.approved?
+			Lecturer.decrement_counter(:supervisors_pkl_count, self.lecturer_id) if self.lecturer.supervisors_skripsi_count > 0 && self.approved?
 		end
 	end
 
 	def increment_course_counter_cache
 		Course.increment_counter(:supervisors_count, self.course_id) if self.approved?
-		Course.decrement_counter(:supervisors_count, self.course_id) if self.approved_changed? && !self.approved?
+		if self.course.supervisors_count > 0
+			Course.decrement_counter(:supervisors_count, self.course_id) if self.approved_changed? && !self.approved?
+		end
 	end
 
 	def decrement_course_counter_cache
-		Course.decrement_counter(:supervisors_count, self.course_id) if self.approved?
+		Course.decrement_counter(:supervisors_count, self.course_id) if self.course.supervisors_count > 0 && self.approved?
 	end
 
 	def create_surcease_course

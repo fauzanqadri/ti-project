@@ -183,7 +183,9 @@ class Ability
 		end
 
 		can :show, Sidang do |sidang|
-			(sidang.skripsi.student_id == @user.userable_id && sidang.department_director_approval?) || sidang.skripsi.is_finish?
+			date_start = DateTime.parse(sidang.start.try(:to_s)) if sidang.start.present?
+			date_now = DateTime.now.to_date
+			(sidang.skripsi.student_id == @user.userable_id && sidang.department_director_approval?) && (!date_start.nil? && (date_now >= date_start.to_date)) || sidang.skripsi.is_finish?
 		end
 
 		can :create, Sidang do |sidang|

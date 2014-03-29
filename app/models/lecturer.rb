@@ -53,20 +53,18 @@ class Lecturer < ActiveRecord::Base
 
 	def rest_of_supervison_of_skripsi
 		maximum_allowed_supervison_of_skripsi = self.level == "Lektor" ? self.department.setting.maximum_lecturer_lektor_skripsi_lead : self.department.setting.maximum_lecturer_aa_skripsi_lead
-		if maximum_allowed_supervison_of_skripsi == 0
-			"∞"
-		else
-			maximum_allowed_supervison_of_skripsi - self.supervisors_skripsi_count
-		end
+		res = maximum_allowed_supervison_of_skripsi - self.supervisors_skripsi_count
+		return "∞" if maximum_allowed_supervison_of_skripsi == 0
+		return res if res >= 0
+		return 0 if res < 0
 	end
 
 	def rest_of_supervison_of_pkl
 		maximum_allowed_supervison_of_pkl = self.level == "Lektor" ? self.department.setting.maximum_lecturer_lektor_pkl_lead : self.department.setting.maximum_lecturer_aa_pkl_lead
-		if maximum_allowed_supervison_of_pkl == 0
-			"∞"
-		else
-			maximum_allowed_supervison_of_pkl - self.supervisors_pkl_count
-		end
+		result = maximum_allowed_supervison_of_pkl - self.supervisors_pkl_count
+		return "∞" if maximum_allowed_supervison_of_pkl == 0
+		return res if res >= 0
+		return 0 if res < 0
 	end
 
 	private

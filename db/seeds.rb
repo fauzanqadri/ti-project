@@ -73,7 +73,7 @@ pkl_assessment_params = [
 
 pkl_assessment_params.each do |assessment|
   PklAssessment.find_or_initialize_by(assessment).tap do |t|
-    tap.save!
+    t.save!
   end
 end
 

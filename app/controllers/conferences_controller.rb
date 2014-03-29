@@ -46,15 +46,20 @@ class ConferencesController < ApplicationController
   end
 
   def conferences_report
+    @report_params = ConferenceFilter.new
     respond_to do |format|
       format.js
     end
   end
 
   def scheduled_conferences_report
-    @report_params = params[:conference_report]
+    @report_params = ConferenceFilter.new(params[:conference_filter])
     respond_to do |format|
-      format.js
+      if @report_params.valid?
+        format.js
+      else
+        format.js {render action: 'conferences_report'}
+      end
     end
   end
 

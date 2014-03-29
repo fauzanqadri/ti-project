@@ -4,22 +4,28 @@
 			.modal-header
 				%button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
 				%h4#conferencesReportFormModalLabel.modal-title Laporan Penjadwalan Seminar / Sidang
-			= form_for :conference_report, url: scheduled_conferences_report_path, remote: "true", html: {role: "form", class: "form-horizontal", method: :post} do |f|
+			= form_for @report_params, url: scheduled_conferences_report_path, remote: "true", html: {role: "form", class: "form-horizontal", method: :post} do |f|
 				.modal-body
+					= render 'layouts/shared/errors', :object => f.object
 					.form-group
 						= f.label :start, "Mulai", class: "col-sm-3 control-label"
 						.col-sm-9
 							.input-group.date.datepicker
-								= f.text_field :start, class: "form-control", placeholder: "Tanggal Mulai", "data-format" => "YYYY-MM-DD HH:mm"
+								= f.text_field :start, class: "form-control", placeholder: "Tanggal Mulai", "data-format" => "YYYY-MM-DD"
 								%span.input-group-addon
 									%span.fa.fa-calendar
 					.form-group
-						= f.label :end, "Selesai", class: "col-sm-3 control-label"
+						= f.label :ends, "Selesai", class: "col-sm-3 control-label"
 						.col-sm-9
 							.input-group.date.datepicker
-								= f.text_field :end, class: "form-control", placeholder: "Tanggal Selesai", "data-format" => "YYYY-MM-DD HH:mm"
+								= f.text_field :ends, class: "form-control", placeholder: "Tanggal Selesai", "data-format" => "YYYY-MM-DD"
 								%span.input-group-addon
 									%span.fa.fa-calendar
+					- if current_user.userable_type == "Staff"
+						.form-group
+							= f.label :department_id, class: "col-sm-3 control-label"
+							.col-sm-9
+								= f.select :department_id, options_for_select(departments_opt), {}, {class: "form-control"}
 					.form-group
 						= f.label :type, "Jenis", class: "col-sm-3 control-label"
 						.col-sm-9

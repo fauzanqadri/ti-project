@@ -44,9 +44,9 @@ class ScheduledConferencesReportPdf < Prawn::Document
 
 	def conferences
 		if params[:type] == "Sidang"
-			@conferences ||= Sidang.includes(skripsi: [:student, {supervisors: :lecturer}], examiners: :lecturer).daterange(params[:start], params[:end])
+			@conferences ||= Sidang.includes(skripsi: [:student, {supervisors: :lecturer}], examiners: :lecturer).by_department(department.id).approved_department_director.assign_local.daterange(params[:start], params[:end])
 		else
-			@conferences ||= Seminar.includes(skripsi: [:student, {supervisors: :lecturer}]).daterange(params[:start], params[:end])
+			@conferences ||= Seminar.includes(skripsi: [:student, {supervisors: :lecturer}]).by_department(department.id).approved_department_director.assign_local.daterange(params[:start], params[:end])
 		end
 	end
 
@@ -79,15 +79,17 @@ class ScheduledConferencesReportPdf < Prawn::Document
 	end
 
 	def report_bottom
-		move_down 10
-		bounding_box([0, cursor], width: bounds.width.to_i, height: 125) do
-			bounding_box([600, cursor], width: 150, height: 125) do
-				text "Jakarta, #{foramtted_time(DateTime.now)}", size: 11
-				text "a.n. Dekan", size: 11
-				text "Ketua Prodi #{department.name}", size: 11
-				move_down 65
-				text "#{department_director.to_s}", size: 11
-				text "NIP. #{department_director.nip}", size: 11
+		repeat :all do
+			move_down 10
+			bounding_box([0, cursor], width: bounds.width.to_i, height: 125) do
+				bounding_box([600, cursor], width: 150, height: 125) do
+					text "Jakarta, #{foramtted_time(DateTime.now)}", size: 11
+					text "a.n. Dekan", size: 11
+					text "Ketua Prodi #{department.name}", size: 11
+					move_down 65
+					text "#{department_director.to_s}", size: 11
+					text "NIP. #{department_director.nip}", size: 11
+				end
 			end
 		end
 	end
