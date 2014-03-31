@@ -1,0 +1,44 @@
+- provide(:title, "Bantuan")
+
+#wraper
+	%header
+		%h1
+			%i.fa.fa-question-circle
+			Bantuan
+	%section
+		%ul.nav.nav-tabs
+			%li.active
+				= link_to "#basic", "data-toggle" => "tab" do
+					%i.fa.fa-user
+					User Basic
+			%li
+				= link_to "#skripsi", "data-toggle" => "tab" do
+					%i.fa.fa-book
+					Skripsi
+			%li
+				= link_to "#pkl", "data-toggle" => "tab" do
+					%i.fa.fa-file
+					Pkl
+		.tab-content
+			#basic.tab-pane.fade.in.active
+				%header
+					%h1
+						%i.fa.fa-user
+						User Basic
+				%section
+				%footer
+			#skripsi.tab-pane.fade
+				%header
+					%h1
+						%i.fa.fa-book
+						Skripsi
+				%section
+					%ul.nav.nav-tabs
+						%li.active
+							= link_to "#skripsi_proposal", "#"
+			#pkl.tab-pane.fade
+				%header
+					%h1
+						%i.fa.fa-file
+						Pkl
+				%section

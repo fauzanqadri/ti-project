@@ -248,6 +248,7 @@ GEM
       coffee-script (~> 2.2.0)
       ejs (~> 1.0.0)
       railties (>= 3.1.0)
+    rails-bootstrap-markdown (1.0.0)
     rails-erd (1.1.0)
       activerecord (>= 3.0)
       activesupport (>= 3.0)
@@ -389,6 +390,7 @@ DEPENDENCIES
   railroady
   rails (= 4.0.2)
   rails-backbone
+  rails-bootstrap-markdown
   rails-erd
   redcarpet
   remotipart (~> 1.2)

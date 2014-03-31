@@ -2,23 +2,24 @@
 - content_for :specific_js do
   = javascript_include_tag "assessments", "data-turbolinks-track" => true
 
-%header
-  %h1 Aspek Penilaian
+#wraper
+  %header
+    %h1 Aspek Penilaian Seminar / Sidang
 
-%section
-  %table#assessments.table.table-bordered{"data-source" => "#{assessments_url(format: "json")}"}
-    %thead
-      %tr
-        %th
-          .text-center Aspek Penilaian
-        %th
-          .text-center Persentase
-        %th
-          .text-center Ketegori
-        %th
-          .text-center Action
-    %tbody
-%footer
-  = link_to new_assessment_path, remote: true,class: "btn btn-primary btn-lg" do
-    %i.fa.fa-upload
-    Tambah Aspek Penilaian
+  %section
+    %table#assessments.table.table-bordered{"data-source" => "#{assessments_url(format: "json")}"}
+      %thead
+        %tr
+          %th
+            .text-center Aspek Penilaian
+          %th
+            .text-center Persentase
+          %th
+            .text-center Ketegori
+          %th
+            .text-center Action
+      %tbody
+  %footer
+    = link_to new_assessment_path, remote: true,class: "btn btn-primary btn-lg" do
+      %i.fa.fa-upload
+      Tambah Aspek Penilaian

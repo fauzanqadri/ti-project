@@ -16,10 +16,13 @@ class TiProject.Views.PublishedCourses.IndexView extends Backbone.View
 		@initFaculty()
 
 	addAll: () =>
-		$("#course-list").empty()
+		$("#course-list .result-info").empty()
+		$("#course-list .result").empty()
 		$("#paginate").empty()
 		@options.collections.each(@addOne)
+		res_info = new TiProject.Views.PageInfo.IndexView(page_info: @options.collections.page_info())
 		pagination = new TiProject.Views.Paginations.IndexView(page_info: @options.collections.page_info(), return_action: this)
+		$("#course-list .result-info").append(res_info.render().el)
 		$("#paginate").append(pagination.render().el)
 
 	addOne: (model) =>
@@ -27,7 +30,7 @@ class TiProject.Views.PublishedCourses.IndexView extends Backbone.View
 			view = new TiProject.Views.PublishedCourses.SkripsiView({model: model})
 		else
 			view = new TiProject.Views.PublishedCourses.PklView({model: model})
-		$(view.render().el).appendTo("#course-list")
+		$(view.render().el).appendTo("#course-list .result")
 
 	initFaculty: () =>
 		@faculties = new TiProject.Collections.FacultiesCollection()

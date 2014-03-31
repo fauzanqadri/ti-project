@@ -2,32 +2,38 @@
 - content_for :specific_js do
   = javascript_include_tag "students", "data-turbolinks-track" => true
 
-%header
-  %h1 Daftar Mahasiswa
-%section
-  %table#students.table.table-bordered{"data-source" => "#{students_url(format: "json")}"}
-    %thead
-      %tr
-        %th
-          .text-center Nim
-        %th
-          .text-center Nama Lengkap
-        %th
-          .text-center Tanggal Lahir
-        %th
-          .text-center Angkatan
-        %th
-          .text-center Jumlah Skripsi
-        %th
-          .text-center Jumlah Pkl
-        %th
-          .text-center Jurusan
-        %th
-          .text-center Created at
-        %th
-          .text-center Action
-    %tbody
-%footer
-  = link_to new_student_path, remote: true,class: "btn btn-primary btn-lg" do
-    %i.fa.fa-upload
-    Tambah Mahasiswa
+#wraper
+  %header
+    %h1
+      %i.fa.fa-user
+      Daftar Mahasiswa
+  %section
+    %table#students.table.table-bordered{"data-source" => "#{students_url(format: "json")}"}
+      %thead
+        %tr
+          %th
+            .text-center Nim
+          %th
+            .text-center Nama Lengkap
+          %th
+            .text-center Tanggal Lahir
+          %th
+            .text-center Angkatan
+          %th
+            .text-center Jumlah Skripsi
+          %th
+            .text-center Jumlah Pkl
+          %th
+            .text-center Jurusan
+          %th
+            .text-center Created at
+          %th
+            .text-center Action
+      %tbody
+  %footer
+    = link_to new_student_path, remote: true,class: "btn btn-primary btn-lg" do
+      %i.fa.fa-upload
+      Tambah Mahasiswa
+    = link_to new_import_path, remote: true, class: "btn btn-default btn-lg" do
+      %i.fa.fa-upload
+      Import Data

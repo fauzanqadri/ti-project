@@ -1,33 +1,35 @@
 - provide(:title, "Import Data")
 - content_for :specific_js do
 	= javascript_include_tag "imports", "data-turbolinks-track" => true
-%header
-	%h1 Import Data Mahasiswa
 
-%section
-	%table#imports.table.table-bordered{"data-source" => "#{imports_url(format: "json")}"}
-		%thead
-			%tr
-				%th
-					.text-center Nama File
-				%th
-					.text-center Nama File Asli
-				%th
-					.text-center Jenis Data
-				%th
-					.text-center Total Data
-				%th
-					.text-center Jurusan
-				%th
-					.text-center User
-				%th
-					.text-center Jenis User
-				%th
-					.text-center Status
-				%th
-					.text-center Action
+#wraper
+	%header
+		%h1 Import Data Mahasiswa
 
-%footer
-	= link_to new_import_path, remote: true, class: "btn btn-primary btn-lg" do
-		%i.fa.fa-upload
-		Import File
+	%section
+		%table#imports.table.table-bordered{"data-source" => "#{imports_url(format: "json")}"}
+			%thead
+				%tr
+					%th
+						.text-center Nama File
+					%th
+						.text-center Nama File Asli
+					%th
+						.text-center Jenis Data
+					%th
+						.text-center Total Data
+					%th
+						.text-center Jurusan
+					%th
+						.text-center User
+					%th
+						.text-center Jenis User
+					%th
+						.text-center Status
+					%th
+						.text-center Action
+
+	%footer
+		= link_to new_import_path, remote: true, class: "btn btn-primary btn-lg" do
+			%i.fa.fa-upload
+			Import File

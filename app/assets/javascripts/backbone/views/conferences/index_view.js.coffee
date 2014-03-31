@@ -21,16 +21,19 @@ class TiProject.Views.Conferences.IndexView extends Backbone.View
 		$("#scheduled-conference").fullCalendar('renderEvent', item.toEventData(), true)
 
 	unscheduledConferencesAddAll: () =>
-		$("#unscheduled-conference .panel").each (i, e)->
+		$("#unscheduled-conference .result-info").empty()
+		$("#unscheduled-conference .result .panel").each (i, e)->
 			$(this).delay(i*1000).slideUp "fast", =>
 				$(this).remove()
 		@options.unscheduled_conferences.each(@unscheduledConferencesAddOne)
+		res_info = new TiProject.Views.PageInfo.IndexView(page_info: @options.unscheduled_conferences.page_info())
 		pagination = new TiProject.Views.Paginations.IndexView(page_info: @options.unscheduled_conferences.page_info(), return_action: this)
+		$("#unscheduled-conference .result-info").append(res_info.render().el)
 		$("#paginate").append(pagination.render().el)
 
 	unscheduledConferencesAddOne: (item) =>
 		unscheduledConferencesView = new TiProject.Views.Conferences.UnscheduledView({model: item, return_action: this})
-		$(unscheduledConferencesView.render().el).hide().appendTo("#unscheduled-conference")
+		$(unscheduledConferencesView.render().el).hide().appendTo("#unscheduled-conference .result")
 
 	rerenderUnscheduledConferences: =>
 		$("#unscheduled-conference .panel").each (i, e)->

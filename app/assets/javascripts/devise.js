@@ -17,5 +17,4 @@
 //= require nprogress
 //= require nprogress-turbolinks
 //= require load_page
-//= require signin
 //= require custom

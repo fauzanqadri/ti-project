@@ -1,0 +1,18 @@
+<%
+	if(typeof cTotalRecords != 'undefined'){
+		total_records = cTotalRecords
+	} else {
+		total_records = iTotalRecords
+	}
+	if(typeof cDisplayLength != 'undefined'){
+		display_length = cDisplayLength
+	}else{
+		display_length = iDisplayLength
+	}
+%>
+
+<div class="alert alert-warning">
+	<div class="text-center">
+		Menampilkan <%= display_length %> dari <%= total_records %> Record
+	</div>
+</div>

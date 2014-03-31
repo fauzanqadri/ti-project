@@ -2,26 +2,29 @@
 - content_for :specific_js do
   = javascript_include_tag "staffs", "data-turbolinks-track" => true
 
-%header
-  %h1 Daftar Staff
-%section
-  %table#staffs.table.table-bordered{"data-source" => "#{staffs_url(format: "json")}"}
-    %thead
-      %tr
-        %th
-          .text-center Nama Lengkap
-        %th
-          .text-center Alamat
-        %th
-          .text-center Tanggal Lahir
-        %th
-          .text-center Fakultas
-        %th
-          .text-center Staff Sejak
-        %th
-          .text-center Action
-    %tbody
-%footer
-  = link_to new_staff_path, remote: true,class: "btn btn-primary btn-lg" do
-    %i.fa.fa-upload
-    Tambah Staff
+#wraper
+  %header
+    %h1
+      %i.fa.fa-user
+      Daftar Staff
+  %section
+    %table#staffs.table.table-bordered{"data-source" => "#{staffs_url(format: "json")}"}
+      %thead
+        %tr
+          %th
+            .text-center Nama Lengkap
+          %th
+            .text-center Alamat
+          %th
+            .text-center Tanggal Lahir
+          %th
+            .text-center Fakultas
+          %th
+            .text-center Staff Sejak
+          %th
+            .text-center Action
+      %tbody
+  %footer
+    = link_to new_staff_path, remote: true,class: "btn btn-primary btn-lg" do
+      %i.fa.fa-upload
+      Tambah Staff

@@ -2,23 +2,24 @@
 - content_for :specific_js do
 	= javascript_include_tag "pkl_assessments", "data-turbolinks-track" => true
 
-%header
-	%h1 Aspek Penilaian PKL
-%section
-	%table#pkl-assessments.table.table-bordered{"data-source" => "#{pkl_assessments_url(format: "json")}"}
-		%thead
-			%tr
-				%th
-					.text-center Aspek penilaian
-				%th
-					.text-center Jenis
-				%th
-					.text-center Persentasi
-				%th
-					.text-center Action
-		%tbody
-%footer
-	- if can? :create, PklAssessment
-		= link_to new_pkl_assessment_path, remote: true, class: "btn btn-primary btn-lg" do
-			%i.fa.fa-upload
-			Tambah Aspek Penilaian
+#wraper
+	%header
+		%h1 Aspek Penilaian PKL
+	%section
+		%table#pkl-assessments.table.table-bordered{"data-source" => "#{pkl_assessments_url(format: "json")}"}
+			%thead
+				%tr
+					%th
+						.text-center Aspek penilaian
+					%th
+						.text-center Jenis
+					%th
+						.text-center Persentasi
+					%th
+						.text-center Action
+			%tbody
+	%footer
+		- if can? :create, PklAssessment
+			= link_to new_pkl_assessment_path, remote: true, class: "btn btn-primary btn-lg" do
+				%i.fa.fa-upload
+				Tambah Aspek Penilaian

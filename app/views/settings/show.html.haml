@@ -1,96 +1,98 @@
 - provide(:title, "Konfigurasi")
 - content_for :specific_js do
 	= javascript_include_tag "settings", "data-turbolinks-track" => true
-%header
-	%h1 
-		%i.fa.fa-cogs
-		Konfigurasi
 
-= form_for @setting, url: settings_path, html: {class: "form-horizontal", role: "form", method: :put} do |f|
-	%section
-		= render 'layouts/shared/errors', :object => f.object
-		.form-group
-			= f.label :supervisor_skripsi_amount, "Jumlah Pembimbing Skripsi", class: "col-sm-3 control-label"
-			.col-sm-9
-				= f.number_field :supervisor_skripsi_amount, class: "form-control", require: true
-				%span.help-block
-					Menentukan jumlah dosen pembimbing yang diperbolehkan pada skripsi mahasiswa
-		.form-group
-			= f.label :supervisor_pkl_amount, "Jumlah Pembimbing Pkl", class: "col-sm-3 control-label"
-			.col-sm-9
-				= f.number_field :supervisor_pkl_amount, class: "form-control", require: true
-				%span.help-block
-					Menentukan jumlah dosen pembinbing yang diperbolehkan pada pkl mahasiswa
-		.form-group
-			= f.label :examiner_amount, "Jumlah Penguji Sidang", class: "col-sm-3 control-label"
-			.col-sm-9
-				= f.number_field :examiner_amount, class: "form-control", require: true
-				%span.help-block
-					Menentukan jumlah dosen penguji pada sidang skripsi mahasiswa
-		.form-group
-			= f.label :maximum_lecturer_lektor_skripsi_lead, "Jumlah Batas Dosen Lektor Membimbing Skripsi", class: "col-sm-3 control-label"
-			.col-sm-9
-				= f.number_field :maximum_lecturer_lektor_skripsi_lead, class: "form-control", require: true
-				%span.help-block
-					Menentukan batas maksimal dosen lektor dapat membimbing skripsi mahasiswa, jika sudah mencapai batas maka harus menunggu skripsi yang sedang dibimbing selesai terlebih dahulu baru dapat membimbing skripsi lain nya atau dapat meminta dosen untuk memberikan tugas pembimbingan, set nilai menjadi 0 untuk tak terhingga
-		.form-group
-			= f.label :maximum_lecturer_aa_skripsi_lead, "Jumlah Batas Dosen Asisten Ahli Membimbing Skripsi", class: "col-sm-3 control-label"
-			.col-sm-9
-				= f.number_field :maximum_lecturer_aa_skripsi_lead, class: "form-control", require: true
-				%span.help-block
-					Menentukan batas maksimal dosen asisten ahli dapat membimbing skripsi mahasiswa, jika sudah mencapai batas maka harus menunggu skripsi yang sedang dibimbing selesai terlebih dahulu baru dapat membimbing skripsi lain nya atau dapat meminta dosen untuk memberikan tugas pembimbingan, set nilai menjadi 0 untuk tak terhingga
-		.form-group
-			= f.label :maximum_lecturer_lektor_pkl_lead, "Jumlah Batas Dosen Lektor Membimbing Pkl", class: "col-sm-3 control-label"
-			.col-sm-9
-				= f.number_field :maximum_lecturer_lektor_pkl_lead, class: "form-control", require: true
-				%span.help-block
-					Menentukan batas maksimal dosen lektor dapat membimbing pkl mahasiswa, jika sudah mencapai batas maka harus menunggu pkl yang sedang dibimbing selesai terlebih dahulu baru dapat membimbing pkl lain nya atau dapat meminta dosen untuk memberikan tugas pembimbingan, set nilai menjadi 0 untuk tak terhingga
-		.form-group
-			= f.label :maximum_lecturer_aa_pkl_lead, "Jumlah Batas Dosen Asisten Ahli Membimbing Pkl", class: "col-sm-3 control-label"
-			.col-sm-9
-				= f.number_field :maximum_lecturer_aa_pkl_lead, class: "form-control", require: true
-				%span.help-block
-					Menentukan batas maksimal dosen asisten ahli dapat membimbing pkl mahasiswa, jika sudah mencapai batas maka harus menunggu pkl yang sedang dibimbing selesai terlebih dahulu baru dapat membimbing pkl lain nya atau dapat meminta dosen untuk memberikan tugas pembimbingan, set nilai menjadi 0 untuk tak terhingga
-		.form-group
-			= f.label :allow_remove_supervisor_duration, "Perbolehkan Pembatalan Pembimbingan Dalam Waktu", class: "col-sm-3 control-label"
-			.col-sm-9
-				= f.number_field :allow_remove_supervisor_duration, class: "form-control", require: true
-				%span.help-block
-					Perbolehkan dosen untuk membatalkan pembimbingan dalam waktu, satuan dalam menit, set nilai menjadi 0 untuk membuat dosen tidak dapat membatalkan pembimbingan
-		.form-group
-			= f.label :lecturer_lead_skripsi_rule, "Peraturan Dosen Dalam Pembimbingan Skripsi", class: "col-sm-3 control-label"
-			.col-sm-9
-				= f.select :lecturer_lead_skripsi_rule, options_for_select(Setting::LECTURER_LEAD_SKRIPSI_RULE.map{|opt| [opt[:description], opt[:symbolic]]}, selected: @setting.lecturer_lead_skripsi_rule), {}, {class: "form-control"}
-				%span.help-block
-					Peraturan dosen dalam membimbing skripsi
-		.form-group
-			= f.label :lecturer_lead_pkl_rule, "Peraturan Dosen Dalam Pembimbingan Pkl", class: "col-sm-3 control-label"
-			.col-sm-9
-				= f.select :lecturer_lead_pkl_rule, options_for_select(Setting::LECTURER_LEAD_SKRIPSI_RULE.map{|opt| [opt[:description], opt[:symbolic]]}, selected: @setting.lecturer_lead_pkl_rule), {}, {class: "form-control"}
-				%span.help-block
-					Peraturan dosen dalam membimbing pkl
-		.form-group
-			= f.label :allow_student_create_pkl, "Perbolehkan Mahasiswa untuk Membuat Proposal Pkl", class: "col-sm-3 control-label"
-			.col-sm-9
-				.checkbox
-					%label
-						= f.check_box :allow_student_create_pkl
-						Perbolehkan
-				%span.help-block
-					Matikan Fitur ini untuk mematikan fitur manajemen pkl pada jurusan anda, mematikan fitur ini berdampak pada konfigurasi 'Jumlah Pembimbing Pkl', 'Jumlah Batas Dosen Lektor Membimbing Pkl', 'Jumlah Batas Dosen Asisten Ahli Membimbing Pkl', 'Peraturan Dosen Dalam Pembimbingan Pkl' menjadi tidak berguna
-		.form-group
-			= f.label :department_director, "Nama Dosen Ketua Prodi", class: "col-sm-3 control-label"
-			.col-sm-9
-				%input{type: "text", id: "department_director_name", class: "form-control", placeholder: "Nama Dosen", "data-source" => "#{search_lecturers_url}", value: "#{setting_department_director_name(@setting.department_director)}"}
-				= f.hidden_field :department_director
-		.form-group
-			= f.label :department_secretary, "Nama Dosen Sekertari Prodi", class: "col-sm-3 control-label"
-			.col-sm-9
-				%input{type: "text", id: "department_secretary_name", class: "form-control", placeholder: "Nama Dosen", "data-source" => "#{search_lecturers_url}", value: "#{setting_department_director_name(@setting.department_secretary)}"}
-				= f.hidden_field :department_secretary
-	%footer
-		.form-group
-			.col-sm-offset-3.col-sm-9
-				%button.btn.btn-primary.btn-lg{type: "submit"}
-					%i.fa.fa-upload
-					Simpan
+#wraper
+	%header
+		%h1 
+			%i.fa.fa-cogs
+			Konfigurasi
+
+	= form_for @setting, url: settings_path, html: {class: "form-horizontal", role: "form", method: :put} do |f|
+		%section
+			= render 'layouts/shared/errors', :object => f.object
+			.form-group
+				= f.label :supervisor_skripsi_amount, "Jumlah Pembimbing Skripsi", class: "col-sm-3 control-label"
+				.col-sm-9
+					= f.number_field :supervisor_skripsi_amount, class: "form-control", require: true
+					%span.help-block
+						Menentukan jumlah dosen pembimbing yang diperbolehkan pada skripsi mahasiswa
+			.form-group
+				= f.label :supervisor_pkl_amount, "Jumlah Pembimbing Pkl", class: "col-sm-3 control-label"
+				.col-sm-9
+					= f.number_field :supervisor_pkl_amount, class: "form-control", require: true
+					%span.help-block
+						Menentukan jumlah dosen pembinbing yang diperbolehkan pada pkl mahasiswa
+			.form-group
+				= f.label :examiner_amount, "Jumlah Penguji Sidang", class: "col-sm-3 control-label"
+				.col-sm-9
+					= f.number_field :examiner_amount, class: "form-control", require: true
+					%span.help-block
+						Menentukan jumlah dosen penguji pada sidang skripsi mahasiswa
+			.form-group
+				= f.label :maximum_lecturer_lektor_skripsi_lead, "Jumlah Batas Dosen Lektor Membimbing Skripsi", class: "col-sm-3 control-label"
+				.col-sm-9
+					= f.number_field :maximum_lecturer_lektor_skripsi_lead, class: "form-control", require: true
+					%span.help-block
+						Menentukan batas maksimal dosen lektor dapat membimbing skripsi mahasiswa, jika sudah mencapai batas maka harus menunggu skripsi yang sedang dibimbing selesai terlebih dahulu baru dapat membimbing skripsi lain nya atau dapat meminta dosen untuk memberikan tugas pembimbingan, set nilai menjadi 0 untuk tak terhingga
+			.form-group
+				= f.label :maximum_lecturer_aa_skripsi_lead, "Jumlah Batas Dosen Asisten Ahli Membimbing Skripsi", class: "col-sm-3 control-label"
+				.col-sm-9
+					= f.number_field :maximum_lecturer_aa_skripsi_lead, class: "form-control", require: true
+					%span.help-block
+						Menentukan batas maksimal dosen asisten ahli dapat membimbing skripsi mahasiswa, jika sudah mencapai batas maka harus menunggu skripsi yang sedang dibimbing selesai terlebih dahulu baru dapat membimbing skripsi lain nya atau dapat meminta dosen untuk memberikan tugas pembimbingan, set nilai menjadi 0 untuk tak terhingga
+			.form-group
+				= f.label :maximum_lecturer_lektor_pkl_lead, "Jumlah Batas Dosen Lektor Membimbing Pkl", class: "col-sm-3 control-label"
+				.col-sm-9
+					= f.number_field :maximum_lecturer_lektor_pkl_lead, class: "form-control", require: true
+					%span.help-block
+						Menentukan batas maksimal dosen lektor dapat membimbing pkl mahasiswa, jika sudah mencapai batas maka harus menunggu pkl yang sedang dibimbing selesai terlebih dahulu baru dapat membimbing pkl lain nya atau dapat meminta dosen untuk memberikan tugas pembimbingan, set nilai menjadi 0 untuk tak terhingga
+			.form-group
+				= f.label :maximum_lecturer_aa_pkl_lead, "Jumlah Batas Dosen Asisten Ahli Membimbing Pkl", class: "col-sm-3 control-label"
+				.col-sm-9
+					= f.number_field :maximum_lecturer_aa_pkl_lead, class: "form-control", require: true
+					%span.help-block
+						Menentukan batas maksimal dosen asisten ahli dapat membimbing pkl mahasiswa, jika sudah mencapai batas maka harus menunggu pkl yang sedang dibimbing selesai terlebih dahulu baru dapat membimbing pkl lain nya atau dapat meminta dosen untuk memberikan tugas pembimbingan, set nilai menjadi 0 untuk tak terhingga
+			.form-group
+				= f.label :allow_remove_supervisor_duration, "Perbolehkan Pembatalan Pembimbingan Dalam Waktu", class: "col-sm-3 control-label"
+				.col-sm-9
+					= f.number_field :allow_remove_supervisor_duration, class: "form-control", require: true
+					%span.help-block
+						Perbolehkan dosen untuk membatalkan pembimbingan dalam waktu, satuan dalam menit, set nilai menjadi 0 untuk membuat dosen tidak dapat membatalkan pembimbingan
+			.form-group
+				= f.label :lecturer_lead_skripsi_rule, "Peraturan Dosen Dalam Pembimbingan Skripsi", class: "col-sm-3 control-label"
+				.col-sm-9
+					= f.select :lecturer_lead_skripsi_rule, options_for_select(Setting::LECTURER_LEAD_SKRIPSI_RULE.map{|opt| [opt[:description], opt[:symbolic]]}, selected: @setting.lecturer_lead_skripsi_rule), {}, {class: "form-control"}
+					%span.help-block
+						Peraturan dosen dalam membimbing skripsi
+			.form-group
+				= f.label :lecturer_lead_pkl_rule, "Peraturan Dosen Dalam Pembimbingan Pkl", class: "col-sm-3 control-label"
+				.col-sm-9
+					= f.select :lecturer_lead_pkl_rule, options_for_select(Setting::LECTURER_LEAD_SKRIPSI_RULE.map{|opt| [opt[:description], opt[:symbolic]]}, selected: @setting.lecturer_lead_pkl_rule), {}, {class: "form-control"}
+					%span.help-block
+						Peraturan dosen dalam membimbing pkl
+			.form-group
+				= f.label :allow_student_create_pkl, "Perbolehkan Mahasiswa untuk Membuat Proposal Pkl", class: "col-sm-3 control-label"
+				.col-sm-9
+					.checkbox
+						%label
+							= f.check_box :allow_student_create_pkl
+							Perbolehkan
+					%span.help-block
+						Matikan Fitur ini untuk mematikan fitur manajemen pkl pada jurusan anda, mematikan fitur ini berdampak pada konfigurasi 'Jumlah Pembimbing Pkl', 'Jumlah Batas Dosen Lektor Membimbing Pkl', 'Jumlah Batas Dosen Asisten Ahli Membimbing Pkl', 'Peraturan Dosen Dalam Pembimbingan Pkl' menjadi tidak berguna
+			.form-group
+				= f.label :department_director, "Nama Dosen Ketua Prodi", class: "col-sm-3 control-label"
+				.col-sm-9
+					%input{type: "text", id: "department_director_name", class: "form-control", placeholder: "Nama Dosen", "data-source" => "#{search_lecturers_url}", value: "#{setting_department_director_name(@setting.department_director)}"}
+					= f.hidden_field :department_director
+			.form-group
+				= f.label :department_secretary, "Nama Dosen Sekertari Prodi", class: "col-sm-3 control-label"
+				.col-sm-9
+					%input{type: "text", id: "department_secretary_name", class: "form-control", placeholder: "Nama Dosen", "data-source" => "#{search_lecturers_url}", value: "#{setting_department_director_name(@setting.department_secretary)}"}
+					= f.hidden_field :department_secretary
+		%footer
+			.form-group
+				.col-sm-offset-3.col-sm-9
+					%button.btn.btn-primary.btn-lg{type: "submit"}
+						%i.fa.fa-upload
+						Simpan

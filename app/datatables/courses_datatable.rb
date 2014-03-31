@@ -32,16 +32,11 @@ class CoursesDatatable
 		courses = Course.includes(:concentration, :student).by_department(current_user.userable.department_id)
 		user_id = current_user.userable_id
 		userable_type = current_user.userable_type
-		# if current_user.userable_type == "Lecturer"
-		# 	# we implement this letter
-		# 	# courses
-		# end
 		if params[:cByCurrentUser].present? && params[:cByCurrentUser] == 'true'
 			if userable_type == "Student"
 				courses = courses.where{(student.id == user_id)}
 			elsif 
 				courses = courses.joins{(supervisors)}.where{(supervisors.lecturer_id == user_id) & (supervisors.approved == true)}
-				# raise StandardError.new("Not implement yet")
 			end
 		else
 			if current_user.userable_type == "Student"
@@ -49,7 +44,6 @@ class CoursesDatatable
 			elsif current_user.userable_type == "Lecturer"
 				course_id = Supervisor.where{(lecturer_id == user_id) & (approved == true)}.pluck(:course_id)
 				courses = courses.where{(id << course_id)}
-				# raise StandardError.new("Not implement yet")
 			else
 				raise StandardError.new("Not implement yet")
 			end

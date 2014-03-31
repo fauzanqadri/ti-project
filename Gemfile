@@ -48,6 +48,7 @@ gem 'faye'
 gem 'puma'
 # gem 'thin'
 gem 'paper_trail'
+gem 'rails-bootstrap-markdown'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

@@ -27,4 +27,10 @@ module ApplicationHelper
     return "SIMPS | #{text}" if text.present?
     return "SIMPS"
   end
+
+  def using_header
+    render 'layouts/shared/header'
+  end
+
+
 end

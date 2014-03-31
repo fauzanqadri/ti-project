@@ -1,0 +1,54 @@
+- provide(:title, "Dashboard")
+- content_for :specific_js do
+	= javascript_include_tag "users_lecturer", "data-turbolinks-track" => true
+
+#wraper
+	%header
+		%h1
+			%i.fa.fa-home
+			Dashboard
+	%section
+		.row
+			.col-sm-4
+				#user-mini
+					.row
+						.col-sm-4
+							= image_tag(current_user.userable.avatar.image.url(:medium), class: "img-circle img-thumbnail")
+						.col-sm-8
+							%blockquote
+								%p
+									= current_user.userable.to_s
+									%small
+										%cite{title: "Jurusan"}= current_user.userable.department.name
+										%i.fa.fa-thumb-tack
+				%hr
+				#course-count
+					.row
+						.col-sm-6
+							.hero-widget.well.well-sm
+								.icon
+									%i.fa.fa-book
+								.text
+									%var= current_user.userable.rest_of_supervison_of_skripsi
+									%label.text-muted Skripsi
+								.options
+						.col-sm-6
+							.hero-widget.well.well-sm
+								.icon
+									%i.fa.fa-file
+								.text
+									%var= current_user.userable.rest_of_supervison_of_pkl
+									%label.text-muted Pkl
+								.options
+			.col-sm-8
+				%header
+					.row
+						.col-sm-6
+							%h2
+								%i.fa.fa-book
+								Skripsi dan Pkl
+						.col-sm-6
+							.clearfix
+				%section
+					#courses
+

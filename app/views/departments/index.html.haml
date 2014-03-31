@@ -1,23 +1,25 @@
 - provide(:title, "Jurusan")
 - content_for :specific_js do
   = javascript_include_tag "departments", "data-turbolinks-track" => true
-%header
-  %h1 Daftar Jurusan
 
-%section
-  %table#departments.table.table-bordered{"data-source" => "#{departments_url(format: "json")}"}
-    %thead
-      %tr
-        %th
-          .text-center Name
-        %th
-          .text-center Website
-        %th
-          .text-center Created at
-        %th
-          .text-center Action
-    %tbody
-%footer
-  = link_to new_department_path, remote: true,class: "btn btn-primary btn-lg" do
-    %i.fa.fa-upload
-    Tambah Jurusan
+#wraper
+  %header
+    %h1 Daftar Jurusan
+
+  %section
+    %table#departments.table.table-bordered{"data-source" => "#{departments_url(format: "json")}"}
+      %thead
+        %tr
+          %th
+            .text-center Name
+          %th
+            .text-center Website
+          %th
+            .text-center Created at
+          %th
+            .text-center Action
+      %tbody
+  %footer
+    = link_to new_department_path, remote: true,class: "btn btn-primary btn-lg" do
+      %i.fa.fa-upload
+      Tambah Jurusan

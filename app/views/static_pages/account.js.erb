@@ -1,4 +1,4 @@
-var html = '<%= j render(partial: "static_pages/account", locals: {account: @account}) %>';
+var html = '<%= j render(partial: "layouts/shared/account", locals: {account: @account}) %>';
 var accountModal = $("#account-modal");
 if (accountModal.length == 1) {
 	accountModal.modal("hide");

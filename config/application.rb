@@ -27,12 +27,12 @@ module TiProject
     config.autoload_paths += Dir["#{Rails.root}/app/datatables"]
     config.eager_load_paths += Dir["#{Rails.root}/lib/**/"]
 
-    config.to_prepare do
-      Devise::SessionsController.layout "devise"
-      Devise::RegistrationsController.layout proc{ |controller| user_signed_in? ? "application" : "devise" }
-      Devise::ConfirmationsController.layout "devise"
-      Devise::UnlocksController.layout "devise"            
-      Devise::PasswordsController.layout "devise"        
-    end
+    # config.to_prepare do
+    #   Devise::SessionsController.layout "devise"
+    #   Devise::RegistrationsController.layout proc{ |controller| user_signed_in? ? "application" : "devise" }
+    #   Devise::ConfirmationsController.layout "devise"
+    #   Devise::UnlocksController.layout "devise"            
+    #   Devise::PasswordsController.layout "devise"        
+    # end
   end
 end

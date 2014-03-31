@@ -60,6 +60,7 @@ class Ability
 		can :conferences_report, Conference
 		can :scheduled_conferences_report, Conference
 		can :show_conferences_report, Conference
+		can :manage, Post
 
 		can :read, Course do |course|
 			course.student.department.faculty_id == @user.userable.faculty_id || course.is_finish?
@@ -298,6 +299,7 @@ class Ability
 		can :conferences_report, Conference
 		can :scheduled_conferences_report, Conference
 		can :show_conferences_report, Conference
+		can :manage, Post
 
 		can [:create, :read, :update, :delete], PklAssessment do |pkl_assessment|
 			pkl_assessment.department_id == @user.userable.department_id

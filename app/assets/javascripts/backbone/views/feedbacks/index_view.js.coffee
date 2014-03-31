@@ -6,19 +6,21 @@ class TiProject.Views.Feedbacks.IndexView extends Backbone.View
 		"change #cDisplayLength" : 'changeDisplayLength'
 
 	initialize: () ->
-		# @template = JST["backbone/templates/feedbacks/index"]
 		@options.feedbacks.bind('reset', @addAll)
 
 	addAll: ()=>
-		$("#feedbacks section ul.media-list").empty()
-		@options.feedbacks.each(@addOne)
+		$("#feedbacks section ul.media-list .result").empty()
+		$("#feedbacks section ul.media-list .result-info").empty()
 		$("#paginate").empty()
+		@options.feedbacks.each(@addOne)
+		res_info = new TiProject.Views.PageInfo.IndexView(page_info: @options.feedbacks.page_info())
 		pagination = new TiProject.Views.Paginations.IndexView(page_info: @options.feedbacks.page_info(), return_action: this)
+		$("#feedbacks section ul.media-list .result-info").append(res_info.render().el)
 		$("#paginate").append(pagination.render().el)
 
 	addOne: (feedback) =>
 		view = new TiProject.Views.Feedbacks.FeedbackView({model: feedback})
-		$("#feedbacks section ul.media-list").append(view.render().el)
+		$("#feedbacks section ul.media-list .result").append(view.render().el)
 	
 	data: (options) =>
 		cDisplayLength = $("#cDisplayLength").val()

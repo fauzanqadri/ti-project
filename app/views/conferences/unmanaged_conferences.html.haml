@@ -1,16 +1,18 @@
 - provide(:title, "Penjadwalan Seminar / Sidang")
 - content_for :specific_js do
 	= javascript_include_tag "conferences", "data-turbolinks-track" => true
-%header
-	.row
-		.col-sm-6
-			%h1 Seminar / Sidang
-		.col-sm-6
-			.action{style: "margin-top: 20px;"}
-				.pull-right
-					= link_to conferences_report_path, class: "btn btn-primary btn-lg", remote: true do
-						%i.fa.fa-print
-						Laporan Penjadwalan Seminar Sidang
-%section
-	#conferences{"data-scheduled" => "#{unmanaged_conferences_path(scheduled: true)}", "data-unscheduled" => "#{unmanaged_conferences_path(use_pagination: true, scheduled: false)}"}
-%footer
+
+#wraper
+	%header
+		.row
+			.col-sm-6
+				%h1 Seminar / Sidang
+			.col-sm-6
+				.action{style: "margin-top: 20px;"}
+					.pull-right
+						= link_to conferences_report_path, class: "btn btn-primary btn-lg", remote: true do
+							%i.fa.fa-print
+							Laporan Penjadwalan Seminar Sidang
+	%section
+		#conferences{"data-scheduled" => "#{unmanaged_conferences_path(scheduled: true)}", "data-unscheduled" => "#{unmanaged_conferences_path(use_pagination: true, scheduled: false)}"}
+	%footer

@@ -1,6 +1,5 @@
 require 'sidekiq/web'
 TiProject::Application.routes.draw do
-  resources :posts
 
   mount Sidekiq::Web => '/sidekiq'
   devise_for :users, :skip => [:sessions, :registrations, :password]
@@ -100,6 +99,11 @@ TiProject::Application.routes.draw do
   get '/password' => 'static_pages#password'
   put '/password' => 'static_pages#update_password'
 
+  get '/student_help' => 'static_pages#student_help'
+  get '/lecturer_help' => 'static_pages#lecturer_help'
+  get '/staff_help' => 'static_pages#staff_help'
+  get '/admin_help' => 'static_pages#admin_help'
+
   resources :imports, except: [:show, :edit, :update] do
     post '/download', action: 'download', on: :member
     post '/populate', action: 'populate', on: :member
@@ -107,5 +111,11 @@ TiProject::Application.routes.draw do
 
   post 'versions/:id/revert' => "versions#revert", as: "revert_version"
   resources :pkl_assessments
+
+  resources :posts do
+    post "/publish" => "posts#publish", as: :publish_post, on: :member
+  end
+
+  get '/news' => "posts#news", as: :news
 
 end

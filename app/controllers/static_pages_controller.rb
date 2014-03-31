@@ -4,7 +4,7 @@ class StaticPagesController < ApplicationController
 	skip_before_filter :checking_assessment!
 	
 	def index
-		render template: "static_pages/#{current_user.userable_type.downcase}"
+		render template: "static_pages/dashboard/#{current_user.userable_type.downcase}"
 	end
 
 	def published_courses
@@ -16,16 +16,25 @@ class StaticPagesController < ApplicationController
 
 	def get_faculties
 		@faculties = Faculty.all
+		respond_to do |format|
+			format.json
+		end
 	end
 
 	def get_departments
 		@faculty = Faculty.find(params[:faculty_id])
 		@departments = @faculty.departments
+		respond_to do |format|
+			format.json
+		end
 	end
 
 	def get_concentrations
 		@department = Department.find(params[:department_id])
 		@concentrations = @department.concentrations
+		respond_to do |format|
+			format.json
+		end
 	end
 
 	def avatar
@@ -93,6 +102,19 @@ class StaticPagesController < ApplicationController
 		end
 	end
 
+
+	def student_help
+	end
+
+	def lecturer_help
+	end
+
+	def staff_help
+	end
+
+	def admin_help
+	end
+
 	private
 
 	def staff_params
@@ -100,7 +122,7 @@ class StaticPagesController < ApplicationController
 	end
 
 	def student_params
-		params.require(:student).permit(:full_name, :address, :born, avatar_attributes: [:id, :image])
+		params.require(:student).permit(:full_name, :address, :born, :home_number, :phone_number, avatar_attributes: [:id, :image])
 	end
 
 	def lecturer_params

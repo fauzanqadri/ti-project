@@ -37,5 +37,6 @@
 //= require backbone/ti_project
 //= require load_page
 //= require custom
+//= require signin
 //= require bootstrap
 //= require faye_init

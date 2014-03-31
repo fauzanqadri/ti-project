@@ -197,6 +197,8 @@ ActiveRecord::Schema.define(version: 20140329121610) do
     t.boolean  "publish",        default: false,    null: false
     t.string   "boundable_type", default: "Global", null: false
     t.integer  "boundable_id",                      null: false
+    t.string   "userable_type",                     null: false
+    t.integer  "userable_id",                       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

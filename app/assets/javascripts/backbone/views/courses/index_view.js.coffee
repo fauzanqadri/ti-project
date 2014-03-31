@@ -14,17 +14,23 @@ class TiProject.Views.Courses.IndexView extends Backbone.View
 		@options.otherCourses.bind('reset', @otherCoursesAddAll)
 
 	selfCoursesAddAll: () =>
-		$("#byCurrentUser").empty()
-		@options.selfCourses.each(@selfCoursesaddOne)
+		$("#byCurrentUser .result").empty()
+		$("#byCurrentUser .result-info").empty()
 		$("#paginate").empty()
+		@options.selfCourses.each(@selfCoursesaddOne)
+		res_info = new TiProject.Views.PageInfo.IndexView(page_info: @options.selfCourses.page_info())
 		pagination = new TiProject.Views.Paginations.IndexView(page_info: @options.selfCourses.page_info(), return_action: this)
+		$("#byCurrentUser .result-info").append(res_info.render().el)
 		$("#paginate").append(pagination.render().el)
 
 	otherCoursesAddAll: () =>
-		$("#byDepartment").empty()
-		@options.otherCourses.each(@otherCoursesaddOne)
+		$("#byDepartment .result").empty()
+		$("#byDepartment .result-info").empty()
 		$("#paginate").empty()
+		@options.otherCourses.each(@otherCoursesaddOne)
 		pagination = new TiProject.Views.Paginations.IndexView(page_info: @options.otherCourses.page_info(), return_action: this)
+		res_info = new TiProject.Views.PageInfo.IndexView(page_info: @options.otherCourses.page_info())
+		$("#byDepartment .result-info").append(res_info.render().el)
 		$("#paginate").append(pagination.render().el)
 
 	selfCoursesaddOne: (course) =>
@@ -32,14 +38,14 @@ class TiProject.Views.Courses.IndexView extends Backbone.View
 			view = new TiProject.Views.Courses.SkripsiView({model: course})
 		else
 			view = new TiProject.Views.Courses.PklView({model: course})
-		$("#byCurrentUser").append(view.render().el)
+		$("#byCurrentUser .result").append(view.render().el)
 
 	otherCoursesaddOne: (course) =>
 		if course.attributes.type == "Skripsi"
 			view = new TiProject.Views.Courses.SkripsiView({model: course})
 		else
 			view = new TiProject.Views.Courses.PklView({model: course})
-		$("#byDepartment").append(view.render().el)
+		$("#byDepartment .result").append(view.render().el)
 
 	filter: () =>
 		cSearch = $("#cSearch").val() 
@@ -72,7 +78,6 @@ class TiProject.Views.Courses.IndexView extends Backbone.View
 		$(e.target).tab('show')
 
 	shown: (e) =>
-		# @reload()
 		@filter()
 
 	theCourse: () =>
@@ -96,6 +101,12 @@ class TiProject.Views.Courses.IndexView extends Backbone.View
 		else
 			@options.otherCourses.fetch(data)
 
+	pageInfo: =>
+		res =
+			self_course: @options.selfCourses.page_info()
+			other_course: @options.otherCourses.page_info()
+		return res
+
 	render: =>
-		$(@el).html(@template())
+		$(@el).html(@template(@pageInfo()))
 		return this

@@ -1,9 +1,9 @@
 - provide(:title, "Seminar / Sidang")
 - content_for :specific_js do
 	= javascript_include_tag "conferences", "data-turbolinks-track" => true
-
-%header
-	%h1 Seminar / Sidang
-%section
-	#conferences{"data-scheduled" => "#{conferences_path(scheduled: true)}", "data-unscheduled" => "#{conferences_path(use_pagination: true, scheduled: false)}"}
-%footer
+#wraper
+	%header
+		%h1 Seminar / Sidang
+	%section
+		#conferences{"data-scheduled" => "#{conferences_path(scheduled: true)}", "data-unscheduled" => "#{conferences_path(use_pagination: true, scheduled: false)}"}
+	%footer

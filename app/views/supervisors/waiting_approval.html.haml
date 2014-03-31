@@ -2,21 +2,22 @@
 - content_for :specific_js do
   = javascript_include_tag "waiting_approval", "data-turbolinks-track" => true
 
-%header
-  %h1 Daftar Menunggu Persetujuan Dosen Pembimbing
+#wraper
+  %header
+    %h1 Daftar Menunggu Persetujuan Dosen Pembimbing
 
-%section
-  %table#waiting_approval.table.table-bordered{"data-source" => "#{waiting_approval_url(format: "json")}"}
-    %thead
-      %tr
-        %th
-          .text-center Judul Skripsi / Pkl
-        %th
-          .text-center Nama Mahasiswa
-        %th
-          .text-center Tipe
-        %th
-          .text-center Tanggal Diajukan
-        %th
-          .text-center Action
-    %tbody
+  %section
+    %table#waiting_approval.table.table-bordered{"data-source" => "#{waiting_approval_url(format: "json")}"}
+      %thead
+        %tr
+          %th
+            .text-center Judul Skripsi / Pkl
+          %th
+            .text-center Nama Mahasiswa
+          %th
+            .text-center Tipe
+          %th
+            .text-center Tanggal Diajukan
+          %th
+            .text-center Action
+      %tbody

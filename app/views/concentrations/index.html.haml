@@ -2,21 +2,22 @@
 - content_for :specific_js do
   = javascript_include_tag "concentrations", "data-turbolinks-track" => true
 
-%header
-  %h1 Daftar Konsentrasi
+#wraper
+  %header
+    %h1 Daftar Konsentrasi
 
-%section
-  %table#concentrations.table.table-bordered{"data-source" => "#{concentrations_url(format: "json")}"}
-    %thead
-      %tr
-        %th
-          .text-center Name
-        %th
-          .text-center Created at
-        %th
-          .text-center Action
-    %tbody
-%footer
-  = link_to new_concentration_path, remote: true,class: "btn btn-primary btn-lg" do
-    %i.fa.fa-upload
-    Tambah Konsentrasi
+  %section
+    %table#concentrations.table.table-bordered{"data-source" => "#{concentrations_url(format: "json")}"}
+      %thead
+        %tr
+          %th
+            .text-center Name
+          %th
+            .text-center Created at
+          %th
+            .text-center Action
+      %tbody
+  %footer
+    = link_to new_concentration_path, remote: true,class: "btn btn-primary btn-lg" do
+      %i.fa.fa-upload
+      Tambah Konsentrasi

@@ -41,17 +41,21 @@ $nprogress-color: #000;
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	width: 550px;
-	margin-left: -275px;
-	margin-top: 90px;
+	width: 400px;
+	margin-left: -200px;
+	margin-top: 70px;
 	background: white;
 	padding: 20px;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
-	box-shadow: 0px 1px 3px 3px rgba(0,0,0,0.14);
-	-webkit-box-shadow: 0px 1px 3px 3px rgba(0,0,0,0.14);
-	-moz-box-shadow: 0px 1px 3px 3px rgba(0,0,0,0.14);
+	border: 1px solid #dadada;
+	box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.1);
+	-webkit-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.1);
+	// box-shadow: 0px 1px 3px 3px rgba(0,0,0,0.14);
+	// -webkit-box-shadow: 0px 1px 3px 3px rgba(0,0,0,0.14);
+	// -moz-box-shadow: 0px 1px 3px 3px rgba(0,0,0,0.14);
 	z-index: -1;
 }
 hr.message-inner-separator
@@ -78,11 +82,20 @@ hr.message-inner-separator
 }
 #wraper{
 	margin-top: -20px;
-	background: white;
 	padding: 40px;
+	background: white;
+	border-right: 1px solid #dadada;
+	border-left: 1px solid #dadada;
+	border-bottom: 1px solid #dadada;
+	box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.1);
+	-webkit-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.1);
+	border-bottom-right-radius:2em;
+	border-bottom-left-radius:2em;
+	margin-bottom: 50px;
 	header {
 		h1,h2, h3{
-			font-weight: 300;
+			font-weight: 100;
 		}
 		border-bottom: 1px solid #dadada;
 		margin-bottom: 20px;
@@ -142,7 +155,6 @@ hr.message-inner-separator
 }
 
 #main {
-	// border: 1px solid #dadada;
 	p{
 		padding: 10px;
 	}
@@ -151,10 +163,7 @@ hr.message-inner-separator
 .ui-autocomplete {
     max-height: 290px;
     overflow-y: auto;
-    /* prevent horizontal scrollbar */
     overflow-x: hidden;
-    /* add padding to account for vertical scrollbar */
-    // padding-right: 20px;
 }
 .box{
 	border: 1px solid #dadada;

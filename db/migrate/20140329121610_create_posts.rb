@@ -6,6 +6,8 @@ class CreatePosts < ActiveRecord::Migration
       t.boolean :publish, null: false, default: false
       t.string :boundable_type, null: false, default: "Global"
       t.integer :boundable_id, null: false
+      t.string :userable_type, null: false
+      t.integer :userable_id, null: false
       t.timestamps
     end
   end
