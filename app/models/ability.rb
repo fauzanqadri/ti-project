@@ -210,9 +210,9 @@ class Ability
 
 		can :read, Supervisor
 		can :become_supervisor, Supervisor do |supervisor|
-			l_id = @user.userable_id
-			lecturer_ids = supervisor.course.supervisors.pluck(:lecturer_id)
-			!lecturer_ids.include?(l_id)
+			supervisors = supervisor.course.supervisors
+			available = supervisors.find_by(lecturer_id: @user.userable_id)
+			available.nil? || ( !available.nil? && !available.approved? )
 		end
 
 		can :waiting_approval, Supervisor
