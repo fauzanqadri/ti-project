@@ -210,9 +210,8 @@ class Ability
 
 		can :read, Supervisor
 		can :become_supervisor, Supervisor do |supervisor|
-			supervisors = supervisor.course.supervisors
-			available = supervisors.find_by(lecturer_id: @user.userable_id)
-			available.nil? || ( !available.nil? && !available.approved? )
+			supervisor = supervisor.course.supervisors.find_by(lecturer_id: @user.userable_id)
+			supervisor.nil?
 		end
 
 		can :waiting_approval, Supervisor
