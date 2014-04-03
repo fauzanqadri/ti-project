@@ -15,6 +15,8 @@ class TiProject.Collections.CoursesCollection extends Backbone.Collection
 		@cByCurrentUser = true
 		@cSearch = ""
 		@byType = ""
+		@bySupervisor = ""
+		@finish = ""
 
 	parse: (data) ->
 		@cPage = data.cPage
@@ -25,10 +27,17 @@ class TiProject.Collections.CoursesCollection extends Backbone.Collection
 	buildRequest: (params) ->
 		if params instanceof Object
 			@cDisplayLength = params.cDisplayLength
-			@cByCurrentUser = params.cByCurrentUser
-			@byType = params.byType
-			@cSearch = params.cSearch
-			@cDisplayStart = 0
+			@cDisplayStart = 0				
+			unless typeof params.cByCurrentUser is 'undefined'
+				@cByCurrentUser = params.cByCurrentUser
+			unless typeof params.byType is 'undefined'
+				@byType = params.byType
+			unless typeof params.cSearch is 'undefined'
+				@cSearch = params.cSearch
+			unless typeof params.bySupervisor is 'undefined'
+				@bySupervisor = params.bySupervisor
+			unless typeof params.finish is 'undefined'
+				@finish = params.finish			
 
 	setDisplayStart: (strt) =>
 		if typeof strt isnt "undefined"
@@ -37,15 +46,23 @@ class TiProject.Collections.CoursesCollection extends Backbone.Collection
 	fetch: (options)	=>
 		options or (options = {})
 		data = (options.data or {})
+		requst_params =
+			cDisplayLength: @cDisplayLength
+			cDisplayStart: @cDisplayStart
+
+		unless @cByCurrentUser is ""
+			_.extend(requst_params, {cByCurrentUser: @cByCurrentUser})
+		unless @cSearch is ""
+			_.extend(requst_params, {cSearch: @cSearch})
+		unless @byType is ""
+			_.extend(requst_params, {byType: @byType})
+		unless @bySupervisor is ""
+			_.extend(requst_params, {bySupervisor: @bySupervisor})
+		unless @finish is ""
+			_.extend(requst_params, {finish: @finish})
 		params = 
 			reset: true
-			data: $.param({
-				cDisplayLength: @cDisplayLength, 
-				cDisplayStart: @cDisplayStart, 
-				cByCurrentUser: @cByCurrentUser, 
-				cSearch: @cSearch,
-				byType: @byType
-			})
+			data: $.param(requst_params)
 		_.extend(options, params)
 		Backbone.Collection::fetch.call this, options
 

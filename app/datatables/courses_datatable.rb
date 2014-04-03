@@ -13,40 +13,25 @@ class CoursesDatatable
 	end
 
 	def as_json opt = {}
-		# cPage => current page
-		# cTotalRecords => total all data record
-		# cTotalDisplayRecords => total all data record per page
-		# cData => the data record
 		{
 			cPage: page,
 			cTotalRecords: totalRecords.size,
 			cTotalDisplayRecords: courses.total_entries,
 			cData: data
 		}
-		# data.flatten
+	end
+
+	def userable
+		@userable ||= current_user.userable
 	end
 
 	private
 
 	def totalRecords
-		courses = Course.includes(:concentration, :student).by_department(current_user.userable.department_id)
-		user_id = current_user.userable_id
-		userable_type = current_user.userable_type
-		if params[:cByCurrentUser].present? && params[:cByCurrentUser] == 'true'
-			if userable_type == "Student"
-				courses = courses.where{(student.id == user_id)}
-			elsif 
-				courses = courses.joins{(supervisors)}.where{(supervisors.lecturer_id == user_id) & (supervisors.approved == true)}
-			end
-		else
-			if current_user.userable_type == "Student"
-				courses = courses.where{(student_id != (user_id))}
-			elsif current_user.userable_type == "Lecturer"
-				course_id = Supervisor.where{(lecturer_id == user_id) & (approved == true)}.pluck(:course_id)
-				courses = courses.where{(id << course_id)}
-			else
-				raise StandardError.new("Not implement yet")
-			end
+		courses = send(userable.class.to_s.downcase)
+		if params[:bySupervisor].present?
+			query = params[:bySupervisor]
+			courses = courses.by_supervisor(query)
 		end
 		if params[:cSearch].present?
 			query = params[:cSearch]
@@ -57,6 +42,32 @@ class CoursesDatatable
 			courses = courses.where{(type.eq(query))}
 		end
 		courses
+	end
+
+	def student
+		courses = Course.includes(:concentration, :student).by_department(userable.department_id)
+		if params[:cByCurrentUser].present? && params[:cByCurrentUser] == 'true'
+			courses = courses.by_student(userable.id)
+		else
+			s_id = userable.id
+			courses = courses.where{( student_id != s_id)}
+		end
+		courses
+	end
+
+	def lecturer
+		courses = Course.includes(:concentration, :student).by_department(userable.department_id)
+		if params[:cByCurrentUser].present? && params[:cByCurrentUser] == 'true'
+			courses = courses.by_lecturer(userable.id)
+		else
+			l_id = userable.id
+			course_id = Supervisor.where{(lecturer_id == l_id) & (approved == true)}.pluck(:course_id)
+			courses = courses.where{(id << course_id)}
+		end
+	end
+
+	def staff
+		raise StandardError.new("Not implement yet")
 	end
 
 	def data
@@ -100,40 +111,7 @@ class CoursesDatatable
 	end
 
 	def fetch_courses
-		courses = Course.includes(:concentration, :student).by_department(current_user.userable.department_id)
-		user_id = current_user.userable_id
-		userable_type = current_user.userable_type
-		# if current_user.userable_type == "Lecturer"
-		# 	# we implement this letter
-		# 	# courses
-		# end
-		if params[:cByCurrentUser].present? && params[:cByCurrentUser] == 'true'
-			if userable_type == "Student"
-				courses = courses.where{(student.id == user_id)}
-			elsif 
-				courses = courses.joins{(supervisors)}.where{(supervisors.lecturer_id == user_id) & (supervisors.approved == true)}
-				# raise StandardError.new("Not implement yet")
-			end
-		else
-			if current_user.userable_type == "Student"
-				courses = courses.where{(student_id != (user_id))}
-			elsif current_user.userable_type == "Lecturer"
-				course_id = Supervisor.where{(lecturer_id == user_id) & (approved == true)}.pluck(:course_id)
-				courses = courses.where{(id << course_id)}
-				# raise StandardError.new("Not implement yet")
-			else
-				raise StandardError.new("Not implement yet")
-			end
-		end
-		if params[:cSearch].present?
-			query = params[:cSearch]
-			courses = courses.search(query)
-		end
-		if params[:byType].present? && !params[:byType].blank?
-			query = params[:byType]
-			courses = courses.where{(type.eq(query))}
-		end
-		courses = courses.page(page).per_page(per_page)
+		courses = totalRecords.page(page).per_page(per_page)
 		courses
 	end
 

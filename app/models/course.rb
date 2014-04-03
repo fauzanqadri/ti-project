@@ -34,9 +34,16 @@ class Course < ActiveRecord::Base
 	scope :by_faculty, ->(f_id) { joins{student.department}.where{(departments.faculty_id == f_id)} }
 	scope :by_concentration, ->(c_id) { where{concentration_id == c_id} }
 	
-	scope :search, ->(query){joins{student.department}.joins{concentration}.where{(student.full_name =~ "%#{query}%") | (student.nim =~ "%#{query}%") | (departments.name =~ "%#{query}%") | (concentration.name =~ "%#{query}%")}}
+	scope :search, ->(query){joins{student.department}.joins{concentration}.where{(student.full_name =~ "%#{query}%") | (student.nim =~ "%#{query}%") | (title =~ "%#{query}%")}}
 	scope :published_search, ->(query) { joins{student}.where{(student.full_name =~ "%#{query}%") | (student.nim =~ "%#{query}%")} }
 	scope :is_finish, -> {where{(is_finish == true)}}
 	scope :by_type, ->(typ) { where{(type == typ)} }
+	scope :by_student, ->(s_id) { where{ (student_id.eq(s_id)) } }
+	scope :by_lecturer, ->(l_id) { joins{supervisors}.where{ (supervisors.lecturer_id.eq(l_id)) } }
+	scope :by_supervisor, ->(lecturer_name) { joins{supervisors.lecturer}.where{(lecturers.full_name =~ "%#{lecturer_name}%")} }
+	scope :approved_by_lecturer, ->(l_id) { by_lecturer(l_id).where{ (supervisors.approved == true ) } }
+	scope :request_to_lecturer, ->(l_id) { by_lecturer(l_id).where{ (supervisors.approved == false) } }
+
+	default_scope {order('created_at desc')}
 
 end

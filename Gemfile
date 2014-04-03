@@ -38,7 +38,7 @@ gem 'rails-backbone'
 gem 'remotipart', '~> 1.2'
 gem 'dotenv-rails', :groups => [:development, :test]
 gem 'redcarpet'
-gem 'albino'
+gem 'coderay'
 gem 'nokogiri'
 gem 'roo'
 gem 'sidekiq' # require redis for memory database
@@ -48,7 +48,7 @@ gem 'faye'
 gem 'puma'
 # gem 'thin'
 gem 'paper_trail'
-gem 'rails-bootstrap-markdown'
+gem 'rails-bootstrap-markdown', path: '../../rails-bootstrap-markdown'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

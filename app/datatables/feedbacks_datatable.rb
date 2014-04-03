@@ -1,6 +1,7 @@
 class FeedbacksDatatable
 	delegate :params, :link_to, :number_to_currency, :raw, :content_tag, :current_user, :can?, to: :@view
 	delegate :url_helpers, to: 'Rails.application.routes'
+	include MarkdownHelper
 
 	def initialize view
 		@view = view
@@ -42,7 +43,7 @@ class FeedbacksDatatable
 	def data
 		feedbacks.map do |feedback|
 			{
-				content: feedback.content,
+				content: render_markdown(feedback.content),
 				created_at: feedback.created_at.to_formatted_s(:long_ordinal),
 				userable: { 
 					full_name: feedback.userable.to_s, 

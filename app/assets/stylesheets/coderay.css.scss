@@ -1,0 +1,25 @@
+.CodeRay {
+  background-color: #f8f8f8;
+  border: 1px solid silver;
+  font-family: 'Courier New', 'Terminal', monospace;
+
+  pre{
+    display: block;
+    padding: 5px;
+    margin: 0px;
+    font-size: 11px;
+    line-height: 1.428571429;
+    word-break: break-all;
+    word-wrap: break-word;
+    color: #000;
+    background-color: transparent;
+    border: 1px solid transparent;
+  }
+  td.line-numbers {
+    border-right: 2px solid #919191;
+    min-width: 30px;
+  }
+  td.code {
+    min-width: 500px;
+  }
+}

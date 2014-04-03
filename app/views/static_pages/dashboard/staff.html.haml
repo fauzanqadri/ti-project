@@ -5,3 +5,19 @@
 		%h1
 			%i.fa.fa-home
 			Dashboard
+	%section
+		.row
+			.col-sm-4
+				#user-mini
+					.row
+						.col-sm-4
+							= image_tag(current_user.userable.avatar.image.url(:medium), class: "img-circle img-thumbnail")
+						.col-sm-8
+							%blockquote
+								%p
+									= current_user.userable.to_s
+									%small
+										%cite{title: "Fakultas"}= current_user.userable.faculty.name
+										%i.fa.fa-thumb-tack
+				%hr
+			.col-sm-8

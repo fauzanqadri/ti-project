@@ -3,15 +3,30 @@ class TiProject.Views.Courses.IndexView extends Backbone.View
 	template: JST["backbone/templates/courses/index"]
 
 	events:
-		"change #cDisplayLength" : 'filter'
-		'keyup #cSearch' : "filter"
+		'shown.bs.dropdown #dropdown' : 'dropdownOpen'
+		'click #dropdown .dropdown-toggle' : 'dropdownClick'
+		'hide.bs.dropdown #dropdown' : 'dropdownHide'
 		'click #tabMenu > li > a' : 'changeType'
-		'shown.bs.tab' : 'shown'
-		'change #filter input': 'filter'
+		
+		'change #cDisplayLength' : 'filter'
+		'keyup #cSearch' : 'filter'
+		'keyup #bySupervisor' : 'filter'
+		'shown.bs.tab' : 'filter'
+		'change #filter input' : 'filter'
+		'change #supervisorApproval input' : 'filter'
 
 	initialize: () ->
 		@options.selfCourses.bind('reset', @selfCoursesAddAll)
 		@options.otherCourses.bind('reset', @otherCoursesAddAll)
+
+	dropdownOpen: (e) ->
+		$("#dropdown").data('closable', false)
+
+	dropdownClick: (e) ->
+		$("#dropdown").data('closable', true)
+
+	dropdownHide: (e) ->
+		$("#dropdown").data('closable')
 
 	selfCoursesAddAll: () =>
 		$("#byCurrentUser .result").empty()
@@ -48,37 +63,29 @@ class TiProject.Views.Courses.IndexView extends Backbone.View
 		$("#byDepartment .result").append(view.render().el)
 
 	filter: () =>
-		cSearch = $("#cSearch").val() 
 		cDisplayLength = $("#cDisplayLength").val()
 		tabActive = $($("#tabMenu").find("li.active")[0]).data('bycurrentuser')
+		cSearch = $("#cSearch").val() 
+		bySupervisor = $("#bySupervisor").val()
+		type = $("#filter input[type=\"radio\"]:checked").val()
+			
 		params =
 			cDisplayLength: cDisplayLength
 			cByCurrentUser: tabActive
-		type = $("#filter input[type=\"radio\"]:checked").val()
-
+			cSearch: cSearch
+			bySupervisor: bySupervisor
 		if typeof type isnt "undefined" and type isnt "on"
-			_.extend(params, {byType: type})
-		else
-			_.extend(params, {byType: ""})
-
-		if cSearch != ""
-		 	_.extend(params, {cSearch: cSearch})
-		else
-		 	_.extend(params, {cSearch: ""})
-
+			_.extend(params, {byType: type})		 
 
 		if typeof options isnt "undefined" and options instanceof Object
 			_.extend(params, options)
-
+			
 		@theCourse().buildRequest(params)
 		@theCourse().fetch()
 
 	changeType: (e) =>
 		e.preventDefault()
 		$(e.target).tab('show')
-
-	shown: (e) =>
-		@filter()
 
 	theCourse: () =>
 		tabActive = $($("#tabMenu").find("li.active")[0]).data('bycurrentuser')
@@ -93,20 +100,6 @@ class TiProject.Views.Courses.IndexView extends Backbone.View
 	prev: ()=>
 		@theCourse().previousPage()
 
-	reload: (params) =>
-		tabActive = $($("#tabMenu").find("li.active")[0]).data('bycurrentuser')
-		data = (if typeof params isnt 'undefined' and params instanceof Object then params else @data())
-		if tabActive
-			@options.selfCourses.fetch(data)
-		else
-			@options.otherCourses.fetch(data)
-
-	pageInfo: =>
-		res =
-			self_course: @options.selfCourses.page_info()
-			other_course: @options.otherCourses.page_info()
-		return res
-
 	render: =>
-		$(@el).html(@template(@pageInfo()))
+		$(@el).html(@template())
 		return this

@@ -8,9 +8,8 @@
 				.modal-body
 					= render 'layouts/shared/errors', :object => f.object
 					.form-group
-						= f.label :feedback, class: "col-sm-3 control-label"
-						.col-sm-9
-							= f.text_area :content, class: "form-control", placeholder: "Feedback..."
+						.col-sm-12
+							= f.text_area :content, class: "form-control", placeholder: "Feedback...", "data-provide" => "markdown", "data-iconlibrary" => "fa"
 				.modal-footer
 					%button.btn.btn-primary{type: "submit"}
 						%i.fa.fa-upload

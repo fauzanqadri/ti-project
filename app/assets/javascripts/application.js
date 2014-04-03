@@ -22,6 +22,9 @@
 //= require jquery.ui.selectable
 //= require jquery.ui.autocomplete
 //= require twitter/bootstrap
+//= require markdown
+//= require to-markdown
+//= require bootstrap-markdown
 //= require moment
 //= require bootstrap-datetimepicker.min
 //= require extend_date

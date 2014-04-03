@@ -1,44 +1,91 @@
 <section>
-	<div class="action">
+	<div class="action" style="margin-bottom: 10px;">
+		<div class="btn-group" id="dropdown">
+			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+				<i class="fa fa-filter"></i>
+				Filter
+				<span class="caret"></span>
+			</button>
+			<div class="dropdown-menu dropdown-menu-left" role="menu" style="width: 550px; padding: 10px 20px 10px 20px;">
+				<header>
+					<h2>
+						<i class="fa fa-filter"></i>
+						Filter
+					</h2>
+				</header>
+				<section>
+					<div class="form-horizontal" role="form">
+						
+						<div class="form-group">
+							<div class="col-sm-6">
+								<div class="btn-group" id="filter" data-toggle="buttons">
+									<label class="btn btn-default active">
+										<input name="byType" type="radio" checked>
+										<i class="fa fa-ellipsis-v"></i>
+										All 
+									</label>
+									<label class="btn btn-default">
+										<input name="byType" type="radio" value="Skripsi">
+										<i class="fa fa-book"></i>
+										Skripsi
+									</label>
+									<label class="btn btn-default">
+										<input name="byType" type="radio" value="Pkl">
+										<i class="fa fa-file"></i>
+										Pkl
+									</label>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<input type="text" name="cSearch" id="cSearch" placeholder="Nama / Nim / Judul" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-6">
+<!-- 								<div class="btn-group" id="supervisorApproval" data-toggle="buttons">
+									<label class="btn btn-default active">
+										<input name="supervisorApprove" type="radio" checked>
+										<i class="fa fa-ellipsis-v"></i>
+										All
+									</label>
+									<label class="btn btn-default">
+										<input name="supervisorApprove" type="radio" value="true">
+										<i class="fa fa-check"></i>
+										Disetujui
+									</label>
+									<label class="btn btn-default">
+										<input name="supervisorApprove" type="radio" value="false">
+										<i class="fa fa-times"></i>
+										Disetujui
+									</label>
+								</div> -->
+								
+							</div>
+							<div class="col-sm-6">
+								<input type="text" name="bySupervisor" id="bySupervisor" placeholder="Nama Dosen Pembimbing" class="form-control">
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+		<div class="pull-right">
+			<label>
+				Show 
+				<select size="1" name="cDisplayLength" id="cDisplayLength">
+					<option value="10" selected="selected">10</option>
+					<option value="25">25</option>
+					<option value="50">50</option>
+					<option value="100">100</option>
+				</select> 
+				entries
+			</label>
+		</div>
+		<div class="clearfix"></div>
 		<div class="row">
 			<div class="col-xs-6">
-				<label>
-					Show 
-					<select size="1" name="cDisplayLength" id="cDisplayLength">
-						<option value="10" selected="selected">10</option>
-						<option value="25">25</option>
-						<option value="50">50</option>
-						<option value="100">100</option>
-					</select> 
-					entries
-				</label>
-				<div class="pull-right">
-					<div class="btn-group" id="filter" data-toggle="buttons">
-						<label class="btn btn-default btn-xs active">
-							<input name="byType" type="radio" checked>
-							<i class="fa fa-ellipsis-v"></i>
-							Semua 
-						</label>
-						<label class="btn btn-default btn-xs">
-							<input name="byType" type="radio" value="Skripsi">
-							<i class="fa fa-book"></i>
-							Skripsi
-						</label>
-						<label class="btn btn-default btn-xs">
-							<input name="byType" type="radio" value="Pkl">
-							<i class="fa fa-file"></i>
-							Pkl
-						</label>
-					</div>
-				</div>
 			</div>
 			<div class="col-xs-6">
-				<div class="pull-right">
-					<label>
-						Search :
-						<input type="text" name="cSearch" id="cSearch">
-					</label>
-				</div>
 			</div>
 		</div>
 	</div>
