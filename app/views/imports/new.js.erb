@@ -1,13 +1,2 @@
-var html = "<%= j render('form') %>";
-var importModal = $("#import-modal");
-if (importModal.length == 1) {
-	importModal.modal("hide");
-	importModal.on('hidden.bs.modal', function(e){
-		$(e.target).remove();
-		$("body").append(html);
-		$("#import-modal").modal({show: true});
-	});
-}else{
-	$("body").append(html);
-	$("#import-modal").modal({show: true});	
-}
+<% html = j render('form') %>
+<%= render partial: "layouts/shared/javascripts/show_modal", locals: {template: html, selector: "#import-modal"} %>

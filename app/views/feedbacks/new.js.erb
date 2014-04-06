@@ -1,18 +1,5 @@
-var html = "<%= j render('form') %>";
-var feedbackModal = $("#feedback-modal");
-if (feedbackModal.length == 1) {
-	feedbackModal.modal("hide");
-	feedbackModal.on('hidden.bs.modal', function(e){
-		$(e.target).remove();
-		$("#feedbacks").append(html);
-		$("#feedback-modal").modal({show: true});
-	});
-}else{
-	$("#feedbacks").append(html);
-	$("#feedback-modal").modal({show: true});	
-}
-$("#feedback_content").markdown({
-	autofocus:false,
-	savable:false, 
-	iconlibrary: "fa"
-});
+<% html = j render('form') %>
+<% content_for :additional_js do %>
+	<%= render partial: "layouts/shared/javascripts/markdown_editor", locals: { selector: "#feedback_content" } %>
+<% end %>
+<%= render partial: "layouts/shared/javascripts/show_modal", locals: {template: html, selector: "#feedback-modal"} %>

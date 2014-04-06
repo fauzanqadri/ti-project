@@ -1,13 +1,2 @@
-var html = "<%= j render('detail') %>";
-var staffDetail = $("#staff-detail");
-if (staffDetail.length == 1) {
-	staffDetail.modal("hide");
-	staffDetail.on('hidden.bs.modal', function(e){
-		$(e.target).remove();
-		$("body").append(html);
-		$("#staff-detail").modal({show: true});
-	});
-}else{
-	$("body").append(html);
-	$("#staff-detail").modal({show: true});	
-}
+<% html = j render('detail') %>
+<%= render partial: "layouts/shared/javascripts/show_modal", locals: {template: html, selector: "#staff-detail"} %>

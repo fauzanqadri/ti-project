@@ -1,13 +1,2 @@
-var html = "<%= j render('form') %>";
-var concentrationModal = $("#concentration-modal");
-if (concentrationModal.length == 1) {
-	concentrationModal.modal("hide");
-	concentrationModal.on('hidden.bs.modal', function(e){
-		$(e.target).remove();
-		$("body").append(html);
-		$("#concentration-modal").modal({show: true});
-	});
-}else{
-	$("body").append(html);
-	$("#concentration-modal").modal({show: true});	
-}
+<% html = j render('form') %>
+<%= render partial: "layouts/shared/javascripts/show_modal", locals: {template: html, selector: "#concentration-modal"} %>

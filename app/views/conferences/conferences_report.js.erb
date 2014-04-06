@@ -1,23 +1,5 @@
-var html = "<%= j render( partial: 'conferences_report_form') %>";
-var conferenceReportFormModal = $("#conferences-report-form-modal");
-if (conferenceReportFormModal.length == 1) {
-	conferenceReportFormModal.modal("hide");
-	conferenceReportFormModal.on('hidden.bs.modal', function(e){
-		$(e.target).remove();
-		$("body").append(html);
-		$("#conferences-report-form-modal").modal({show: true});
-	});
-}else{
-	$("body").append(html);
-	$("#conferences-report-form-modal").modal({show: true});
-}
-$(".datepicker").datetimepicker({
-	language: 'id',
-	pickTime: false,
-	icons: {
-		time: "fa fa-clock-o",
-        date: "fa fa-calendar",
-        up: "fa fa-arrow-up",
-        down: "fa fa-arrow-down"
-    }
-});
+<% html = j render( partial: 'conferences_report_form') %>
+<% content_for :additional_js do %>
+	<%= render partial: "layouts/shared/javascripts/datetimepicker", locals: {pick_time: false, selector: ".datepicker"} %>
+<% end %>
+<%= render partial: "layouts/shared/javascripts/show_modal", locals: {template: html, selector: "#conferences-report-form-modal"} %>

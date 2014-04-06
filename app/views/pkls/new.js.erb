@@ -1,13 +1,5 @@
-var html = "<%= j render('form') %>";
-var pklModal = $("#pkl-modal");
-if (pklModal.length == 1) {
-	pklModal.modal("hide");
-	pklModal.on('hidden.bs.modal', function(e){
-		$(e.target).remove();
-		$("#courses").append(html);
-		$("#pkl-modal").modal({show: true});
-	});
-}else{
-	$("#courses").append(html);
-	$("#pkl-modal").modal({show: true});	
-}
+<% html = j render('form') %>
+<% content_for :additional_js do %>
+	<%= render partial: "layouts/shared/javascripts/markdown_editor", locals: {selector: "#pkl_description"} %>
+<% end %>
+<%= render partial: "layouts/shared/javascripts/show_modal", locals: {template: html, selector: "#pkl-modal"} %>

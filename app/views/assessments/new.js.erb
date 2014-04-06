@@ -1,13 +1,2 @@
-var html = "<%= j render('form') %>";
-var assessmentModal = $("#assessment-modal");
-if (assessmentModal.length == 1) {
-	assessmentModal.modal("hide");
-	assessmentModal.on('hidden.bs.modal', function(e){
-		$(e.target).remove();
-		$("body").append(html);
-		$("#assessment-modal").modal({show: true});
-	});
-}else{
-	$("body").append(html);
-	$("#assessment-modal").modal({show: true});
-}
+<% html = j render('form') %>
+<%= render partial: "layouts/shared/javascripts/show_modal", locals: {template: html, selector: "#assessment-modal"} %>

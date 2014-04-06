@@ -9,13 +9,9 @@
 				.modal-body
 					= render 'layouts/shared/errors', :object => f.object
 					.form-group
-						= f.label :Judul, class: "col-sm-3 control-label"
+						= f.label :title, "Judul", class: "col-sm-3 control-label"
 						.col-sm-9
 							= f.text_field :title, class: "form-control", placeholder: "Judul"
-					.form-group
-						= f.label :deskripsi, class: "col-sm-3 control-label"
-						.col-sm-9
-							= f.text_area :description, class: "form-control", placeholder: "Deskripsi..."
 					= concentrations_select f, @skripsi.concentration_id
 					- if @skripsi.new_record?
 						= f.fields_for :papers, @skripsi.papers.build do |cp|
@@ -32,6 +28,9 @@
 										%span#fileSelect.btn.btn-info.input-group-addon
 											%i.fa.fa-folder-open-o
 											Select File
+					.form-group
+						.col-sm-12
+							= f.text_area :description, class: "form-control", placeholder: "Deskripsi..."
 				.modal-footer
 					%button.btn.btn-primary{type: "submit"}
 						%i.fa.fa-upload

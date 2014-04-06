@@ -46,6 +46,7 @@ gem 'sinatra', require: false
 gem 'slim'
 gem 'faye'
 gem 'puma'
+gem 'truncate_html'
 # gem 'thin'
 gem 'paper_trail'
 gem 'rails-bootstrap-markdown', path: '../../rails-bootstrap-markdown'

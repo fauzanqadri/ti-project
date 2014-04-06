@@ -1,13 +1,2 @@
-var html = "<%= j render('form') %>";
-var facultyModal = $("#faculty-modal");
-if (facultyModal.length == 1) {
-	facultyModal.modal("hide");
-	facultyModal.on('hidden.bs.modal', function(e){
-		$(e.target).remove();
-		$("body").append(html);
-		$("#faculty-modal").modal({show: true});
-	});
-}else{
-	$("body").append(html);
-	$("#faculty-modal").modal({show: true});	
-}
+<% html = j render('form') %>
+<%= render partial: "layouts/shared/javascripts/show_modal", locals: {template: html, selector: "#faculty-modal"} %>

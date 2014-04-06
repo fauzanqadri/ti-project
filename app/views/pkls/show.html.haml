@@ -111,7 +111,7 @@
 							%blockquote
 								%p.lead= @pkl.title
 					%section
-						%p= @pkl.description
+						= render_markdown(@pkl.description)
 					%footer
 				#activities
 					%header

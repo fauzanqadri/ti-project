@@ -1,0 +1,15 @@
+
+var modal = $("<%= selector %>");
+if (modal.length == 1) {
+	modal.modal("hide");
+	modal.on('hidden.bs.modal', function(e){
+		$(e.target).remove();
+		$("body").append("<%= template %>");
+		$("<%= selector %>").modal({show: true});
+		<%= yield :additional_js %>
+	});
+}else{
+	$("body").append("<%= template %>");
+	$("<%= selector %>").modal({show: true});
+	<%= yield :additional_js %>
+}

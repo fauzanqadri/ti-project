@@ -1,22 +1,5 @@
-var html = "<%= j render('form') %>";
-var studentModal = $("#student-modal");
-if (studentModal.length == 1) {
-	studentModal.modal("hide");
-	studentModal.on('hidden.bs.modal', function(e){
-		$(e.target).remove();
-		$("body").append(html);
-		$("#student-modal").modal({show: true});
-	});
-}else{
-	$("body").append(html);
-	$("#student-modal").modal({show: true});	
-}
-$(".datepicker").datetimepicker({
-	language: 'id',
-	pickTime: false,
-	icons: {
-        date: "fa fa-calendar",
-        up: "fa fa-arrow-up",
-        down: "fa fa-arrow-down"
-    }
-});
+<% html = j render('form') %>
+<% content_for :additional_js do %>
+		<%= render partial: "layouts/shared/javascripts/datetimepicker", locals: {pick_time: false, selector: ".datepicker"} %>
+	<% end %>
+<%= render partial: "layouts/shared/javascripts/show_modal", locals: {template: html, selector: "#student-modal"} %>

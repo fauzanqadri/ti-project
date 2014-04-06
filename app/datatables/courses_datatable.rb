@@ -3,6 +3,7 @@ class CoursesDatatable
 	delegate :params, :link_to, :number_to_currency, :raw, :content_tag, :current_user, :can?, to: :@view
 	delegate :url_helpers, to: 'Rails.application.routes' 
 	include SupervisorsHelper
+	include MarkdownHelper
 
 	def initialize view
 		@view = view
@@ -74,7 +75,7 @@ class CoursesDatatable
 		courses.map do |course|
 			{
 				title: course.title,
-				description: course.description.try(:truncate, 300),
+				description: render_markdown(course.description, truncate: 150),
 				student: {
 					full_name: course.student.full_name,
 					photo: course.student.avatar.image.url(:medium)

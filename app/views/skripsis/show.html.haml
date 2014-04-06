@@ -126,7 +126,7 @@
 							%blockquote
 								%p.lead= @skripsi.title
 					%section
-						%p= @skripsi.description
+						= render_markdown(@skripsi.description)
 					%footer
 				#activities
 					%header

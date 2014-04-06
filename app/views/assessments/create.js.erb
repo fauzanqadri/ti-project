@@ -1,10 +1,5 @@
-var a = $("#assessments").dataTable();
-a._fnAjaxUpdate();
-$("#assessment-modal").modal('hide');
-$("#assessment-modal").on('hidden.bs.modal', function(e){
-	$(e.target).remove();
-	$("#the-flash").append("<%= j render partial: 'layouts/shared/flash', locals: {flash: flash} %>");
-	$("#the-flash .alert").each(function(i, e){
-		$(this).delay(i*1000).fadeIn("slow");
-	});
-});
+<% content_for :additional_js do %>
+	var a = $("#assessments").dataTable();
+	a._fnAjaxUpdate();
+<% end %>
+<%= render partial: "layouts/shared/javascripts/responder_modal", locals: {selector: "#assessment-modal"} %>

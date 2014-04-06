@@ -1,10 +1,5 @@
-var a = $("#imports").dataTable();
-a._fnAjaxUpdate();
-$("#import-modal").modal('hide');
-$("#import-modal").on('hidden.bs.modal', function(e){
-	$(e.target).remove();
-	$("#the-flash").append("<%= j render partial: 'layouts/shared/flash', locals: {flash: flash} %>");
-	$("#the-flash .alert").each(function(i, e){
-		$(this).delay(i*1000).fadeIn("slow");
-	});
-});
+<% content_for :additional_js do %>
+	var a = $("#imports").dataTable();
+	a._fnAjaxUpdate();
+<% end %>
+<%= render partial: "layouts/shared/javascripts/responder_modal", locals: {selector: "#import-modal"} %>

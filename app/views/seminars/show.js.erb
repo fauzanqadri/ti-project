@@ -1,13 +1,2 @@
-var html = "<%= j render('show') %>";
-var seminarModal = $("#seminarReport-modal");
-if (seminarModal.length == 1) {
-	seminarModal.modal("hide");
-	seminarModal.on('hidden.bs.modal', function(e){
-		$(e.target).remove();
-		$("body").append(html);
-		$("#seminarReport-modal").modal({show: true});
-	});
-}else{
-	$("body").append(html);
-	$("#seminarReport-modal").modal({show: true});	
-}
+<% html = j render('show') %>
+<%= render partial: "layouts/shared/javascripts/show_modal", locals: {template: html, selector: "#seminarReport-modal"} %>

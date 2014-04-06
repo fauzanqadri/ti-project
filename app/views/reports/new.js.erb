@@ -1,13 +1,2 @@
-var html = "<%= j render('form') %>";
-var reportModal = $("#newReport-modal");
-if (reportModal.length == 1) {
-	reportModal.modal("hide");
-	reportModal.on('hidden.bs.modal', function(e){
-		$(e.target).remove();
-		$("body").append(html);
-		$("#newReport-modal").modal({show: true});
-	});
-}else{
-	$("body").append(html);
-	$("#newReport-modal").modal({show: true});	
-}
+<% html = j render('form') %>
+<%= render partial: "layouts/shared/javascripts/show_modal", locals: {template: html, selector: "#newReport-modal"} %>
