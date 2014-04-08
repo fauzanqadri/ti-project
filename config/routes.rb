@@ -112,10 +112,11 @@ TiProject::Application.routes.draw do
   post 'versions/:id/revert' => "versions#revert", as: "revert_version"
   resources :pkl_assessments
 
-  resources :posts do
-    post "/publish" => "posts#publish", as: :publish_post, on: :member
+  resources :posts, except: :show do
+    post "/publish", action: "publish", as: :publish, on: :member
   end
 
   get '/news' => "posts#news", as: :news
+  get '/:id' => "posts#show", as: :view_post
 
 end

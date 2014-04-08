@@ -15,7 +15,8 @@ module MarkdownHelper
 		end
 
 		def block_code(code, language)
-			CodeRay.scan(code, language).div(:line_numbers => :table)
+			# super(code, language)
+			CodeRay.scan(code, language).html(line_numbers: nil, wrap: :div, css: :style)
 		end
 	end
 
@@ -36,25 +37,6 @@ module MarkdownHelper
 		return '' if html.nil? || html.blank?
 		html_string = TruncateHtml::HtmlString.new(html)
 		TruncateHtml::HtmlTruncator.new(html_string, options).truncate
-	end
-
-	def html_redcarpet
-		options = {
-			autolink: true, 
-			filter_html: true, 
-			no_styles: true,
-			safe_links_only: true,
-			hard_wrap: true, 
-		}
-		Redcarpet::Render::HTML.new(options)
-	end
-
-	def syntax_highlighter(html)
-  	doc = Nokogiri::HTML(html)
-  	doc.search("//pre[@lang]").each do |pre|
-    	pre.replace Albino.colorize(pre.text.rstrip, pre[:lang])
-  	end
-  	doc.to_s
 	end
 
 end

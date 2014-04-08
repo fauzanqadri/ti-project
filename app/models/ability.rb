@@ -123,6 +123,8 @@ class Ability
   end
 
 	def student
+		can :news, Post
+		can :show, Post
 		can :search, Lecturer
 		can :read, Course
 
@@ -207,6 +209,9 @@ class Ability
 		can :read, Pkl
 
 		can :read, Paper
+
+		can :news, Post
+		can :show, Post
 
 		can :read, Supervisor
 		can :become_supervisor, Supervisor do |supervisor|

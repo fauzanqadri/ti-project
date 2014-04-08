@@ -1,0 +1,45 @@
+<div class="row">
+	<div class="col-sm-4">
+		<div id="filter">
+			<div class="form-horizontal" role="form">
+				<legend>
+					<i class="fa fa-filter"></i>
+					Cari
+				</legend>
+				<div class="form-group">
+					<div class="col-sm-12">
+						<label>
+							Tampilkan
+							<select id="iDisplayLength">
+								<option value="10" selected>10</option>
+								<option value="25">25</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							records per halaman
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-12">
+						<input type="text" class="form-control" name="search" id="search" placeholder="Judul atau content">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-8">
+		<header>
+			<h3>Daftar Berita</h3>
+		</header>
+		<section>
+			<div id="news-list">
+				<div class="result-info"></div>
+				<div class="result"></div>
+			</div>
+		</section>
+		<footer>
+			<div id="paginate"></div>
+		</footer>
+	</div>
+</div>

@@ -1,0 +1,11 @@
+- provide(:title, "Berita")
+- content_for :specific_js do
+	= javascript_include_tag "news", "data-turbolinks-track" => true
+
+#wraper
+	%header
+		%h1 
+			%i.fa.fa-paperclip
+			Berita
+	%section
+		#news

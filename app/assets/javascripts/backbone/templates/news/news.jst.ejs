@@ -1,0 +1,45 @@
+<div class="panel-heading">
+	<div class="panel-title">
+		<i class="fa fa-paperclip"></i>
+		Berita
+	</div>
+</div>
+<div class="panel-body">
+	<blockquote>
+		<p>
+			<%= title %>
+			<small>
+				<cite title="Penulis"><%= userable.fullname %></cite>
+			</small>
+		</p>
+		<div class="label-group">
+			<span class="label label-success">
+				<i class="fa fa-calendar"></i>
+				<%= created_at %>
+			</span>
+			<span class="label label-warning">
+				<i class="fa fa-cogs"></i> 
+				<%= boundery.bound %>
+			</span>
+			<% if(boundery.name) { %>
+				<span class="label label-danger">
+					<i class="fa fa-map-marker"></i>
+					<%= boundery.name %>
+				</span>
+			<% } %>
+		</div>
+	</blockquote>
+	<div class="description">
+		<%= content %>
+	</div>
+</div>
+<div class="panel-footer">
+	<div class="row">
+		<div class="col-sm-6"></div>
+		<div class="col-sm-6">
+			<div class="pull-right">
+				<%= action %>
+			</div>
+		</div>
+	</div>
+</div>

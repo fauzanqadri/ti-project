@@ -34,6 +34,7 @@ class Lecturer < ActiveRecord::Base
 	has_many :conference_logs, through: :supervisors
 	has_many :examiners, dependent: :destroy
 	has_many :imports, as: :userable, dependent: :nullify
+	has_many :posts, as: :userable, dependent: :destroy
 
 	validates :level, presence: true, inclusion: {in: LEVEL}
 	validates :department_id, presence: true

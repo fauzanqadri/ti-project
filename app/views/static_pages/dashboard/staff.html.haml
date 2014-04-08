@@ -1,4 +1,6 @@
 - provide(:title, "Dashboard")
+- content_for :specific_js do
+	= javascript_include_tag "users_staff", "data-turbolinks-track" => true
 
 #wraper
 	%header
@@ -21,3 +23,34 @@
 										%i.fa.fa-thumb-tack
 				%hr
 			.col-sm-8
+				%header
+					.row
+						.col-sm-6
+							%h3 
+								%i.fa.fa-paperclip
+								Manage Berita
+						.col-sm-6
+							.action{style: "margin-top: 15px;"}
+								.pull-right
+									= link_to new_post_path, remote: true,class: "btn btn-primary" do
+										%i.fa.fa-upload
+										Tambah Berita
+				%section
+					%table#posts.table.table-bordered{"data-source" => "#{posts_url(format: "json")}"}
+						%thead
+							%tr
+								%th
+									.text-center Judul
+								%th
+									.text-center Tanggal Post
+								%th
+									.text-center Pembuat
+								%th
+									.text-center Lingkungan
+								%th
+									.text-center Nama Lingkungan
+								%th
+									.text-center Published
+								%th
+									.text-center Action
+						%tbody

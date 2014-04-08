@@ -1,12 +1,58 @@
-%p#notice= notice
+- provide(:title, "#{@post.title}")
 
-%p
-  %b Title:
-  = @post.title
-%p
-  %b Content:
-  = @post.content
-
-= link_to 'Edit', edit_post_path(@post)
-\|
-= link_to 'Back', posts_path
+#wraper
+	%header
+		%h1
+			%i.fa.fa-paperclip
+			Berita
+	%section
+		.row
+			.col-sm-4
+				#writer
+					%header
+						%h2 Penulis
+					%section
+						.row
+							.col-sm-4
+								= image_tag(@post.userable.avatar.image.url(:medium), class: "img-circle img-thumbnail")
+							.col-sm-8
+								%blockquote
+									%p
+										= @post.userable.to_s
+										%small
+											%cite{title: "Tipe"}= @post.userable_type
+											%i.fa.fa-user
+					%footer
+				#created-at
+					%header
+						%h2 Tanggal Post
+					%section
+						%h1
+							.text-center
+								%span.label.label-success= @post.created_at.try(:strftime, "%d %B %Y")
+					%footer
+				#boundry
+					%header
+						%h2 Tipe Cakupan
+					%section
+						%h1
+							.text-center
+								%span.label.label-primary= @post.boundable_type
+					%footer
+				#bound
+					%header
+						%h2 Cakupan
+					%section
+						%h1
+							.text-center
+								%span.label.label-danger= @post.bound
+			.col-sm-8
+				#main
+					%header
+						%h3
+							%blockquote
+								%p.lead= @post.title
+					%section
+						%article	
+							= render_markdown(@post.content)							
+	%footer

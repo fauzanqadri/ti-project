@@ -1,16 +1,30 @@
-= form_for @post do |f|
-  - if @post.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@post.errors.count, "error")} prohibited this post from being saved:"
-      %ul
-        - @post.errors.full_messages.each do |msg|
-          %li= msg
-
-  .field
-    = f.label :title
-    = f.text_field :title
-  .field
-    = f.label :content
-    = f.text_area :content
-  .actions
-    = f.submit 'Save'
+#post-modal.modal.fade{tabindex: "-1", role: "dialog", "aria-labelledby" => "postModalLabel", "aria-hidden" => true, "data-backdrop" => "static", "data-keyboard" => "true"}
+	.modal-dialog{style: "width: 1000px;"}
+		.modal-content
+			.modal-header
+				%button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => true} &times;
+				%h4#facultyModalLabel.modal-title
+					= @post.new_record? ? "Tambah Berita" : "Edit Berita"
+			= form_for @post, remote: "true", html: {role: "form", class: "form-horizontal"} do |f|
+				.modal-body
+					= render 'layouts/shared/errors', :object => f.object
+					.form-group
+						= f.label :title, "Judul", class: "col-sm-3 control-label"
+						.col-sm-9
+							= f.text_field :title, class: "form-control", placeholder: "Judul"
+					- unless current_user.userable_type == "Lecturer"
+						.form-group
+							= f.label :boundable_type, "Akses",class: "col-sm-3 control-label"
+							.col-sm-9
+								= f.select :boundable_type, options_for_select(Post::BOUNDABLE, selected: @post.boundable_type), {}, { class: "form-control" }
+						#boundable_option
+					.form-group
+						.col-sm-12
+							= f.text_area :content, class: "form-control", placeholder: "Content..."
+				.modal-footer
+					%button.btn.btn-primary{type: "submit"}
+						%i.fa.fa-upload
+						Simpan
+					%button.btn.btn-default{type: "button", "data-dismiss" => "modal"}
+						%i.fa.fa-times
+						Cencel

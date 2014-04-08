@@ -1,0 +1,23 @@
+<% html = j render('form') %>
+<% content_for :additional_js do %>
+	<%= render partial: "layouts/shared/javascripts/markdown_editor", locals: {selector: "#post_content"} %>
+	$("#post_boundable_type").change(function(e){
+		var val = $(this).val();
+		$("#boundable_option").empty()
+		var template = JST['templates/select_template'];
+		switch(val)
+		{
+			case 'Department':
+				var res = template({options: '<%= department_group_opt(@post.boundable_id).html_safe %>'})
+				$(res).appendTo("#boundable_option");
+				break;
+			case 'Faculty':
+				var res = template({options: '<%= faculties_options(@post.boundable_id).html_safe %>'})
+				$(res).appendTo("#boundable_option");
+				break;
+			default:
+				break;
+		}
+	});
+<% end %>
+<%= render partial: "layouts/shared/javascripts/show_modal", locals: {template: html, selector: "#post-modal"} %>

@@ -1,0 +1,5 @@
+<% content_for :additional_js do %>
+	var a = $("#posts").dataTable();
+	a._fnAjaxUpdate();
+<% end %>
+<%= render partial: "layouts/shared/javascripts/responder_modal", locals: {selector: "#post-modal"} %>

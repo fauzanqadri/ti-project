@@ -1,21 +1,32 @@
-%h1 Listing posts
+- provide(:title, "Manage Berita")
+- content_for :specific_js do
+	= javascript_include_tag "posts", "data-turbolinks-track" => true
 
-%table
-  %tr
-    %th Title
-    %th Content
-    %th
-    %th
-    %th
-
-  - @posts.each do |post|
-    %tr
-      %td= post.title
-      %td= post.content
-      %td= link_to 'Show', post
-      %td= link_to 'Edit', edit_post_path(post)
-      %td= link_to 'Destroy', post, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Post', new_post_path
+#wraper
+	%header
+		%h1
+			%i.fa.fa-paperclip
+			Manage Berita
+	%section
+		%table#posts.table.table-bordered{"data-source" => "#{posts_url(format: "json")}"}
+			%thead
+				%tr
+					%th
+						.text-center Judul
+					%th
+						.text-center Tanggal Post
+					%th
+						.text-center Pembuat
+					%th
+						.text-center Lingkungan
+					%th
+						.text-center Nama Lingkungan
+					%th
+						.text-center Published
+					%th
+						.text-center Action
+			%tbody
+	%footer
+		= link_to new_post_path, remote: true,class: "btn btn-primary btn-lg" do
+			%i.fa.fa-upload
+			Tambah Berita
