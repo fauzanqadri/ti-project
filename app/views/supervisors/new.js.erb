@@ -1,5 +1,5 @@
 <% html = j render('form') %>
 <% content_for :additional_js do %>
-	<%= render partial: "layouts/shared/javascripts/lecturer_autocomplete", locals: {selector: "#lecturer_name", appendTo: "#supervisor-modal .modal-footer", source: "<%= search_lecturers_path %>", value_selector: "#supervisor_lecturer_id"} %>	
+	<%= render partial: "layouts/shared/javascripts/lecturer_autocomplete", locals: { selector: "#lecturer_name", appendTo: "#supervisor-modal .modal-footer", source: "#{search_lecturers_path}", value_selector: "#supervisor_lecturer_id" } %>	
 <% end %>
 <%= render partial: "layouts/shared/javascripts/show_modal", locals: {template: html, selector: "#supervisor-modal"} %>
