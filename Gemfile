@@ -24,7 +24,6 @@ gem 'unicorn'
 gem 'fullcalendar-rails'
 gem 'twitter-bootstrap-rails', git: "git@github.com:seyhunak/twitter-bootstrap-rails.git", branch: 'bootstrap3'
 gem 'squeel'
-# gem 'paperclip-googledrive'
 gem 'bootstrap3-datetimepicker-rails', git: "git@github.com:fauzanqadri/bootstrap3-datetimepicker-rails.git"
 gem 'momentjs-rails'
 gem 'therubyracer'
@@ -47,9 +46,8 @@ gem 'slim'
 gem 'faye'
 gem 'puma'
 gem 'truncate_html'
-# gem 'thin'
 gem 'paper_trail'
-gem 'rails-bootstrap-markdown', path: '../../rails-bootstrap-markdown'
+gem 'rails-bootstrap-markdown', git: "git@github.com:fauzanqadri/rails-bootstrap-markdown.git", branch: "generators"
 gem "paperclip-storage-ftp"
 
 group :doc do
