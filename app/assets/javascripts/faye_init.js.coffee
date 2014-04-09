@@ -1,7 +1,9 @@
 class FayeWebSocket
 
 	constructor: ->
-		@faye = new Faye.Client('http://localhost:9292/faye')
+		http = location.protocol
+		url = http.concat("//").concat(window.location.hostname).concat(":9292/faye")
+		@faye = new Faye.Client(url)
 		@faye.subscribe("/main_channel", @message)
 
 	message: (data) =>
