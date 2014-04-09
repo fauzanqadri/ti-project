@@ -1,4 +1,4 @@
-if ENV["RAILS_ENV"] == "production"
+if (!ENV["PP_USE_FTP"].nil? || !ENV["PP_USE_FTP"].blank?) && ENV["PP_USE_FTP"] = "true"
 	require "paperclip/storage/ftp"
 	hosts = [
 		{
