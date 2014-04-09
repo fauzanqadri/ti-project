@@ -1,5 +1,5 @@
-working_directory ENV["UNICORN_WORKING_DIR"]
-pid ENV["UNICORN_PID"]
+#working_directory ENV["UNICORN_WORKING_DIR"]
+#pid ENV["UNICORN_PID"]
 stderr_path ENV["UNICORN_STDERR"]
 stdout_path ENV["UNICORN_STDOUT"]
 # working_directory "/Volumes/Projects/Ruby/rails/ti-project"
