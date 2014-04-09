@@ -1,11 +1,5 @@
-#working_directory ENV["UNICORN_WORKING_DIR"]
-#pid ENV["UNICORN_PID"]
 stderr_path ENV["UNICORN_STDERR"]
 stdout_path ENV["UNICORN_STDOUT"]
-# working_directory "/Volumes/Projects/Ruby/rails/ti-project"
-# pid "/Volumes/Projects/Ruby/rails/ti-project/tmp/pids/unicorn.pid"
-# stderr_path "/Volumes/Projects/Ruby/rails/ti-project/log/unicorn.log"
-# stdout_path "/Volumes/Projects/Ruby/rails/ti-project/log/unicorn.log"
 
 listen "/tmp/unicorn.simps.sock", :backlog => 64
 
