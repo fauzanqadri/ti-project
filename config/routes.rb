@@ -1,7 +1,9 @@
 require 'sidekiq/web'
 TiProject::Application.routes.draw do
 
-  mount Sidekiq::Web => '/sidekiq'
+  if ENV["RAILS_ENV"] == "development"
+    mount Sidekiq::Web => '/sidekiq'
+  end
   devise_for :users, :skip => [:sessions, :registrations, :password]
   devise_scope :user do
     authenticated :user do

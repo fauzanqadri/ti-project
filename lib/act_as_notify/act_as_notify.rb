@@ -17,7 +17,7 @@ module ActAsNotify
 		end
 
 		def hierarchical_part_url
-			"#{ws_uri}/#{split_uri[5]}.js"
+			"#{ws_uri}#{split_uri[5]}.js"
 		end
 
 	end

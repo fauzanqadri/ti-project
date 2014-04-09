@@ -24,7 +24,7 @@ gem 'unicorn'
 gem 'fullcalendar-rails'
 gem 'twitter-bootstrap-rails', git: "git@github.com:seyhunak/twitter-bootstrap-rails.git", branch: 'bootstrap3'
 gem 'squeel'
-gem 'paperclip-googledrive'
+# gem 'paperclip-googledrive'
 gem 'bootstrap3-datetimepicker-rails', git: "git@github.com:fauzanqadri/bootstrap3-datetimepicker-rails.git"
 gem 'momentjs-rails'
 gem 'therubyracer'
@@ -50,6 +50,7 @@ gem 'truncate_html'
 # gem 'thin'
 gem 'paper_trail'
 gem 'rails-bootstrap-markdown', path: '../../rails-bootstrap-markdown'
+gem "paperclip-storage-ftp"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
