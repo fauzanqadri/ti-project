@@ -13,6 +13,13 @@ GIT
     bootstrap3-datetimepicker-rails (0.0.1)
 
 GIT
+  remote: git@github.com:fauzanqadri/rails-bootstrap-markdown.git
+  revision: 61b5129ac470ff9692b2ffc164b9f4dd702cedf4
+  branch: generators
+  specs:
+    rails-bootstrap-markdown (1.0.0)
+
+GIT
   remote: git@github.com:seyhunak/twitter-bootstrap-rails.git
   revision: 4d0bd4271f7f01d79bbb2b72c04f30a5766db0ef
   branch: bootstrap3
@@ -22,11 +29,6 @@ GIT
       execjs
       rails (>= 3.1)
       railties (>= 3.1)
-
-PATH
-  remote: ../../rails-bootstrap-markdown
-  specs:
-    rails-bootstrap-markdown (1.0.0)
 
 GEM
   remote: https://rubygems.org/
