@@ -3,7 +3,7 @@ namespace :deploy do
 	task :nginx_template do
 		STDOUT.puts "Location nginx configuration for this app ? (default: (/etc/nginx/conf.d)) "
 		input = STDIN.gets.strip
-		location = input.nil? || input.blank? ? "/etc/nginx/conf.d/" : input
+		location = input.nil? || input.blank? ? "/etc/nginx/conf.d" : input
 		erb = File.read("#{Rails.root}/lib/tasks/templates/nginx.conf.erb")
 		res = ERB.new(erb).result(binding)
 		puts "placing nginx conf to #{location}"
