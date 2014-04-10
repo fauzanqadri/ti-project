@@ -1,13 +1,9 @@
-stderr_path ENV["UNICORN_STDERR"]
-stdout_path ENV["UNICORN_STDOUT"]
+stderr_path "./log/unicorn.log"
+stdout_path "./log/unicorn.log"
 
 listen "/tmp/unicorn.simps.sock", :backlog => 64
 
-if ENV["RAILS_ENV"] == "production"
-	worker_processes 4
-else
-	worker_processes 2
-end
+worker_processes 2
 
 timeout 30
 
