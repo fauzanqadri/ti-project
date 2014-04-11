@@ -11,7 +11,7 @@ namespace :deploy do
 	end
 
 	desc "Generate init script on /etc/init.d"
-	tast :init_script do
+	task :init_script do
 		erb = File.read("#{Rails.root}/lib/tasks/templates/app_init.sh.erb")
 		res = ERB.new(erb).result(binding)
 		puts "placing init script to /etc/init.d"
