@@ -1,9 +1,8 @@
+listen "/tmp/unicorn.simps.sock", :backlog => 64
+worker_processes 2
+pid "./tmp/pids/unicorn.pid"
 stderr_path "./log/unicorn.log"
 stdout_path "./log/unicorn.log"
-
-listen "/tmp/unicorn.simps.sock", :backlog => 64
-
-worker_processes 2
 
 timeout 30
 

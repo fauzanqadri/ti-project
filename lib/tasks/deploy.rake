@@ -9,4 +9,12 @@ namespace :deploy do
 		puts "placing nginx conf to #{location}"
 		File.open("#{location}/simps", 'w+') {|f| f.write(res)}
 	end
+
+	desc "Generate init script on /etc/init.d"
+	tast :init_script do
+		erb = File.read("#{Rails.root}/lib/tasks/templates/app_init.sh.erb")
+		res = ERB.new(erb).result(binding)
+		puts "placing init script to /etc/init.d"
+		File.open("/etc/init.d/simps", 'w+') {|f| f.write(res)}
+	end
 end
