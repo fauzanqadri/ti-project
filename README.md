@@ -23,36 +23,43 @@ tugas PKL(Praktek Kerja Lapangan)
 * instal git seperti tutorial [disini](http://git-scm.com/book/en/Getting-Started-Installing-Git)
 * buka applikasi `terminal` dan clone repository ini dengan mengetikan perintah
   (skip step ini jika repositori sudah ada di komputer lokal anda)
-  ```shell
+
+  ```sh
   $ git clone git@github.com:fauzanqadri/ti-project.git
   ```
   atau
-  ```shell
+
+  ```sh
   $ git clone https://github.com/fauzanqadri/ti-project.git
   ```
 * ketikan perintah
-  ```shell
+
+  ```sh
   $ cd ti-project
   ```
 * ketikan perintah
-  ```shell
+
+  ```sh
   $ sudo ./install.sh
   ```
 * setelah installasi selesai, install redis seperti tutorial [disini](http://redis.io/topics/quickstart)
 * install rvm seperti tutorial [disini](https://rvm.io/)
 * install ruby versi 2.1.0 atau lebih dengan mengetikan perintah
-  ```shell
+
+  ```sh
   $ rvm install 2.1.0
   ```
   tunggu installasi sampai selesai
 * ketikan perintah
-  ```shell
+
+  ```sh
   $ cd .
   ```
 * ketikan perintah
-  ```shell
+
+  ```sh
   $ bundle install
   ```
   tunggu sampai installasi selesai
 * buat file dengan nama `.env` dengan contoh content sebagai [berikut](https://gist.github.com/fauzanqadri/010cab3d86d3d356caf9)
-* buat file dengan nama database.yml pada direktori config dengan contoh content sebagai [berikut](https://gist.github.com/fauzanqadri/10229111)
+* buat file dengan nama database.yml pada direktori config dengan contoh content sebagai [berikut] (https://gist.github.com/fauzanqadri/10229111)
