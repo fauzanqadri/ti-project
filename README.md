@@ -17,11 +17,11 @@ tugas PKL(Praktek Kerja Lapangan)
 
 ###Installation
 
-1 daftar account pada https://github.com
-2 install ssh
-3 configurasikan ssh public key seperti tutorial [disini](https://help.github.com/articles/generating-ssh-keys)
-4 instal git seperti tutorial [disini](http://git-scm.com/book/en/Getting-Started-Installing-Git)
-5 buka applikasi `terminal` dan clone repository ini dengan mengetikan perintah
+1. daftar account pada https://github.com
+2. install ssh
+3. configurasikan ssh public key seperti tutorial [disini](https://help.github.com/articles/generating-ssh-keys)
+4. instal git seperti tutorial [disini](http://git-scm.com/book/en/Getting-Started-Installing-Git)
+5. buka applikasi `terminal` dan clone repository ini dengan mengetikan perintah
   (skip step ini jika repositori sudah ada di komputer lokal anda)
 
   ```sh
@@ -32,50 +32,50 @@ tugas PKL(Praktek Kerja Lapangan)
   ```sh
   $ git clone https://github.com/fauzanqadri/ti-project.git
   ```
-6 ketikan perintah
+6. ketikan perintah
 
   ```sh
   $ cd ti-project
   ```
-7 ketikan perintah
+7. ketikan perintah
 
   ```sh
   $ sudo ./install.sh
   ```
-8 setelah installasi selesai, install redis seperti tutorial [disini](http://redis.io/topics/quickstart)
-9 install rvm seperti tutorial [disini](https://rvm.io/)
-10 install ruby versi 2.1.0 atau lebih dengan mengetikan perintah
+8. setelah installasi selesai, install redis seperti tutorial [disini](http://redis.io/topics/quickstart)
+9. install rvm seperti tutorial [disini](https://rvm.io/)
+10. install ruby versi 2.1.0 atau lebih dengan mengetikan perintah
 
   ```sh
   $ rvm install 2.1.0
   ```
   tunggu installasi sampai selesai
-11 ketikan perintah
+11. ketikan perintah
 
   ```sh
   $ cd .
   ```
-12 ketikan perintah
+12. ketikan perintah
 
   ```sh
   $ bundle install
   ```
   tunggu sampai installasi selesai
-13 buat file dengan nama `.env` dengan contoh content sebagai [berikut](https://gist.github.com/fauzanqadri/010cab3d86d3d356caf9)
-14 buat file dengan nama `database.yml` pada direktori `config` dengan contoh content sebagai [berikut] (https://gist.github.com/fauzanqadri/10229111)
+13. buat file dengan nama `.env` dengan contoh content sebagai [berikut](https://gist.github.com/fauzanqadri/010cab3d86d3d356caf9)
+14. buat file dengan nama `database.yml` pada direktori `config` dengan contoh content sebagai [berikut] (https://gist.github.com/fauzanqadri/10229111)
 * setelah konfigurasi database telah selesai ketikan perintah berikut
 
   ```sh
   $ rake deploy:nginx_template
   ```
-15 ketikan perintah berikut (pastikan server postgresql sudah berjalan)
+15. ketikan perintah berikut (pastikan server postgresql sudah berjalan)
 
   ```sh
   $ rake db:create && rake db:migrate && rake db:seed && rake assets:precompile
   ```
   perintah diatas hanya untuk pertama kali installasi untuk backup dan restore akan dijelaskan pada seksi dibawah
 
-16 ketikan perintah berikut untuk menjalankan server pada saat startup(pastikan nginx berjalan juga pada saat start up)
+16. ketikan perintah berikut untuk menjalankan server pada saat startup(pastikan nginx berjalan juga pada saat start up)
 
   ```sh
   rvmsudo foreman export --app simps --user $(whoami) upstart /etc/init
